@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "C://xampp//htdocs//angular",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"
