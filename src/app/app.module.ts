@@ -11,11 +11,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PrintRequestComponent } from './print-request/print-request.component';
 import { HttpModule } from '@angular/http';
 import { SqlService } from './service/sql/sql.service';
+import { AccountViewComponent } from './account-view/account-view.component';
+import { CookieService } from 'ngx-cookie-service';
 
 // App Route
 const appRoutes: Routes = [
   { path: '', component: IndexPageComponent},
-  { path: 'print-oder', component: PrintRequestComponent}
+  { path: 'print-oder', component: PrintRequestComponent},
+  { path: 'account-view', component: AccountViewComponent}
 ];
 
 @NgModule({
@@ -23,7 +26,8 @@ const appRoutes: Routes = [
     AppComponent,
     IndexPageComponent,
     NavbarComponent,
-    PrintRequestComponent
+    PrintRequestComponent,
+    AccountViewComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +43,7 @@ const appRoutes: Routes = [
   providers: [
     CartListService,
     SqlService,
+    CookieService,
     Md5
   ],
   bootstrap: [AppComponent]
