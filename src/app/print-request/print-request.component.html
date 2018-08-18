@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" alt="RB Logo" width="72" height="72">
+    <h2>Checkout form</h2>
+    <p class="lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Print List</span>
+        <span class="badge badge-secondary badge-pill">{{db_push_array_size}}</span>
+      </h4>
+      <ul class="list-group mb-3">
+      <div *ngFor="let data of db_push_array">
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">{{data.printName}}</h6>
+            <small class="text-muted">{{data.printType}}</small>
+            <small class="text-muted">{{data.quantity}}</small>
+          </div>
+          <span class="text-muted">{{data.wide * data.hight}}</span>
+        </li>
+       </div>
+      </ul>
+
+      <form class="card p-2">
+       
+        <button class="btn btn-danger" (click)="store()">Store</button>
+         
+      </form>
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Billing address</h4>
+      <form class="needs-validation">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Print Name</label>
+          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName"  ngControl="CprintName" name="printName" >
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name" name="name" >
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Address</label>
+          <input type="text" class="form-control" id="ClientAddress" name="address" placeholder="Address" [(ngModel)]="address" name="address">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Phone No 1</label>
+          <input type="number" class="form-control" id="ClientPhn1" name="PhoneNo" placeholder="Phone Number" [(ngModel)]="phnNo1" name="phnNo1">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Phone No 2 (Optional)</label>
+          <input type="number" class="form-control" id="ClientPhn2" placeholder="Phone Number" [(ngModel)]="phnNo2" name="phnNo2">
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputPassword1">Party Name (Optional)</label>
+          <input type="text" class="form-control" id="PartyName" placeholder="Party Name"  [(ngModel)]="partyName" name="partyName">
+        </div>
+
+         <div class="form-group">
+          <label>Print Type</label>
+          <select class="form-control" id="print_type" [(ngModel)]="printType" name="printType">
+            <option>PVC</option>
+            <option>Pana</option>
+            <option>Stiker</option>
+          </select>
+        </div>
+       
+        <div class="form-group">
+          <label>Select Print Status</label>
+          <select class="form-control" id="PrintStatus" [(ngModel)]="printStatus" name="printStatus">
+            <option>Design Complete</option>
+            <option>Design Processing</option>
+            <option>Printing</option>
+            <option>Editing</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Wide</label>
+          <input type="number" class="form-control" id="PrintWide" placeholder="Wide" name="wide" [(ngModel)]="wide" name="wide">
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputPassword1">Height</label>
+          <input type="number" class="form-control" id="PrintHeight" placeholder="Height" name="height" [(ngModel)]="hight" name="hight">
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Quantity</label>
+          <input type="number" class="form-control" id="PrintQuantity" placeholder="Number Of Print Copy" name="quantity" [(ngModel)]="quantity" name="quantity">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">File Name</label>
+          <input type="text" class="form-control" id="fileName" placeholder="File Name" name="fileName" [(ngModel)]="fileName" name="fileName">
+        </div>
+        
+
+        <div class="form-group">
+          <label>Frame Added (Optional)</label>
+          <select class="form-control" id="Addedframe" [(ngModel)]="frameAdd" name="frameAdd">
+            <option>Yes</option>
+            <option selected>No</option>
+          </select>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="add_to_cart()">Add to cart</button>
+      </form>
+    </div>
+  </div>
+
+</div>
