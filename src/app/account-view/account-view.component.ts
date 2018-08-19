@@ -34,7 +34,7 @@ export class AccountViewComponent implements OnInit {
   }
   enter(value) {
     this.cookieService.set('billno', value);
-    this.router.navigate(['/']);
+    this.router.navigate(['/account-entry']);
     console.log(value);
   }
 }

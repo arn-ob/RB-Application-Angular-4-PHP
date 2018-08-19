@@ -13,12 +13,14 @@ import { HttpModule } from '@angular/http';
 import { SqlService } from './service/sql/sql.service';
 import { AccountViewComponent } from './account-view/account-view.component';
 import { CookieService } from 'ngx-cookie-service';
+import { AccountEntryComponent } from './account-entry/account-entry.component';
 
 // App Route
 const appRoutes: Routes = [
   { path: '', component: IndexPageComponent},
   { path: 'print-oder', component: PrintRequestComponent},
-  { path: 'account-view', component: AccountViewComponent}
+  { path: 'account-view', component: AccountViewComponent},
+  { path: 'account-entry', component: AccountEntryComponent}
 ];
 
 @NgModule({
@@ -27,7 +29,8 @@ const appRoutes: Routes = [
     IndexPageComponent,
     NavbarComponent,
     PrintRequestComponent,
-    AccountViewComponent
+    AccountViewComponent,
+    AccountEntryComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { Md5 } from 'ts-md5';
 })
 export class PrintRequestComponent implements OnInit {
   // info of html input
+  AIid = 1;
   printName: any;
   name: any;
   address: any;
@@ -43,7 +44,7 @@ export class PrintRequestComponent implements OnInit {
 
   ngOnInit() {
     this.get_array_length();
-    const date =  new Date();
+    const date = new Date();
     const md5 = new Md5();
     this.bill = this.md5.appendStr(date.toString()).end();
   }
@@ -51,9 +52,12 @@ export class PrintRequestComponent implements OnInit {
   // add to cart list
   add_to_cart() {
     // this.get_array();
+
     this.db_push_array.push(this.get_array());
     this.get_array_length();
-    console.log(this.db_push_array);
+    this.AIid++;
+
+    // console.log(this.db_push_array);
     // this.clear_form();
   }
 
@@ -68,16 +72,18 @@ export class PrintRequestComponent implements OnInit {
       // console.log(Temp_store);
       this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
         response => {
-            console.log(response);
+          console.log(response);
         },
         err => {
           console.log(err);
         });
     }
+    this.get_array_length();
   }
 
   get_array() {
     const temp = {
+      'AIid': this.AIid,
       'billID': this.bill,
       'printName': this.printName,
       'name': this.name,
@@ -119,4 +125,17 @@ export class PrintRequestComponent implements OnInit {
     this.fileName = '';
     this.frameAdd = '';
   }
+
+  delete(msg) {
+
+    // Slice object From Array
+    this.db_push_array.some(function iter(o, i, a) {
+      if (o.AIid === msg) {
+        a.splice(i, 1);
+        return true;
+      }
+      return o.children && o.children.some(iter);
+    });
+  }
+
 }

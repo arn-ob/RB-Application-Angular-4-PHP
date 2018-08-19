@@ -19,7 +19,9 @@
             <small class="text-muted">{{data.quantity}}</small>
           </div>
           <span class="text-muted">{{data.wide * data.hight}}</span>
+          <button (click)="delete(data.AIid)">X</button>
         </li>
+        
        </div>
       </ul>
 
@@ -31,18 +33,19 @@
     </div>
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Billing address</h4>
-      <form class="needs-validation">
+
+      <form class="needs-validation" (ngSubmit)="add_to_cart()">
         <div class="form-group">
           <label for="exampleInputEmail1">Print Name</label>
-          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName"  ngControl="CprintName" name="printName" >
+          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName" name="printName" required >
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Name</label>
-          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name" name="name" >
+          <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name" name="name" required>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Address</label>
-          <input type="text" class="form-control" id="ClientAddress" name="address" placeholder="Address" [(ngModel)]="address" name="address">
+          <input type="text" class="form-control" id="ClientAddress" name="address" placeholder="Address" [(ngModel)]="address" name="address" required>
         </div>
 
         <div class="form-group">
@@ -62,7 +65,7 @@
 
          <div class="form-group">
           <label>Print Type</label>
-          <select class="form-control" id="print_type" [(ngModel)]="printType" name="printType">
+          <select class="form-control" id="print_type" [(ngModel)]="printType" name="printType" >
             <option>PVC</option>
             <option>Pana</option>
             <option>Stiker</option>
@@ -81,7 +84,7 @@
 
         <div class="form-group">
           <label for="exampleInputPassword1">Wide</label>
-          <input type="number" class="form-control" id="PrintWide" placeholder="Wide" name="wide" [(ngModel)]="wide" name="wide">
+          <input type="number" class="form-control" id="PrintWide" placeholder="Wide" name="wide" [(ngModel)]="wide" name="wide" >
         </div>
         
         <div class="form-group">
@@ -109,7 +112,7 @@
           </select>
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="add_to_cart()">Add to cart</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to cart</button>
       </form>
     </div>
   </div>
