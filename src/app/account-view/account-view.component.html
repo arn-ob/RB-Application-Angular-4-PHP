@@ -2,8 +2,6 @@
   Enter Order
 </div>
 
-
-
 <div class="container">
 
   <div class="alert alert-warning" role="alert">
@@ -14,19 +12,27 @@
       <thead>
         <tr>
           <th>Client Name</th>
-          <th>Address</th>
           <th>Phone No</th>
           <th>Party Name</th>
-          <th>Click</th>
+          <th>Quantity</th>
+          <th>SFT</th>
+          <th>Print Type</th>
+          <th>File Name</th>
+          <th>Created Time</th>
+          <th>Enter</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let list of oderList">
           <td>{{list.name}}</td>
-          <td>{{list.address}}</td>
           <td>{{list.phoneNo1}}</td>
           <td>{{list.PartyName}}</td>
-          <button  type="button" class="btn btn-light btn-sm" (click)="enter(list.BillNo)">Enter</button>
+          <td>{{list.quantity}}</td>
+          <td>{{list.totalSFT}}</td>
+          <td>{{list.PrintType}}</td>
+          <td>{{list.FileName}}</td>
+          <td>{{list.CreatedTime}}</td>
+          <button  type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="enter(list.BillNo)">Enter</button>
         </tr>
       </tbody>
     </table>

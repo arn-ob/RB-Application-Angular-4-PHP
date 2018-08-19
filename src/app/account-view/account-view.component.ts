@@ -19,6 +19,8 @@ export class AccountViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.cookieService.delete('cd');
+    this.cookieService.set('cd', 'AccountViewComponent');
     this.get_list();
   }
 
@@ -26,7 +28,7 @@ export class AccountViewComponent implements OnInit {
     this.sql.getRequest('accountHistoryForAccountEntry/accountHistoryForAccountEntry.php').subscribe(
       response => {
         this.oderList = response.json();
-          console.table(this.oderList);
+        console.table(this.oderList);
       },
       err => {
         console.log(err);

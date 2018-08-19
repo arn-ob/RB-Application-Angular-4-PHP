@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { Md5 } from 'ts-md5';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-print-request',
@@ -39,10 +40,13 @@ export class PrintRequestComponent implements OnInit {
 
   constructor(
     private sql: SqlService,
+    private cookie: CookieService,
     private md5: Md5
   ) { }
 
   ngOnInit() {
+    this.cookie.delete('cd');
+    this.cookie.set('cd', 'PrintRequestComponent');
     this.get_array_length();
     const date = new Date();
     const md5 = new Md5();

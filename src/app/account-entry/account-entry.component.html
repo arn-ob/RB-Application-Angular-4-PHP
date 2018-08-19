@@ -1,3 +1,7 @@
+<div class="alert alert-info" role="alert">
+  Print Account
+</div>
+
 <div *ngIf="systemLoad">
   <div class="jumbotron">
     <div class="container">
@@ -13,6 +17,7 @@
 
 
   <div class="container">
+    <p class="alert alert-danger">Enter Price or Default Price are Selected</p>
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">Pana Price</span>
@@ -26,7 +31,7 @@
     </div>
   </div>
 
-  
+
   <div class="container mt-5">
     <p class="alert alert-secondary">List Of Order</p>
     <div class="table-responsive">
@@ -55,32 +60,40 @@
         </tbody>
       </table>
 
-      <p>Billing</p>
+      <div *ngIf="prevPay" class="alert alert-warning">
+        Advance Paid For Giving Due Go To Edit Page. Thank You!
+      </div>
 
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Amount</span>
+      <div *ngIf="!prevPay">
+        <p>Billing</p>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Amount</span>
+          </div>
+          <input type="text" class="form-control" placeholder="{{amount}}" [(ngModel)]="amount" name="amount" disabled>
         </div>
-        <input type="text" class="form-control" placeholder="{{amount}}" [(ngModel)]="amount" name="amount" disabled>
-      </div>
-      <br>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Advance</span>
+        <br>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Advance</span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="advance" name="advance" (keyup)="advance_cal(in.value)" #in>
         </div>
-        <input type="text" class="form-control" [(ngModel)]="advance" name="advance">
-      </div>
-      <br>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Balance</span>
+        <br>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Balance</span>
+          </div>
+          <input type="text" class="form-control" placeholder="{{due}}">
         </div>
-        <input type="text" class="form-control" placeholder="{{balance}}">
+
+
+        <br>
+        <br>
+
+        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()">Procced</button>
       </div>
     </div>
-
-    <br><br>
-    
-    <button type="button" class="btn btn-success btn-lg btn-block mt-5 mb-3">Procced</button>
   </div>
 </div>
