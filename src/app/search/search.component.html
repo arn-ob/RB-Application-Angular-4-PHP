@@ -16,8 +16,21 @@
       <p-calendar [(ngModel)]="date1" placeholder="Start Date"></p-calendar>
       <p-calendar [(ngModel)]="date2" placeholder="End Date"></p-calendar>
       <button (click)="search_by_date()" class="btn btn-primary">Search by Date</button>
+      <button (click)="search_auto()" class="btn btn-primary">Refresh Auto Search</button>
     </div>
   </div>
+  <div class="row mt-3">
+   
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Enter Bill-No" #in (keyup)="search_by_bill(in.value)">
+      </div>
+
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Enter Phone" #ins (keyup)="search_by_phnNo(ins.value)">
+      </div>
+
+  </div>
+
   <br>
 </div>
 
@@ -32,7 +45,7 @@
       No Result Found
     </div>
   </div>
-  
+
   <div class="table-responsive" *ngIf="isResultFoundDate">
     <table class="table table-striped table-sm">
       <thead>

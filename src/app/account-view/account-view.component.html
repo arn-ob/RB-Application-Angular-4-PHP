@@ -7,8 +7,8 @@
   <div class="alert alert-warning" role="alert">
     Here Today Account History
   </div>
-  <div class="table-responsive">
-    <table class="table table-striped table-sm">
+  <div class="table-responsive" *ngIf="isLoaded">
+    <table class="table table-striped table-sm" *ngIf="!nothingFound">
       <thead>
         <tr>
           <th>Client Name</th>
@@ -28,7 +28,7 @@
           <td>{{list.phoneNo1}}</td>
           <td>{{list.PartyName}}</td>
           <td>{{list.quantity}}</td>
-          <td>{{list.totalSFT}}</td>
+          <td>{{list.sft}}</td>
           <td>{{list.PrintType}}</td>
           <td>{{list.FileName}}</td>
           <td>{{list.CreatedTime}}</td>
@@ -36,5 +36,9 @@
         </tr>
       </tbody>
     </table>
+    
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="nothingFound">
+    No Record For Today
   </div>
 </div>

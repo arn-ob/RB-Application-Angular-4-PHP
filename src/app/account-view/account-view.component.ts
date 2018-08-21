@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 export class AccountViewComponent implements OnInit {
 
   oderList = [];
+  isLoaded = false;
+  nothingFound = true;
+
 
   constructor(
     private sql: SqlService,
@@ -29,6 +32,14 @@ export class AccountViewComponent implements OnInit {
       response => {
         this.oderList = response.json();
         console.table(this.oderList);
+        if (this.oderList.length === 0) {
+          this.nothingFound = true;
+          console.log('nothing Found');
+        } else {
+        console.log(' Found');
+        this.nothingFound = false;
+        this.isLoaded = true;
+        }
       },
       err => {
         console.log(err);
