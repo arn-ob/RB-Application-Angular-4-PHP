@@ -1,0 +1,80 @@
+<div class="alert alert-info" role="alert">
+  Search
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="alert alert-warning" role="alert">
+        Select your Query Option
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p-calendar [(ngModel)]="date1" placeholder="Start Date"></p-calendar>
+      <p-calendar [(ngModel)]="date2" placeholder="End Date"></p-calendar>
+      <button (click)="search_by_date()" class="btn btn-primary">Search by Date</button>
+    </div>
+  </div>
+  <br>
+</div>
+
+<div class="container" *ngIf="isResultDataLoad">
+  <div class="alert alert-light" role="alert">
+    Search Result
+  </div>
+
+
+  <div *ngIf="!isResultFoundDate">
+    <div class="alert alert-danger" role="alert">
+      No Result Found
+    </div>
+  </div>
+  
+  <div class="table-responsive" *ngIf="isResultFoundDate">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone No</th>
+          <th>Party Name</th>
+          <th>Quantity</th>
+          <th>SFT</th>
+          <th>Print Type</th>
+          <th>File Name</th>
+          <th>Amount</th>
+          <th>Advance</th>
+          <th>Due</th>
+          <th>View</th>
+          <th>Edit</th>
+          <th>Print invoice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of result">
+          <td>{{r.name || msgForTypeAndFileName}}</td>
+          <td>{{r.phoneNo1 || msgForTypeAndFileName}}, {{r.phoneNo2 || msgForTypeAndFileName}}</td>
+          <td>{{r.PartyName || msgForTypeAndFileName}}</td>
+          <td>{{r.totalQuantity || msgForTypeAndFileName}}</td>
+          <td>{{r.totalSft || msgForTypeAndFileName}}</td>
+          <td>{{r.type || msgForTypeAndFileName}}</td>
+          <td>{{r.fileName || msgForTypeAndFileName}}</td>
+          <td>{{r.amount || msgForTypeAndFileName}}</td>
+          <td>{{r.advance || msgForTypeAndFileName}}</td>
+          <td>{{r.Due || msgForTypeAndFileName}}</td>
+          <td>
+            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">History</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">Print</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

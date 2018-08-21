@@ -14,13 +14,19 @@ import { SqlService } from './service/sql/sql.service';
 import { AccountViewComponent } from './account-view/account-view.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AccountEntryComponent } from './account-entry/account-entry.component';
+import { SearchComponent } from './search/search.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { CalendarModule } from 'primeng/calendar';
+import {ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 // App Route
 const appRoutes: Routes = [
   { path: '', component: IndexPageComponent},
   { path: 'print-oder', component: PrintRequestComponent},
   { path: 'account-view', component: AccountViewComponent},
-  { path: 'account-entry', component: AccountEntryComponent}
+  { path: 'account-entry', component: AccountEntryComponent},
+  { path: 'search', component: SearchComponent}
 ];
 
 @NgModule({
@@ -30,12 +36,16 @@ const appRoutes: Routes = [
     NavbarComponent,
     PrintRequestComponent,
     AccountViewComponent,
-    AccountEntryComponent
+    AccountEntryComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    CalendarModule,
+    ToastModule,
     RouterModule.forRoot(
       appRoutes,
       {
@@ -47,6 +57,7 @@ const appRoutes: Routes = [
     CartListService,
     SqlService,
     CookieService,
+    MessageService,
     Md5
   ],
   bootstrap: [AppComponent]

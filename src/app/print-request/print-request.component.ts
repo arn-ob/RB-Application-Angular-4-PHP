@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { Md5 } from 'ts-md5';
 import { CookieService } from 'ngx-cookie-service';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-print-request',
@@ -41,7 +42,8 @@ export class PrintRequestComponent implements OnInit {
   constructor(
     private sql: SqlService,
     private cookie: CookieService,
-    private md5: Md5
+    private md5: Md5,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,8 @@ export class PrintRequestComponent implements OnInit {
   add_to_cart() {
     // this.get_array();
 
+    this.messageService.add({severity: 'info', summary: 'Information', detail: 'Added to list'});
+
     this.db_push_array.push(this.get_array());
     this.get_array_length();
     this.AIid++;
@@ -68,7 +72,8 @@ export class PrintRequestComponent implements OnInit {
   // store the array to db
   store() {
     // loop at reverse order
-    console.log(this.db_push_array.length);
+    // console.log(this.db_push_array.length);
+
     for (let i = 0; i = this.db_push_array.length; i++) {
       console.log(this.db_push_array.length);
       const Temp_store = this.db_push_array.pop();
@@ -76,7 +81,11 @@ export class PrintRequestComponent implements OnInit {
       // console.log(Temp_store);
       this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
         response => {
-          console.log(response);
+          if (response.json()[0].statuss === 'Done') {
+            this.messageService.add({severity: 'success', summary: 'Success', detail: 'Stored to DB'});
+          } else {
+            this.messageService.add({severity: 'error', summary: 'Error Message', detail: 'Failed to Store'});
+          }
         },
         err => {
           console.log(err);
@@ -140,6 +149,7 @@ export class PrintRequestComponent implements OnInit {
       }
       return o.children && o.children.some(iter);
     });
+    this.get_array_length();
   }
 
 }
