@@ -2,6 +2,8 @@
   Search
 </div>
 
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
 <div class="container">
   <div class="row">
     <div class="col">
@@ -78,10 +80,10 @@
           <td>{{r.advance || msgForTypeAndFileName}}</td>
           <td>{{r.Due || msgForTypeAndFileName}}</td>
           <td>
-            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">History</button>
+            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="history(r.BillNo)">History</button>
           </td>
           <td>
-            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">Edit</button>
+            <button type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="edit(r.BillNo)">Edit</button>
           </td>
           <td>
             <button type="button" class="btn btn-dark btn-sm mt-1 mb-1">Print</button>

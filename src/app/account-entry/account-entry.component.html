@@ -2,6 +2,8 @@
   Print Account
 </div>
 
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
 <div *ngIf="systemLoad">
   <div class="jumbotron">
     <div class="container">
@@ -22,12 +24,12 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Pana Price</span>
       </div>
-      <input type="number" placeholder="15" (keyup)="calculate(in.value, 'Pana')" #in>
+      <input type="number" placeholder="15" (keyup)="calculate(in_pana.value, 'Pana')" #in_pana>
 
       <div class="input-group-prepend">
         <span class="input-group-text">PVC Price</span>
       </div>
-      <input type="number" placeholder="15" (keyup)="calculate(in.value, 'PVC')" #in>
+      <input type="number" placeholder="15" (keyup)="calculate(in_pvc.value, 'PVC')" #in_pvc>
     </div>
   </div>
 

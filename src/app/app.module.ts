@@ -19,6 +19,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { EditComponent } from './edit/edit.component';
+import { HistoryComponent } from './history/history.component';
 
 // App Route
 const appRoutes: Routes = [
@@ -26,7 +28,9 @@ const appRoutes: Routes = [
   { path: 'print-oder', component: PrintRequestComponent},
   { path: 'account-view', component: AccountViewComponent},
   { path: 'account-entry', component: AccountEntryComponent},
-  { path: 'search', component: SearchComponent}
+  { path: 'search', component: SearchComponent},
+  { path: 'edit', component: EditComponent},
+  { path: 'history', component: HistoryComponent}
 ];
 
 @NgModule({
@@ -37,7 +41,9 @@ const appRoutes: Routes = [
     PrintRequestComponent,
     AccountViewComponent,
     AccountEntryComponent,
-    SearchComponent
+    SearchComponent,
+    EditComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

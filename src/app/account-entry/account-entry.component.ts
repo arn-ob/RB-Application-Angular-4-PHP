@@ -75,9 +75,11 @@ export class AccountEntryComponent implements OnInit {
 
     if (type === 'PVC') {
       this.pvc = val;
+      console.log(this.pvc);
     }
     if (type === 'Pana') {
       this.pana = val;
+      console.log(this.pana);
     }
     this.calculate_total();
 
@@ -92,11 +94,11 @@ export class AccountEntryComponent implements OnInit {
 
       if (ob[i].PrintType === 'PVC') {
         cal =  ob[i].sft * ob[i].quantity * this.pvc + cal;
-
+        console.log(cal);
       }
       if (ob[i].PrintType === 'Pana') {
         cal =  ob[i].sft * ob[i].quantity * this.pana + cal;
-
+        console.log(cal);
        }
     }
     this.amount = cal;

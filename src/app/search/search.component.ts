@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -39,6 +41,8 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private sql: SqlService,
+    private cookie: CookieService,
+    private router: Router,
     private message: MessageService
   ) { }
 
@@ -160,4 +164,14 @@ export class SearchComponent implements OnInit {
     return str.split('-')[index];
   }
 
+  // Action Button
+  edit(v) {
+    this.cookie.set('billno', v);
+    this.router.navigate(['/edit']);
+  }
+
+  history(v) {
+    this.cookie.set('billno', v);
+    this.router.navigate(['/history']);
+  }
 }
