@@ -19,9 +19,12 @@ export class EditComponent implements OnInit {
   phn1: any;
   phn2: any;
   partyName: any;
+  pana_price: any;
+  pvc_price: any;
+
 
   // print Details
-  resultOfPrintDetails: any[];
+  resultOfPrintDetails: {[k: string]: any } = {}; // access any property from array.
   isPrintDetailsResultFoundDate = false;
   PrintType: any;
   wide: any;
@@ -31,7 +34,8 @@ export class EditComponent implements OnInit {
   Frame: any;
 
   // Account Details
-  resultOfAccountDetails: any[];
+  resultOfAccountDetails: {[k: string]: any } = {};
+  // resultOfAccountDetailsProcess: any[];
   isAccountDetailsResultFoundDate = false;
   amount: any;
   advance: any;
@@ -40,8 +44,11 @@ export class EditComponent implements OnInit {
   // view expression
   isResultDataLoad = false;
   isResultFoundDate = false;
+  sftPriceGet = false;
 
   billNo: any;
+  pvc = 15;
+  pana = 15;
 
   constructor(
     private cookie: CookieService,
@@ -85,8 +92,9 @@ export class EditComponent implements OnInit {
     const Temp_store = { 'sql': 'Select * From printdetails where BillNo = "' + this.billNo + '"' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json());
+        // console.log(response.json());
         this.resultOfPrintDetails = response.json();
+        // console.log(this.resultOfPrintDetails);
         if (this.resultOfPrintDetails.length === 0) {
           // console.log('Nothing Found');
           this.message.add({ severity: 'error', summary: 'Problem', detail: 'Print Details Not Found' });
@@ -105,11 +113,21 @@ export class EditComponent implements OnInit {
 
   // Account Details Query
   accountSQLQuery() {
-    const Temp_store = { 'sql': 'Select * From account where BillNo = "' + this.billNo + '" GROUP BY BillNo' };
+    const Temp_store = { 'sql': 'Select * From account where BillNo = "' + this.billNo + '"' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json()[0]);
+        // this.resultOfAccountDetailsProcess = response.json();
         this.resultOfAccountDetails = response.json()[0];
+        if (this.resultOfAccountDetails.type === 'Pana') {
+          this.pana_price = this.resultOfAccountDetails.PricePerSft;
+        } else {
+          this.pana_price = 15;
+        }
+        if (this.resultOfAccountDetails.type === 'PVC') {
+          this.pvc_price = this.resultOfAccountDetails.PricePerSft;
+        } else {
+          this.pvc_price = 15;
+        }
         if (this.resultOfAccountDetails.length === 0) {
           // console.log('Nothing Found');
           this.message.add({ severity: 'error', summary: 'Problem', detail: 'Account Details Not Found' });
@@ -117,6 +135,7 @@ export class EditComponent implements OnInit {
           // console.log('Found');
           this.message.add({ severity: 'info', summary: 'Information', detail: 'Account Details Found' });
           this.isAccountDetailsResultFoundDate = true;
+          this.sftPriceGet = true;
         }
       },
       err => {
@@ -126,96 +145,130 @@ export class EditComponent implements OnInit {
   }
 
   // client date Process to DB
-  setClientDate(v1, v2, v3, v4, v5) {
-    if (this.name === undefined) {
+  changeClientInfo(v1, v2) {
+    // v1 = value
+    // v2 = which field
+
+    if (v2 === 'name') {
       this.name = v1;
+      const sql = { 'sql': 'UPDATE client_details SET name = "' + v1 + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Client Name Updated');
     }
-    if (this.address === undefined) {
-      this.address = v2;
+    if (v2 === 'address') {
+      this.address = v1;
+      const sql = { 'sql': 'UPDATE client_details SET address = "' + v1 + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Client Address Updated');
     }
-    if (this.phn1 === undefined) {
-      this.phn1 = v3;
+    if (v2 === 'phn1') {
+      this.phn1 = v1;
+      const sql = { 'sql': 'UPDATE client_details SET phoneNo1 = "' + v1 + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Client Phone No Updated');
     }
-    if (this.phn2 === undefined) {
-      this.phn2 = v4;
+    if (v2 === 'phn2') {
+      this.phn2 = v1;
+      const sql = { 'sql': 'UPDATE client_details SET phoneNo2 = "' + v1 + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Client Phone No Updated');
     }
-    if (this.partyName === undefined) {
-      this.partyName = v5;
+    if (v2 === 'partyName') {
+      this.partyName = v1;
+      const sql = { 'sql': 'UPDATE client_details SET PartyName = "' + v1 + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Client Party Name Updated');
     }
-    console.log(this.name);
-    console.log(this.address);
-    console.log(this.phn1);
-    console.log(this.phn2);
-    console.log(this.partyName);
-    console.log(this.date);
-    console.log(this.time);
   }
 
   // Here will be DB insert function
 
+  calculate(val, type) {
 
-
-
-
-  // Print data process to DB
-  editPrintDetails(v1, v2, v3) {
-    const res: { [k: string]: any } = this.resultOfPrintDetails;
-    if (this.PrintType === undefined) {
-      this.PrintType = res[v3].PrintType;
+    if (type === 'PVC') {
+      this.pvc = val;
     }
-    if (this.wide === undefined) {
-      this.wide = res[v3].wide;
+    if (type === 'Pana') {
+      this.pana = val;
     }
-    if (this.height === undefined) {
-      this.height = res[v3].height;
-    }
-    if (this.sft === undefined) {
-      this.sft = res[v3].sft;
-    }
-    if (this.quantity === undefined) {
-      this.quantity = res[v3].quantity;
-    }
-    if (this.Frame === undefined) {
-      this.Frame = res[v3].Frame;
-    }
-    console.log(v1);
-    console.log(v2);
-    console.log(this.PrintType);
-    console.log(this.wide);
-    console.log(this.height);
-    // this.editToDB(v1, v2);
+    this.calculate_total();
   }
 
-  // Here will be DB insert function
-  editAccount(v1, v2, v3) {
-    if (this.amount === undefined) {
-      this.amount = v1;
-    }
-    if (this.advance === undefined) {
-      this.advance = v2;
-    }
-    if (this.due === undefined) {
-      this.due = v3;
-    }
-    console.log(this.amount);
-    console.log(this.advance);
-    console.log(this.due);
-  }
+  // auto change and store value based on change
+  // This might Be cause problem Real time Money amont change but this function
+  changeValue(v1, v4, v2, v3) {
+    // v1 = value
+    // v4 = index of array
+    // v2 = AiId
+    // v3 = type
 
-  changeValue(v1, v2, v3) {
+    let sql: any;
     if (v3 === 'wide') {
-      this.wide = v1;
+      this.resultOfPrintDetails[v4].wide = v1;
+      const sft = this.resultOfPrintDetails[v4].wide * this.resultOfPrintDetails[v4].height;
+
       // tslint:disable-next-line:max-line-length
-      const sql = { 'sql': 'UPDATE printdetails SET wide = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-      this.universalUpdateSql(sql);
+      sql = { 'sql': 'UPDATE printdetails SET wide = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+
+      // account info update
+      // tslint:disable-next-line:max-line-length
+      const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql_acc, 'Account SFT Updated');
     }
+    if (v3 === 'height') {
+      this.resultOfPrintDetails[v4].height = v1;
+      const sft = this.resultOfPrintDetails[v4].wide * this.resultOfPrintDetails[v4].height;
+
+      // tslint:disable-next-line:max-line-length
+      sql = { 'sql': 'UPDATE printdetails SET height = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+
+      // account info update
+      // tslint:disable-next-line:max-line-length
+      const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql_acc, 'Account SFT Updated');
+    }
+    if (v3 === 'quantity') {
+      this.resultOfPrintDetails[v4].quantity = v1;
+      sql = { 'sql': 'UPDATE printdetails SET quantity = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+
+    }
+    this.calculate_total();
+    this.universalUpdateSql(sql, 'Print Details Updated');
+    // console.table(this.resultOfPrintDetails);
+
+    // Store To DB code
+    // tslint:disable-next-line:max-line-length
+
   }
 
-  universalUpdateSql(sql) {
+  calculate_total() {
+    let cal = 0;
+    for (let i = 0; i < this.resultOfPrintDetails.length; i++) {
+
+      const ob: {[k: string]: any} = this.resultOfPrintDetails;
+
+      if (this.resultOfPrintDetails[i].PrintType === 'PVC') {
+        cal =  (ob[i].height * ob[i].wide * ob[i].quantity * this.pvc) + cal;
+        // console.log(cal);
+      }
+      if (ob[i].PrintType === 'Pana') {
+        cal =  (ob[i].height * ob[i].wide * ob[i].quantity * this.pana) + cal;
+        // console.log(cal);
+       }
+    }
+    this.amount = cal;
+    this.due = cal - this.resultOfAccountDetails.advance;
+    // tslint:disable-next-line:max-line-length
+    const sql = { 'sql': 'UPDATE account SET amount = "' + this.amount + '",Due = "' + this.due + '" where BillNo = "' + this.billNo + '"' };
+    this.universalUpdateSql(sql, 'Account Updated');
+
+  }
+
+
+  universalUpdateSql(sql, msg) {
     this.sql.postRequest('updateSql/updateSql.php', sql).subscribe(
       response => {
-        console.log(response);
-        this.message.add({ severity: 'info', summary: 'Information', detail: 'Updated' });
+        // console.log(response);
+        if (response.json()[0].status === 'Done') {
+          this.message.add({ severity: 'info', summary: 'Information', detail: msg });
+        } else {
+          this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Contact with Developer' });
+        }
       },
       err => {
         console.log(err);

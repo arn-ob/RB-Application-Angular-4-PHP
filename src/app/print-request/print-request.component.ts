@@ -59,20 +59,19 @@ export class PrintRequestComponent implements OnInit {
   add_to_cart() {
     // this.get_array();
 
-    this.messageService.add({severity: 'info', summary: 'Information', detail: 'Added to list'});
+    this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Added to list' });
 
     this.db_push_array.push(this.get_array());
     this.get_array_length();
     this.AIid++;
 
     // console.log(this.db_push_array);
-    // this.clear_form();
+    this.clear_form();
   }
 
   // store the array to db
   store() {
     // loop at reverse order
-    // console.log(this.db_push_array.length);
 
     for (let i = 0; i = this.db_push_array.length; i++) {
       console.log(this.db_push_array.length);
@@ -81,10 +80,10 @@ export class PrintRequestComponent implements OnInit {
       // console.log(Temp_store);
       this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
         response => {
-          if (response.json()[0].statuss === 'Done') {
-            this.messageService.add({severity: 'success', summary: 'Success', detail: 'Stored to DB'});
+          if (response.json()[0].status === 'Done') {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Stored to DB' });
           } else {
-            this.messageService.add({severity: 'error', summary: 'Error Message', detail: 'Failed to Store'});
+            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Failed to Store' });
           }
         },
         err => {
@@ -151,5 +150,4 @@ export class PrintRequestComponent implements OnInit {
     });
     this.get_array_length();
   }
-
 }
