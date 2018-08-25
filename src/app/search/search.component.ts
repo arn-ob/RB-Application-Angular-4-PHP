@@ -174,4 +174,9 @@ export class SearchComponent implements OnInit {
     this.cookie.set('billno', v);
     this.router.navigate(['/history']);
   }
+
+  print(v) {
+    this.cookie.set('billno', v);
+    this.router.navigate(['/print']);
+  }
 }

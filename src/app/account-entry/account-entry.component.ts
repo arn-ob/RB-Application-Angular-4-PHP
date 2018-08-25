@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { CookieService } from 'ngx-cookie-service';
 import { resetFakeAsyncZone } from '@angular/core/testing';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-entry',
@@ -22,6 +24,7 @@ export class AccountEntryComponent implements OnInit {
   due: any;
   balance: any;
   prevPay = false;
+  isStored = false;
 
   // type Price
   pvc = 15;
@@ -29,7 +32,9 @@ export class AccountEntryComponent implements OnInit {
 
   constructor(
     private sql: SqlService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private message: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -148,9 +153,22 @@ export class AccountEntryComponent implements OnInit {
     this.sql.postRequest('accountEntry/storeUpdateAccount.php', val).subscribe(
       response => {
         console.log(response);
+        if (response.json()[0].status === 'Done') {
+          // add here is ok Button
+          this.message.add({ severity: 'success', summary: 'Success', detail: 'Account Entry Success' });
+          this.isStored = true;
+        } else {
+          this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Failed to Store' });
+        }
+
       },
       err => {
         console.log(err);
       });
+  }
+
+  print() {
+    this.cookie.set('billno', this.billNo);
+    this.router.navigate(['/print']);
   }
 }

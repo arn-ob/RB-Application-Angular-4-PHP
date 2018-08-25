@@ -74,12 +74,13 @@ export class PrintRequestComponent implements OnInit {
     // loop at reverse order
 
     for (let i = 0; i = this.db_push_array.length; i++) {
-      console.log(this.db_push_array.length);
+      // console.log(this.db_push_array.length);
       const Temp_store = this.db_push_array.pop();
 
       // console.log(Temp_store);
       this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
         response => {
+          console.log(response);
           if (response.json()[0].status === 'Done') {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Stored to DB' });
           } else {
@@ -94,6 +95,9 @@ export class PrintRequestComponent implements OnInit {
   }
 
   get_array() {
+    // this will check the empty field
+    this.checkEntry();
+
     const temp = {
       'AIid': this.AIid,
       'billID': this.bill,
@@ -149,5 +153,23 @@ export class PrintRequestComponent implements OnInit {
       return o.children && o.children.some(iter);
     });
     this.get_array_length();
+  }
+
+  CheckNetpingBeforeStore() {
+    this.sql.ping().subscribe(
+      response => {
+        if (response.status === 200) {
+          this.store();
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'No Network Found' });
+        }
+      },
+      err => {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'No Network Found ' + err });
+      });
+  }
+
+  checkEntry() {
+    console.log(this.name);
   }
 }

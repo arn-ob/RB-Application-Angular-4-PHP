@@ -21,6 +21,7 @@ import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { EditComponent } from './edit/edit.component';
 import { HistoryComponent } from './history/history.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 // App Route
 const appRoutes: Routes = [
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
   { path: 'account-entry', component: AccountEntryComponent},
   { path: 'search', component: SearchComponent},
   { path: 'edit', component: EditComponent},
-  { path: 'history', component: HistoryComponent}
+  { path: 'history', component: HistoryComponent},
+  { path: 'print', component: InvoiceComponent}
 ];
 
 @NgModule({
@@ -43,7 +45,8 @@ const appRoutes: Routes = [
     AccountEntryComponent,
     SearchComponent,
     EditComponent,
-    HistoryComponent
+    HistoryComponent,
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,

@@ -24,4 +24,8 @@ export class SqlService {
     return this.http.get(this.url_t + Linkext);
   }
 
+  ping() {
+   return this.http.get('http://www.google.com');
+  }
+
 }

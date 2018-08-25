@@ -94,7 +94,8 @@
         <br>
         <br>
 
-        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()">Procced</button>
+        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()" *ngIf="!isStored">Procced</button>
+        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="print()" *ngIf="isStored">Print Invoice</button>
       </div>
     </div>
   </div>

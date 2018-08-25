@@ -1,0 +1,123 @@
+<div class="container" *ngIf="!isLoading">
+  <p class="alert alert-info mt-4">Loading</p>
+</div>
+
+
+<div class="invoice-box" *ngIf="isLoading">
+  <table cellpadding="0" cellspacing="0">
+    <tr class="top">
+      <td colspan="2">
+        <table>
+          <tr>
+            <td class="title">
+              <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+            </td>
+
+            <td>
+              Invoice #: {{billNo}}
+              <br> Created Date: {{clientDetails.CreatedDate}}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr class="information">
+      <td colspan="2">
+        <table>
+          <tr>
+            <td>
+              {{clientDetails.name}}
+              <br> {{clientDetails.address}}
+              <br> {{clientDetails.phoneNo1 || 'Not Entry'}}
+              <br> {{clientDetails.phoneNo2 || 'Not Entry'}}
+              <br> {{clientDetails.PartyName}}
+            </td>
+
+            <!-- <td>
+              Acme Corp.
+              <br> John Doe
+              <br> john@example.com
+            </td> -->
+          </tr>
+        </table>
+      </td>
+    </tr>
+    
+    
+    <!-- <tr class="heading">
+      <td>
+        Payment Method
+      </td>
+
+      <td>
+        Check #
+      </td>
+    </tr> 
+
+    <tr class="details">
+      <td>
+        Check
+      </td>
+
+      <td>
+        1000
+      </td>
+    </tr> -->
+
+    <tr class="heading">
+      <td>
+        Print List
+      </td>
+
+      <td>
+        Price
+      </td>
+
+    </tr>
+
+    <tr class="item" *ngFor="let o of oderList">
+      <td>
+        {{o.printName}}  {{o.PrintType}} {{o.wide}}X{{o.height}} {{o.sft}} {{o.quantity}} {{o.FileName}}
+      </td>
+
+      <td>
+        <div *ngIf ="o.PrintType === 'Pana'">{{o.sft * o.quantity * pana_price }}</div>
+        <div *ngIf ="o.PrintType === 'PVC'">{{o.sft * o.quantity * pvc_price }}</div>  
+      </td>
+
+    </tr>
+
+   
+    <tr class="item">
+      <td>
+        Advance
+      </td>
+      <td>
+          {{accountDetails.advance}}
+      </td>
+    </tr>
+
+    <tr class="item last">
+        <td>
+          Due
+        </td>
+        <td>
+            {{accountDetails.Due}}
+        </td>
+    </tr>
+
+    <tr class="total">
+        <td>
+          Total Amount
+        </td>
+        
+        <td>
+            {{accountDetails.amount}}
+        </td>
+
+    </tr>
+
+
+  </table>
+</div>
