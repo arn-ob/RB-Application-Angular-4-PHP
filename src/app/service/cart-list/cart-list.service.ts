@@ -17,8 +17,8 @@ export class CartListService {
 
     const ob: {[k: string]: any} = this.cart_list;
     const ob2: {[k: string]: any} = {};
-    console.log(ob);
-    console.log(ob.item_name);
+    // console.log(ob);
+    // console.log(ob.item_name);
     return ob.item_name;
   }
 

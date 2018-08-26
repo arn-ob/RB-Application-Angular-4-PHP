@@ -94,4 +94,8 @@ export class InvoiceComponent implements OnInit {
         console.log('problem');
       });
   }
+
+  printComponent() {
+    window.print();
+  }
 }

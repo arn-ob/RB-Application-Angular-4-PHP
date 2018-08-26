@@ -93,7 +93,7 @@ export class SearchComponent implements OnInit {
     const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_date + ' from account, printdetails, client_details where account.CreatedDate BETWEEN "' + this.d1 + '" AND "' + this.d2 + '" ' + this.sqlAfterWhereDef_date + '' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json());
+        // console.log(response.json());
         this.result = response.json();
         if ( this.result.length === 0) {
           console.log('Nothing Found');
@@ -116,7 +116,7 @@ export class SearchComponent implements OnInit {
     const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_auto + ' from account, printdetails, client_details where ' + this.sqlAfterWhereDef_auto + '' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json());
+        // console.log(response.json());
         this.result = response.json();
         if ( this.result.length === 0) {
           console.log('Nothing Found');
@@ -139,7 +139,7 @@ export class SearchComponent implements OnInit {
     const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, printdetails.Frame, printdetails.CreatedTime, printdetails.CreatedDate FROM account, client_details, printdetails where (client_details.phoneNo1 = "' + val + '" or client_details.phoneNo2 = "' + val + '") and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json());
+        // console.log(response.json());
         this.result = response.json();
         if (this.result.length === 0) {
           console.log('Nothing Found');

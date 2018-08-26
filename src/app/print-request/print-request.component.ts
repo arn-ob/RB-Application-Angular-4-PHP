@@ -23,7 +23,6 @@ export class PrintRequestComponent implements OnInit {
   wide: any;
   hight: any;
   quantity: any;
-  fileName: any;
   frameAdd: any;
 
   // array list
@@ -58,46 +57,48 @@ export class PrintRequestComponent implements OnInit {
   // add to cart list
   add_to_cart() {
     // this.get_array();
+    if (this.checkEntry()) {
+      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Added to list' });
 
-    this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Added to list' });
+      this.db_push_array.push(this.get_array());
+      this.get_array_length();
+      this.AIid++;
 
-    this.db_push_array.push(this.get_array());
-    this.get_array_length();
-    this.AIid++;
-
-    // console.log(this.db_push_array);
-    this.clear_form();
+      // console.log(this.db_push_array);
+      this.clear_form();
+    }
   }
 
   // store the array to db
   store() {
     // loop at reverse order
+    if (this.db_push_array.length === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Nothing Found For Store' });
+    } else {
+      for (let i = 0; i = this.db_push_array.length; i++) {
+        // console.log(this.db_push_array.length);
+        const Temp_store = this.db_push_array.pop();
 
-    for (let i = 0; i = this.db_push_array.length; i++) {
-      // console.log(this.db_push_array.length);
-      const Temp_store = this.db_push_array.pop();
-
-      // console.log(Temp_store);
-      this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
-        response => {
-          console.log(response);
-          if (response.json()[0].status === 'Done') {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Stored to DB' });
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Failed to Store' });
-          }
-        },
-        err => {
-          console.log(err);
-        });
+        // console.log(Temp_store);
+        this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
+          response => {
+            console.log(response);
+            if (response.json()[0].status === 'Done') {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Stored to DB' });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Failed to Store' });
+            }
+          },
+          err => {
+            console.log(err);
+          });
+      }
+      this.get_array_length();
     }
-    this.get_array_length();
   }
 
   get_array() {
     // this will check the empty field
-    this.checkEntry();
-
     const temp = {
       'AIid': this.AIid,
       'billID': this.bill,
@@ -112,7 +113,7 @@ export class PrintRequestComponent implements OnInit {
       'wide': this.wide,
       'hight': this.hight,
       'quantity': this.quantity,
-      'fileName': this.fileName,
+      'fileName': this.printName + ' ' + this.printType + ' ' + this.hight + 'x' + this.wide + 'x' + this.quantity,
       'frameAdd': this.frameAdd
     };
     return temp;
@@ -127,19 +128,18 @@ export class PrintRequestComponent implements OnInit {
   }
 
   clear_form() {
-    this.printName = '';
-    this.name = '';
-    this.address = '';
-    this.phnNo1 = '';
-    this.phnNo2 = '';
-    this.partyName = '';
-    this.printType = '';
-    this.printStatus = '';
-    this.wide = '';
-    this.hight = '';
-    this.quantity = '';
-    this.fileName = '';
-    this.frameAdd = '';
+    this.printName = undefined;
+    this.name = undefined;
+    this.address = undefined;
+    this.phnNo1 = undefined;
+    this.phnNo2 = undefined;
+    this.partyName = undefined;
+    this.printType = undefined;
+    this.printStatus = undefined;
+    this.wide = undefined;
+    this.hight = undefined;
+    this.quantity = undefined;
+    this.frameAdd = undefined;
   }
 
   delete(msg) {
@@ -170,6 +170,35 @@ export class PrintRequestComponent implements OnInit {
   }
 
   checkEntry() {
-    console.log(this.name);
+    if (this.printName === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Print Name Field' });
+      return false;
+    } else if (this.name === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Name Field' });
+      return false;
+    } else if (this.address === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Address Field' });
+      return false;
+    } else if (this.phnNo1 === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Phone Field' });
+      return false;
+    } else if (this.printType === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Select Print Type Field' });
+      return false;
+    } else if (this.printStatus === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Select Print Status Field' });
+      return false;
+    } else if (this.wide === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Width Field' });
+      return false;
+    } else if (this.hight === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Height Field' });
+      return false;
+    } else if (this.quantity === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Quantity Field' });
+      return false;
+    }  else {
+      return true;
+    }
   }
 }

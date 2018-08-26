@@ -22,6 +22,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { EditComponent } from './edit/edit.component';
 import { HistoryComponent } from './history/history.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 // App Route
 const appRoutes: Routes = [
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     HttpModule,
     CalendarModule,
     ToastModule,
+    Ng2GoogleChartsModule,
     RouterModule.forRoot(
       appRoutes,
       {
