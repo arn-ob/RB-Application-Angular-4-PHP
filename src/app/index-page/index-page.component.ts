@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { SqlService } from '../service/sql/sql.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index-page',
@@ -44,7 +46,7 @@ export class IndexPageComponent implements OnInit {
     options: {
       title: 'Daily Details',
       vAxis: { title: 'Amount' },
-      hAxis: { title: 'Month' },
+      hAxis: { title: 'Day' },
       seriesType: 'bars',
       series: { 5: { type: 'line' } }
     }
@@ -52,15 +54,21 @@ export class IndexPageComponent implements OnInit {
 
   constructor(
     private sql: SqlService,
-    private message: MessageService
+    private message: MessageService,
+    private cookie: CookieService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.pieChartData.dataTable.push(['Account', 'Amount']);
-    setInterval(() => {
-      this.piChartData();
-      this.DaySummryViewChartData();
-    }, 1000);
+    if (this.cookie.get('login') === '1') {
+      this.pieChartData.dataTable.push(['Account', 'Amount']);
+      setInterval(() => {
+        this.piChartData();
+        this.DaySummryViewChartData();
+      }, 1000);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   piChartData() {

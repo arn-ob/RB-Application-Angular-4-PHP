@@ -1,0 +1,16 @@
+<div class="contianer">
+
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+  <form class="form-signin">
+    <h3 class="alert alert-primary">Revolution Bangladesh</h3>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="text" class="form-control" placeholder="Username" [(ngModel)]="username" name="username">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" class="form-control" placeholder="Password" [(ngModel)]="password" name="password">
+
+    <button class="btn btn-lg btn-primary btn-block" (click)="login()">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">Version 1.10</p>
+  </form>
+</div>

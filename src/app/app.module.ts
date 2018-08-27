@@ -23,17 +23,19 @@ import { EditComponent } from './edit/edit.component';
 import { HistoryComponent } from './history/history.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { LoginComponent } from './login/login.component';
 
 // App Route
 const appRoutes: Routes = [
-  { path: '', component: IndexPageComponent},
+  { path: '', component: LoginComponent},
   { path: 'print-oder', component: PrintRequestComponent},
   { path: 'account-view', component: AccountViewComponent},
   { path: 'account-entry', component: AccountEntryComponent},
   { path: 'search', component: SearchComponent},
   { path: 'edit', component: EditComponent},
   { path: 'history', component: HistoryComponent},
-  { path: 'print', component: InvoiceComponent}
+  { path: 'print', component: InvoiceComponent},
+  { path: 'index', component: IndexPageComponent}
 ];
 
 @NgModule({
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     SearchComponent,
     EditComponent,
     HistoryComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

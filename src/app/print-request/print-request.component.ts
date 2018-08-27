@@ -197,7 +197,7 @@ export class PrintRequestComponent implements OnInit {
     } else if (this.quantity === undefined) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Quantity Field' });
       return false;
-    }  else {
+    } else {
       return true;
     }
   }
