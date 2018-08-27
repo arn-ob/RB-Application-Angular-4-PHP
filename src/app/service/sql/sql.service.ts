@@ -5,8 +5,10 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class SqlService {
 
-  url_t = 'http://localhost/RBDesktopSoft/storePHP/';     // Local Requset
-  // url_t = 'http://rb.stupidarnob.com/RBDesktopSoft/storePHP/';     // Online
+  login = false;
+
+  // url_t = 'http://localhost/RBDesktopSoft/storePHP/';     // Local Requset
+  url_t = 'http://rb.stupidarnob.com/RBDesktopSoft/storePHP/';     // Online
 
   constructor(
     private http: Http

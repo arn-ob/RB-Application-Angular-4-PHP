@@ -20,6 +20,9 @@
       <li class="nav-item">
         <a class="nav-link" style="color: black" routerLink="/account-view">Account</a>
       </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+          <a class="nav-link" style="color: black" (click)="logout()">Logout</a>
+        </li>
       <li class="nav-item">
         <span class="nav-link" style="color: black">Beta -> Build v1.10</span>
       </li>
