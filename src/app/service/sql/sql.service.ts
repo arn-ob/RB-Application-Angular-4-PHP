@@ -9,7 +9,10 @@ export class SqlService {
 
   // Set public and local URL
   // Change before Build
-  url_t = this.url_P + '/RBDesktopSoft/storePHP/';
+  url = this.url_P;
+
+  // For All url
+  url_t = this.url + '/RBDesktopSoft/storePHP/';
 
   constructor(
     private http: Http
@@ -26,12 +29,8 @@ export class SqlService {
   }
 
   ping() {
-   return this.http.get(this.url_L);
+   return this.http.get(this.url);
   }
-
-  ping_p() {
-    return this.http.get(this.url_P);
-   }
 
    // Encode To base64
    // btoa
