@@ -1,6 +1,6 @@
 <div class="container">
-  
-    <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="alert alert-light">Revolution Bangladesh Dashboard</h1>
@@ -21,7 +21,7 @@
           <button type="button" class="btn btn-warning btn-lg btn-block" routerLink='/account-view'>Account</button>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-secondary btn-lg btn-block" routerLink='/edit'>Edit</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block" (click)="refresh()">Refresh Chart</button>
         </div>
       </div>
     </div>
@@ -29,8 +29,9 @@
       <google-chart [data]="pieChartData"></google-chart>
     </div>
     <div class="col-md" *ngIf="!isPiChartReady">
-      <p class="alert alert-danger">There is problem in Chart</p>
+      <p class="alert alert-danger">There is problem in Chart or Check internet</p>
     </div>
+
   </div>
 </div>
 
@@ -39,5 +40,5 @@
 </div>
 
 <div *ngIf="!isComboChartReady">
-  <p class="alert alert-danger">There is problem in Chart</p>
+  <p class="alert alert-danger">There is problem in Chart or Check internet</p>
 </div>

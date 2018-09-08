@@ -1,4 +1,3 @@
-import { CartListService } from './../service/cart-list/cart-list.service';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { SqlService } from '../service/sql/sql.service';
@@ -62,10 +61,15 @@ export class IndexPageComponent implements OnInit {
   ngOnInit() {
     if (this.cookie.get('login') === '1') {
       this.pieChartData.dataTable.push(['Account', 'Amount']);
-      setInterval(() => {
-        this.piChartData();
-        this.DaySummryViewChartData();
-      }, 1000);
+
+      this.piChartData();
+      this.DaySummryViewChartData();
+
+      // this cause zone problem
+      // setInterval(() => {
+      //   this.piChartData();
+      //   this.DaySummryViewChartData();
+      // }, 5000);
     } else {
       this.router.navigate(['/']);
     }
@@ -88,10 +92,10 @@ export class IndexPageComponent implements OnInit {
           // console.log(this.pieChartData);
           this.isPiChartReady = true;
           // console.log('Found');
+          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart Details Updated' });
         }
       },
       err => {
-        console.log(err);
         this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
       });
   }
@@ -102,28 +106,43 @@ export class IndexPageComponent implements OnInit {
     const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance, CreatedDate From account GROUP BY CreatedDate DESC LIMIT 20' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
+
         this.resultOfComboChart = response.json();
-
         if (this.resultOfComboChart.length === 0) {
-
           this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart Details Not Found' });
-
         } else {
-
-          // tslint:disable-next-line:max-line-length
           for (let i = 0; i < this.resultOfComboChart.length; i++) {
+
             // tslint:disable-next-line:max-line-length
             this.DayChartData.dataTable.push([this.resultOfComboChart[i].CreatedDate, Number(this.resultOfComboChart[i].totalAmount), Number(this.resultOfComboChart[i].totalAdvance), Number(this.resultOfComboChart[i].totalDue)]);
           }
-          console.log(this.DayChartData.dataTable);
+          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart Details Updated' });
+          // console.log(this.DayChartData.dataTable);
           this.isComboChartReady = true;
-
         }
       },
       err => {
-        console.log(err);
         this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
-      });
+      }
+    );
   }
 
+  refresh() {
+    this.piChartData();
+    this.DaySummryViewChartData();
+  }
+
+  isOnline() {
+    this.sql.ping_p().subscribe(
+      response => {
+        if (response.status === 200) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      err => {
+        return false;
+      });
+  }
 }

@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.cookie.get('login') === '1') {
+      this.router.navigate(['/index']);
+    }
   }
 
   login() {
@@ -28,7 +31,6 @@ export class LoginComponent implements OnInit {
       this.message.add({ severity: 'error', summary: 'Login Failed', detail: 'Check Username and Password' });
     } else {
       if (this.username === 'admin' && this.password === 'admin') {
-        this.sql.login = true;
         this.cookie.set('login', '1');
         this.router.navigate(['/index']);
       } else {

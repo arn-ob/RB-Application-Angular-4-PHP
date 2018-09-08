@@ -1,5 +1,4 @@
 import { Md5 } from 'ts-md5';
-import { CartListService } from './service/cart-list/cart-list.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,12 +17,17 @@ import { SearchComponent } from './search/search.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DropdownModule} from 'primeng/dropdown';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmationService } from 'primeng/api';
 import { EditComponent } from './edit/edit.component';
 import { HistoryComponent } from './history/history.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { AdministrationComponent } from './administration/administration.component';
 
 // App Route
 const appRoutes: Routes = [
@@ -35,7 +39,9 @@ const appRoutes: Routes = [
   { path: 'edit', component: EditComponent},
   { path: 'history', component: HistoryComponent},
   { path: 'print', component: InvoiceComponent},
-  { path: 'index', component: IndexPageComponent}
+  { path: 'index', component: IndexPageComponent},
+  { path: 'logout', component: LogoutComponent},
+  { path: 'admin', component: AdministrationComponent}
 ];
 
 @NgModule({
@@ -50,15 +56,19 @@ const appRoutes: Routes = [
     EditComponent,
     HistoryComponent,
     InvoiceComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent,
+    AdministrationComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    DropdownModule,
     HttpModule,
     CalendarModule,
     ToastModule,
+    ConfirmDialogModule,
     Ng2GoogleChartsModule,
     RouterModule.forRoot(
       appRoutes,
@@ -68,10 +78,10 @@ const appRoutes: Routes = [
     )
   ],
   providers: [
-    CartListService,
     SqlService,
     CookieService,
     MessageService,
+    ConfirmationService,
     Md5
   ],
   bootstrap: [AppComponent]

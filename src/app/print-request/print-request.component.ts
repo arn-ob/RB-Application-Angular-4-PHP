@@ -156,7 +156,7 @@ export class PrintRequestComponent implements OnInit {
   }
 
   CheckNetpingBeforeStore() {
-    this.sql.ping().subscribe(
+    this.sql.ping_p().subscribe(
       response => {
         if (response.status === 200) {
           this.store();

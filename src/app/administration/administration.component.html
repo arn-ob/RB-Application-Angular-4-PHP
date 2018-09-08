@@ -1,0 +1,55 @@
+<p>
+  administration works!
+  sign component manage
+  print type manage and manage default price
+</p>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
+
+<div class="alert alert-danger" role="alert">
+  Administration Section
+</div>
+
+
+<div class="container">
+  <p class="alert alert-info"> Add New Login</p>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Enter Username and Password</span>
+    </div>
+    <input type="text" aria-label="First name" class="form-control" [(ngModel)]="username" name="username">
+    <input type="text" aria-label="Last name" class="form-control" [(ngModel)]="password" name="password">
+    <p-dropdown [options]="printType" class="ml-2" [(ngModel)]="type" placeholder="{{type}}" (click)="selectType(type)"></p-dropdown>
+    <button type="button" class="btn btn-success ml-3" (click)="newAccount()">Save</button>
+  </div>
+</div>
+
+
+<div class="container mt-3">
+  <div *ngIf="isLoginInfoShow">
+    <p class="alert alert-info"> Login Details </p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">password</th>
+          <th scope="col">Role</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of LoginResult">
+          <td>{{r.username}}</td>
+          <td>{{r.password}}</td>
+          <td>{{r.role}}</td>
+          <td> <button type="button" class="btn btn-warning ml-3" (click)="deleteLogin(r.id)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container mt-3" *ngIf="!isLoginInfoShow">
+    <p class="alert alert-info">Decoding Login Details </p>
+  </div>
+</div>

@@ -11,25 +11,27 @@ import { SqlService } from '../service/sql/sql.service';
 export class NavbarComponent implements OnInit {
 
   constructor(
-    private cookie: CookieService,
-    private router: Router,
-    private sql: SqlService
+    private cookie: CookieService
   ) { }
 
   ngOnInit() {
   }
-  logout() {
-    this.sql.login = false;
-    this.cookie.delete('login');
-    this.router.navigate(['/']);
-  }
 
 
   checkLogin() {
-    if (this.sql.login) {
+    if (this.cookie.get('login') === '1') {
       return true;
     } else {
       return false;
     }
+  }
+
+  isAdmin() {
+    // if (this.cookie.get('admin') === '1') {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return true;
   }
 }
