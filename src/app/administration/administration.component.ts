@@ -65,6 +65,8 @@ export class AdministrationComponent implements OnInit {
         response => {
           if (response.json()[0].status === 'Done') {
             this.message.add({ severity: 'info', summary: 'Updated', detail: 'New User added' });
+            this.loginDetails();
+            this.clearLoginForm();
           }
         },
         err => {
@@ -108,6 +110,7 @@ export class AdministrationComponent implements OnInit {
           response => {
             if (response.json()[0].status === 'Done') {
               this.message.add({ severity: 'info', summary: 'Info', detail: 'User Deleted' });
+              this.loginDetails();
             }
           },
           err => {
@@ -119,6 +122,11 @@ export class AdministrationComponent implements OnInit {
         this.message.add({ severity: 'info', summary: 'Info', detail: 'User Deleted rejected' });
       }
     });
+  }
+
+  clearLoginForm() {
+    this.username = undefined;
+    this.password = undefined;
   }
   // For Login .............................. End
 }

@@ -14,7 +14,7 @@ export class AccountEntryComponent implements OnInit {
 
   billNo: any;
   clientDetails;
-  oderList = [];
+  oderList: { [k: string]: any } = {};
   checkAuto: any;
   systemLoad = false;
 
@@ -44,13 +44,13 @@ export class AccountEntryComponent implements OnInit {
   }
 
   get_client_info() {
-    const Temp_store = {'billNo' : this.billNo};
+    const Temp_store = { 'billNo': this.billNo };
     this.sql.postRequest('accountEntry/getClientDetails.php', Temp_store).subscribe(
       response => {
 
-          this.clientDetails = response.json()[0];
-          // console.log(this.clientDetails);
-          this.systemLoad = true;
+        this.clientDetails = response.json()[0];
+        // console.log(this.clientDetails);
+        this.systemLoad = true;
       },
       err => {
         console.log(err);
@@ -58,16 +58,17 @@ export class AccountEntryComponent implements OnInit {
   }
 
   get_bill_info() {
-    const Temp_store = {'billNo' : this.billNo};
+    const Temp_store = { 'billNo': this.billNo };
     this.sql.postRequest('accountEntry/getAccountDetails.php', Temp_store).subscribe(
       response => {
-          this.oderList = response.json();
-          const temp = response.json()[0].advance;
-         if ( temp > 0 ) {
+        this.oderList = response.json();
+        console.table(this.oderList);
+        const temp = response.json()[0].advance;
+        if (temp > 0) {
           this.prevPay = true;
-         } else {
+        } else {
           this.calculate_total();
-         }
+        }
       },
       err => {
         console.log(err);
@@ -75,44 +76,44 @@ export class AccountEntryComponent implements OnInit {
     );
   }
 
-  // check and set value of pvc and pana
-  calculate(val, type) {
+  // // check and set value of pvc and pana
+  // Old code
+  // calculate(val, type) {
 
-    if (type === 'PVC') {
-      this.pvc = val;
-      console.log(this.pvc);
-    }
-    if (type === 'Pana') {
-      this.pana = val;
-      console.log(this.pana);
-    }
+  //   if (type === 'PVC') {
+  //     this.pvc = val;
+  //     console.log(this.pvc);
+  //   }
+  //   if (type === 'Pana') {
+  //     this.pana = val;
+  //     console.log(this.pana);
+  //   }
+  //   this.calculate_total();
+
+  // }
+
+  setPrice(i, val, index) {
+    this.oderList[i].PricePerSft = val;
     this.calculate_total();
-
+    this.updateSftPriceValue(val, Number(index));
+    console.table(this.oderList);
   }
 
   // calculate total amount
   calculate_total() {
     let cal = 0;
+    const ob: { [k: string]: any } = this.oderList;
     for (let i = 0; i < this.oderList.length; i++) {
-
-      const ob: {[k: string]: any} = this.oderList;
-
-      if (ob[i].PrintType === 'PVC') {
-        cal =  ob[i].sft * ob[i].quantity * this.pvc + cal;
-        console.log(cal);
-      }
-      if (ob[i].PrintType === 'Pana') {
-        cal =  ob[i].sft * ob[i].quantity * this.pana + cal;
-        console.log(cal);
-       }
+      cal = ob[i].sft * ob[i].quantity * ob[i].PricePerSft + cal;
+      // console.log(cal);
     }
     this.amount = cal;
-    console.log(cal);
+    // console.log(cal);
   }
 
   // calculate advace
   advance_cal(val) {
-    if (this.amount < val ) {
+    if (this.amount < val) {
       this.advance = 'Invalid Amount';
       this.due = 'Invalid Amount';
     } else {
@@ -122,7 +123,7 @@ export class AccountEntryComponent implements OnInit {
 
   make_data_store() {
     for (let i = 0; i < this.oderList.length; i++) {
-      const ob: {[k: string]: any} = this.oderList;
+      const ob: { [k: string]: any } = this.oderList;
       if (ob[i].PrintType === 'PVC') {
         const temp = this.make_ammount(this.pvc, ob[i].id);
         this.store_to_db(temp);
@@ -130,8 +131,8 @@ export class AccountEntryComponent implements OnInit {
       if (ob[i].PrintType === 'Pana') {
         const temp = this.make_ammount(this.pana, ob[i].id);
         this.store_to_db(temp);
-       }
-       console.log(i);
+      }
+      console.log(i);
     }
   }
 
@@ -164,6 +165,22 @@ export class AccountEntryComponent implements OnInit {
       },
       err => {
         console.log(err);
+      });
+  }
+
+  updateSftPriceValue(price, index) {
+    // tslint:disable-next-line:max-line-length
+    const sql = { 'sql': 'UPDATE account SET account.PricePerSft ="' + price + '" WHERE account.BillNo = "' + this.billNo + '" and account.AIid = "' + index + '"' };
+    this.sql.postRequest('anySql/anySql.php', sql).subscribe(
+      response => {
+        console.log(response.json());
+        if (response.json()[0].status === 'Done') {
+          this.message.add({ severity: 'info', summary: 'Info', detail: 'Price Updated' });
+        }
+      },
+      err => {
+        console.log(err);
+        this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
       });
   }
 

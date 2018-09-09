@@ -9,6 +9,8 @@
   <div class="alert alert-warning" role="alert">
     Here Today Account History
   </div>
+  <button type="button" class="btn btn-warning btn-lg btn-block mt-2 mb-2" (click)="get_prev_list()">Show Previous</button>
+
   <div class="table-responsive" *ngIf="isLoaded">
     <table class="table table-striped table-sm" *ngIf="!nothingFound">
       <thead>
@@ -41,6 +43,6 @@
     
   </div>
   <div class="alert alert-danger" role="alert" *ngIf="nothingFound">
-    No Record For Today
+    No Record Found
   </div>
 </div>

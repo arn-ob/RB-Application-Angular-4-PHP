@@ -133,7 +133,7 @@ export class IndexPageComponent implements OnInit {
   }
 
   isOnline() {
-    this.sql.ping_p().subscribe(
+    this.sql.ping().subscribe(
       response => {
         if (response.status === 200) {
           return true;

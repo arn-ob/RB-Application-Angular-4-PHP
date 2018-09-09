@@ -13,12 +13,13 @@
         <br> Phone No : {{clientDetails.phoneNo1}}
         <br> Phone No : {{clientDetails.phoneNo2}}
         <br> Party Name: {{clientDetails.PartyName}}
+        <br> Bill No: {{clientDetails.BillNo}}
       </span>
     </div>
   </div>
 
 
-  <div class="container">
+  <!-- <div class="container">
     <p class="alert alert-danger">Enter Price or Default Price are Selected</p>
     <div class="input-group">
       <div class="input-group-prepend">
@@ -31,7 +32,7 @@
       </div>
       <input type="number" placeholder="15" (keyup)="calculate(in_pvc.value, 'PVC')" #in_pvc>
     </div>
-  </div>
+  </div> -->
 
 
   <div class="container mt-5">
@@ -45,17 +46,19 @@
             <th>Hight</th>
             <th>Wide</th>
             <th>sft</th>
+            <th>sft Price</th>
             <th>Quantity</th>
             <th>Frame</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let list of oderList">
+          <tr *ngFor="let list of oderList; let i = index">
             <td>{{list.FileName}}</td>
             <td>{{list.PrintType}}</td>
             <td>{{list.height}}</td>
             <td>{{list.wide}}</td>
             <td>{{list.sft}}</td>
+            <td> <input type="number" placeholder="{{list.PricePerSft}}" (keyup)="setPrice(i , price.value, list.id)" #price></td>
             <td>{{list.quantity}}</td>
             <td>{{list.Frame}}</td>
           </tr>

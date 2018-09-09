@@ -27,11 +27,10 @@ export class NavbarComponent implements OnInit {
   }
 
   isAdmin() {
-    // if (this.cookie.get('admin') === '1') {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    return true;
+    if (this.cookie.get('Admin') === '1') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

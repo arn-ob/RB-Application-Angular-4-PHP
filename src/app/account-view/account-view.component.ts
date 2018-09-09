@@ -24,14 +24,14 @@ export class AccountViewComponent implements OnInit {
   ngOnInit() {
     this.cookieService.delete('cd');
     this.cookieService.set('cd', 'AccountViewComponent');
-    this.get_list();
+    this.get_today_list();
   }
 
-  get_list() {
+  get_today_list() {
     this.sql.getRequest('accountHistoryForAccountEntry/accountHistoryForAccountEntry.php').subscribe(
       response => {
         this.oderList = response.json();
-        console.table(this.oderList);
+        // console.table(this.oderList);
         if (this.oderList.length === 0) {
           this.nothingFound = true;
           console.log('nothing Found');
@@ -45,6 +45,26 @@ export class AccountViewComponent implements OnInit {
         console.log(err);
       });
   }
+
+  get_prev_list() {
+    this.sql.getRequest('accountHistoryForAccountEntry/accountHistoryPrev.php').subscribe(
+      response => {
+        this.oderList = response.json();
+        // console.table(response.json());
+        if (this.oderList.length === 0) {
+          this.nothingFound = true;
+          console.log('nothing Found');
+        } else {
+        console.log(' Found');
+        this.nothingFound = false;
+        this.isLoaded = true;
+        }
+      },
+      err => {
+        console.log(err);
+      });
+  }
+
   enter(value) {
     this.cookieService.set('billno', value);
     this.router.navigate(['/account-entry']);

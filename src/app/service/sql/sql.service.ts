@@ -9,7 +9,7 @@ export class SqlService {
 
   // Set public and local URL
   // Change before Build
-  url = this.url_P;
+  url = this.url_L;
 
   // For All url
   url_t = this.url + '/RBDesktopSoft/storePHP/';
