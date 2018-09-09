@@ -122,6 +122,7 @@ export class AdministrationComponent implements OnInit {
         this.message.add({ severity: 'info', summary: 'Info', detail: 'User Deleted rejected' });
       }
     });
+
   }
 
   clearLoginForm() {

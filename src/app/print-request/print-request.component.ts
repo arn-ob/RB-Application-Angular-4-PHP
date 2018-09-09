@@ -3,6 +3,7 @@ import { SqlService } from '../service/sql/sql.service';
 import { Md5 } from 'ts-md5';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-print-request',
@@ -50,8 +51,12 @@ export class PrintRequestComponent implements OnInit {
     this.cookie.set('cd', 'PrintRequestComponent');
     this.get_array_length();
     const date = new Date();
-    const md5 = new Md5();
-    this.bill = this.md5.appendStr(date.toString()).end();
+    // const md5 = new Md5();
+    // this.bill = this.md5.appendStr(date.toString()).end();
+    const uuid = UUID.UUID();
+    // tslint:disable-next-line:max-line-length
+    this.bill = date.getHours().toString() + date.getMinutes().toString() + date.getMilliseconds().toString() + uuid.split('-')[2];
+
   }
 
   // add to cart list
@@ -99,22 +104,24 @@ export class PrintRequestComponent implements OnInit {
 
   get_array() {
     // this will check the empty field
+    if (this.phnNo2 === undefined) { this.phnNo2 = '0'; }
+    if (this.partyName === undefined) { this.partyName = 'None'; }
     const temp = {
-      'AIid': this.AIid,
-      'billID': this.bill,
-      'printName': this.printName,
-      'name': this.name,
-      'address': this.address,
+      'AIid': this.AIid ? this.AIid : 'None',
+      'billID': this.bill ? this.bill : '0',
+      'printName': this.printName ? this.printName : 'None',
+      'name': this.name ? this.name : 'None',
+      'address': this.address ? this.address : 'None',
       'phnNo1': '0' + this.phnNo1,
       'phnNo2': '0' + this.phnNo2,
-      'partyName': this.partyName,
-      'printType': this.printType,
-      'printStatus': this.printStatus,
-      'wide': this.wide,
-      'hight': this.hight,
-      'quantity': this.quantity,
+      'partyName': this.partyName ? this.partyName : 'None',
+      'printType': this.printType ? this.printType : 'None',
+      'printStatus': this.printStatus ? this.printStatus : 'None',
+      'wide': this.wide ? this.wide : '0',
+      'hight': this.hight ? this.wide : '0',
+      'quantity': this.quantity ? this.quantity : 'None',
       'fileName': this.printName + ' ' + this.printType + ' ' + this.hight + 'x' + this.wide + 'x' + this.quantity,
-      'frameAdd': this.frameAdd
+      'frameAdd': this.frameAdd ? this.frameAdd : 'No'
     };
     return temp;
   }

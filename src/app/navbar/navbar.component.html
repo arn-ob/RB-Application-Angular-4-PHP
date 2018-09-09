@@ -1,5 +1,5 @@
-<nav class="navbar fixed-bottom navbar-expand navbar-secondary bg-secondary">
-  <a class="navbar-brand" routerLink="" style="color: black">RB Software</a>
+<nav class="navbar fixed-bottom navbar-expand navbar-secondary bg-dark">
+  <a class="navbar-brand" routerLink="" style="color: red">RB Software</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,37 +7,32 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" style="color: black" routerLink="/sign" *ngIf="!checkLogin()">Signin</a>
+        <a class="nav-link" style="color: red" routerLink="/sign" *ngIf="!checkLogin()">Signin</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/index" style="color: black" *ngIf="checkLogin()">Home</a>
+        <a class="nav-link" routerLink="/index" style="color: red" *ngIf="checkLogin()">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color: black" routerLink="/print-oder" *ngIf="checkLogin()">Order</a>
+        <a class="nav-link" style="color: red" routerLink="/print-oder" *ngIf="checkLogin()">Order</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color: black" routerLink="/search" *ngIf="checkLogin()">Search</a>
+        <a class="nav-link" style="color: red" routerLink="/search" *ngIf="checkLogin()">Search</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="color: black" routerLink="/account-view" *ngIf="checkLogin()">Account</a>
+        <a class="nav-link" style="color: red" routerLink="/account-view" *ngIf="checkLogin()">Account</a>
       </li>
       <li class="nav-item" *ngIf="checkLogin()">
-          <a class="nav-link" style="color: black" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
+          <a class="nav-link" style="color: red" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
         </li>
       <li class="nav-item">
-        <a class="nav-link" style="color: black" routerLink="/logout" *ngIf="checkLogin()">Logout</a>
+        <a class="nav-link" style="color: red" routerLink="/logout" *ngIf="checkLogin()">Logout</a>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: black">Beta -> Build v1.10</span>
+        <span class="nav-link" style="color: yellow">Beta -> Build v1.50</span>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: black">Last Updated -> 27/08/2018</span>
+        <span class="nav-link" style="color: yellow">Last Updated -> 9.9.18</span>
       </li>
-      <!-- <div> when log in plugin then its will functional
-        <li class="nav-item">
-          <a class="nav-link" style="color: black" routerLink="/logout">Logout</a>
-        </li>
-      </div> -->
     </ul>
   </div>
 </nav>

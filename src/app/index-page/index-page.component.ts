@@ -77,14 +77,14 @@ export class IndexPageComponent implements OnInit {
 
   piChartData() {
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance From account' };
+    const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance From account limit 1' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.resultOfPicChart = response.json()[0];
-        // console.log(response.json()[0]);
-        if (this.resultOfPicChart.length === 0) {
+
+        if (response.json()[0].totalAmount === null) {
           // console.log('Nothing Found');
-          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart Details Not Found' });
+          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart 1 Details Not Found' });
         } else {
           this.pieChartData.dataTable.push(['Amount', Number(this.resultOfPicChart.totalAmount)]);
           this.pieChartData.dataTable.push(['Advance', Number(this.resultOfPicChart.totalAdvance)]);
@@ -92,7 +92,7 @@ export class IndexPageComponent implements OnInit {
           // console.log(this.pieChartData);
           this.isPiChartReady = true;
           // console.log('Found');
-          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart Details Updated' });
+          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart 1 Details Updated' });
         }
       },
       err => {
@@ -106,17 +106,15 @@ export class IndexPageComponent implements OnInit {
     const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance, CreatedDate From account GROUP BY CreatedDate DESC LIMIT 20' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-
         this.resultOfComboChart = response.json();
         if (this.resultOfComboChart.length === 0) {
-          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart Details Not Found' });
+          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart 2 Details Not Found' });
         } else {
           for (let i = 0; i < this.resultOfComboChart.length; i++) {
-
             // tslint:disable-next-line:max-line-length
             this.DayChartData.dataTable.push([this.resultOfComboChart[i].CreatedDate, Number(this.resultOfComboChart[i].totalAmount), Number(this.resultOfComboChart[i].totalAdvance), Number(this.resultOfComboChart[i].totalDue)]);
           }
-          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart Details Updated' });
+          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart 2 Details Updated' });
           // console.log(this.DayChartData.dataTable);
           this.isComboChartReady = true;
         }
