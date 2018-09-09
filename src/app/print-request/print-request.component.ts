@@ -115,8 +115,8 @@ export class PrintRequestComponent implements OnInit {
       'printName': this.printName,
       'name': this.name,
       'address': this.address,
-      'phnNo1': '0' + this.phnNo1,
-      'phnNo2': '0' + this.phnNo2,
+      'phnNo1': this.phnNo1,
+      'phnNo2': this.phnNo2,
       'partyName': this.partyName,
       'printType': this.printType,
       'printStatus': this.printStatus,
@@ -146,6 +146,7 @@ export class PrintRequestComponent implements OnInit {
     this.quantity = undefined;
     this.optinal = undefined;
     this.optinalPrice = undefined;
+    this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Print Details Field Clear' });
   }
 
   delete(msg) {
