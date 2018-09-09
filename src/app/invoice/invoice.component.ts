@@ -50,7 +50,7 @@ export class InvoiceComponent implements OnInit {
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.oderList = response.json();
-        console.table(this.oderList);
+        // console.table(this.oderList);
         this.get_account_info();
       },
       err => {
@@ -66,15 +66,15 @@ export class InvoiceComponent implements OnInit {
         for (let i = 0; i < response.json().length; i++) {
           if (response.json()[i].type === 'PVC') {
             this.pvc_price = response.json()[i].PricePerSft;
-            console.log(response.json()[i].PricePerSft);
+            // console.log(response.json()[i].PricePerSft);
           }
           if (response.json()[i].type === 'Pana') {
             this.pana_price = Number(response.json()[i].PricePerSft);
-            console.log(response.json()[i].PricePerSft);
+            // console.log(response.json()[i].PricePerSft);
           }
         }
-        console.log(this.pvc_price);
-        console.log(this.pana_price);
+        // console.log(this.pvc_price);
+        // console.log(this.pana_price);
         this.isLoading = true;
       },
       err => {

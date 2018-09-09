@@ -4,9 +4,6 @@
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
-
-
-
 <div class="container" *ngIf="isResultFoundDate">
   <div class="alert alert-light" role="alert">
     Client Information
@@ -15,21 +12,25 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Name</label>
-        <input type="text" class="form-control" placeholder="{{resultOfClient.name}}" [(ngModel)]="name" name="name" (keyup)="changeClientInfo($event.target.value, 'name')">
+        <input type="text" class="form-control" placeholder="{{resultOfClient.name}}" [(ngModel)]="name" name="name"
+          (keyup)="changeClientInfo($event.target.value, 'name')">
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">Address</label>
-        <input type="text" class="form-control" placeholder="{{resultOfClient.address}}" [(ngModel)]="address" name="address" (keyup)="changeClientInfo($event.target.value, 'address')">
+        <input type="text" class="form-control" placeholder="{{resultOfClient.address}}" [(ngModel)]="address" name="address"
+          (keyup)="changeClientInfo($event.target.value, 'address')">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Phone Number</label>
-        <input type="text" class="form-control" placeholder="{{resultOfClient.phoneNo1}}" [(ngModel)]="phn1" name="phn1" (keyup)="changeClientInfo($event.target.value, 'phn1')">
+        <input type="text" class="form-control" placeholder="{{resultOfClient.phoneNo1}}" [(ngModel)]="phn1" name="phn1"
+          (keyup)="changeClientInfo($event.target.value, 'phn1')">
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">Phone Number</label>
-        <input type="text" class="form-control" placeholder="{{resultOfClient.phoneNo2}}" [(ngModel)]="phn2" name="phn2" (keyup)="changeClientInfo($event.target.value, 'phn2')">
+        <input type="text" class="form-control" placeholder="{{resultOfClient.phoneNo2}}" [(ngModel)]="phn2" name="phn2"
+          (keyup)="changeClientInfo($event.target.value, 'phn2')">
       </div>
     </div>
     <div class="form-group">
@@ -50,20 +51,6 @@
   </form>
 </div>
 
-<div class="container mt-3" *ngIf="sftPriceGet">
-  <p class="alert alert-danger">Edit Price or Previous Price are Selected</p>
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Pana Price</span>
-    </div>
-    <input type="number" placeholder="{{pana_price}}" (keyup)="calculate($event.target.value, 'Pana')">
-
-    <div class="input-group-prepend">
-      <span class="input-group-text">PVC Price</span>
-    </div>
-    <input type="number" placeholder="{{pvc_price}}" (keyup)="calculate($event.target.value, 'PVC')">
-  </div>
-</div>
 
 <div class="container mt-3" *ngIf="isPrintDetailsResultFoundDate">
   <div class="alert alert-light" role="alert">
@@ -76,34 +63,46 @@
           <th>Print Type</th>
           <th>Wide</th>
           <th>height</th>
+          <th>Price Per SFT</th>
+          <th>Optional</th>
+          <th>Optional Price</th>
           <th>quantity</th>
-          <th>Frame</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let r of resultOfPrintDetails;index as i">
+        <tr *ngFor="let r of resultOfPrintAccountDetails;index as i">
           <td>
             <input type="text" class="form-control" placeholder="{{r.PrintType}}" disabled>
           </td>
+
           <td>
             <input type="text" class="form-control" placeholder="{{r.wide}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'wide')">
           </td>
+
           <td>
             <input type="text" class="form-control" placeholder="{{r.height}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'height')">
           </td>
+
+          <td>
+            <input type="text" class="form-control" placeholder="{{r.PricePerSft}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'PricePerSft')">
+          </td>
+
+          <td>
+            <input type="text" class="form-control" placeholder="{{r.option}}" disabled>
+          </td>
+
+          <td>
+            <input type="text" class="form-control" placeholder="{{r.optionalPrice}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'optionalPrice')">
+          </td>
+
           <td>
             <input type="text" class="form-control" placeholder="{{r.quantity}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'quantity')">
-          </td>
-          <td>
-            <input type="text" class="form-control" placeholder="{{r.Frame}}" (keyup)="changeValue($event.target.value, i, r.AIid , 'Frame')">
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</div>
 
-<div class="container" *ngIf="isAccountDetailsResultFoundDate">
   <div class="alert alert-light" role="alert">
     Account Information
   </div>
@@ -111,17 +110,21 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="inputEmail4">Amount</label>
-        <input type="text" class="form-control" placeholder="{{resultOfAccountDetails.amount}}" [(ngModel)]="amount" name="amount"
-          disabled>
+        <input type="text" class="form-control" placeholder="{{resultOfPrintAccountDetails[0].amount}}" [(ngModel)]="amount"
+          name="amount" disabled>
       </div>
       <div class="form-group col-md-4">
         <label for="inputPassword4">Advance</label>
-        <input type="text" class="form-control" placeholder="{{resultOfAccountDetails.advance}}" [(ngModel)]="advance"
+        <input type="text" class="form-control" placeholder="{{resultOfPrintAccountDetails[0].advance}}" [(ngModel)]="advance"
           name="advance" disabled>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-4" *ngIf="resultOfPrintAccountDetails[0].Due != 0">
         <label for="inputPassword4">Due</label>
-        <input type="text" class="form-control" placeholder="{{resultOfAccountDetails.Due}}" [(ngModel)]="due" name="due">
+        <input type="text" class="form-control" placeholder="{{resultOfPrintAccountDetails[0].Due}}" [(ngModel)]="due"
+          name="due" (keyup)="DuePay($event.target.value)">
+      </div>
+      <div class="form-group col-md-4" *ngIf="resultOfPrintAccountDetails[0].Due == 0">
+        <p class="alert alert-success">Paid</p>
       </div>
     </div>
   </form>

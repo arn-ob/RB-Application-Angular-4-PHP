@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
   sqlAfterWhereDef_date = 'and account.BillNo = client_details.BillNo and account.BillNo = printdetails.BillNo and client_details.BillNo = printdetails.BillNo and account.AIid = client_details.AIid and account.AIid = printdetails.AIid and client_details.AIid = printdetails.AIid GROUP BY account.BillNo';
 
   // tslint:disable-next-line:max-line-length
-  sqlAtSelectDef_auto = 'account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, printdetails.Frame, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate';
+  sqlAtSelectDef_auto = 'account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate';
 
   // tslint:disable-next-line:max-line-length
   sqlAfterWhereDef_auto = 'account.BillNo = client_details.BillNo and account.BillNo = printdetails.BillNo and client_details.BillNo = printdetails.BillNo and account.AIid = client_details.AIid and account.AIid = printdetails.AIid and client_details.AIid = printdetails.AIid';
@@ -136,7 +136,7 @@ export class SearchComponent implements OnInit {
 
     // Some how it did not work from var.
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, printdetails.Frame, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate FROM account, client_details, printdetails where (client_details.phoneNo1 = "' + val + '" or client_details.phoneNo2 = "' + val + '") and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
+    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate FROM account, client_details, printdetails where (client_details.phoneNo1 = "' + val + '" or client_details.phoneNo2 = "' + val + '") and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
@@ -158,7 +158,7 @@ export class SearchComponent implements OnInit {
   search_due() {
      // Some how it did not work from var.
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, printdetails.Frame, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate, account.Due FROM account, client_details, printdetails where account.Due != 0 and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
+    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate, account.Due FROM account, client_details, printdetails where account.Due != 0 and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());

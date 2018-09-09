@@ -24,7 +24,7 @@ export class EditComponent implements OnInit {
 
 
   // print Details
-  resultOfPrintDetails: {[k: string]: any } = {}; // access any property from array.
+  resultOfPrintAccountDetails: { [k: string]: any } = {}; // access any property from array.
   isPrintDetailsResultFoundDate = false;
   PrintType: any;
   wide: any;
@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
   Frame: any;
 
   // Account Details
-  resultOfAccountDetails: {[k: string]: any } = {};
+  resultOfAccountDetails: { [k: string]: any } = {};
   // resultOfAccountDetailsProcess: any[];
   isAccountDetailsResultFoundDate = false;
   amount: any;
@@ -44,7 +44,6 @@ export class EditComponent implements OnInit {
   // view expression
   isResultDataLoad = false;
   isResultFoundDate = false;
-  sftPriceGet = false;
 
   billNo: any;
   pvc = 15;
@@ -89,20 +88,20 @@ export class EditComponent implements OnInit {
 
   // Print Details Query
   printDetailsSQLQuery() {
-    const Temp_store = { 'sql': 'Select * From printdetails where BillNo = "' + this.billNo + '"' };
+    // tslint:disable-next-line:max-line-length
+    const Temp_store = { 'sql': 'Select * From printdetails, account where printdetails.BillNo = "' + this.billNo + '"  and account.BillNo = printdetails.BillNo and account.AIid = printdetails.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
-        this.resultOfPrintDetails = response.json();
-        // console.log(this.resultOfPrintDetails);
-        if (this.resultOfPrintDetails.length === 0) {
+        this.resultOfPrintAccountDetails = response.json();
+        // console.log(this.resultOfPrintAccountDetails);
+        if (this.resultOfPrintAccountDetails.length === 0) {
           // console.log('Nothing Found');
           this.message.add({ severity: 'error', summary: 'Problem', detail: 'Print Details Not Found' });
         } else {
           // console.log('Found');
           this.message.add({ severity: 'info', summary: 'Information', detail: 'Print Details Found' });
           this.isPrintDetailsResultFoundDate = true;
-          this.accountSQLQuery(); // forword to req 3
         }
       },
       err => {
@@ -111,38 +110,7 @@ export class EditComponent implements OnInit {
       });
   }
 
-  // Account Details Query
-  accountSQLQuery() {
-    const Temp_store = { 'sql': 'Select * From account where BillNo = "' + this.billNo + '"' };
-    this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
-      response => {
-        // this.resultOfAccountDetailsProcess = response.json();
-        this.resultOfAccountDetails = response.json()[0];
-        if (this.resultOfAccountDetails.type === 'Pana') {
-          this.pana_price = this.resultOfAccountDetails.PricePerSft;
-        } else {
-          this.pana_price = 15;
-        }
-        if (this.resultOfAccountDetails.type === 'PVC') {
-          this.pvc_price = this.resultOfAccountDetails.PricePerSft;
-        } else {
-          this.pvc_price = 15;
-        }
-        if (this.resultOfAccountDetails.length === 0) {
-          // console.log('Nothing Found');
-          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Account Details Not Found' });
-        } else {
-          // console.log('Found');
-          this.message.add({ severity: 'info', summary: 'Information', detail: 'Account Details Found' });
-          this.isAccountDetailsResultFoundDate = true;
-          this.sftPriceGet = true;
-        }
-      },
-      err => {
-        console.log(err);
-        this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
-      });
-  }
+
 
   // client date Process to DB
   changeClientInfo(v1, v2) {
@@ -176,18 +144,6 @@ export class EditComponent implements OnInit {
     }
   }
 
-  // Here will be DB insert function
-
-  calculate(val, type) {
-
-    if (type === 'PVC') {
-      this.pvc = val;
-    }
-    if (type === 'Pana') {
-      this.pana = val;
-    }
-    this.calculate_total();
-  }
 
   // auto change and store value based on change
   // This might Be cause problem Real time Money amont change but this function
@@ -199,11 +155,12 @@ export class EditComponent implements OnInit {
 
     let sql: any;
     if (v3 === 'wide') {
-      this.resultOfPrintDetails[v4].wide = v1;
-      const sft = this.resultOfPrintDetails[v4].wide * this.resultOfPrintDetails[v4].height;
+      this.resultOfPrintAccountDetails[v4].wide = v1;
+      const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
 
       // tslint:disable-next-line:max-line-length
       sql = { 'sql': 'UPDATE printdetails SET wide = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql, 'Print Details Updated');
 
       // account info update
       // tslint:disable-next-line:max-line-length
@@ -211,11 +168,12 @@ export class EditComponent implements OnInit {
       this.universalUpdateSql(sql_acc, 'Account SFT Updated');
     }
     if (v3 === 'height') {
-      this.resultOfPrintDetails[v4].height = v1;
-      const sft = this.resultOfPrintDetails[v4].wide * this.resultOfPrintDetails[v4].height;
+      this.resultOfPrintAccountDetails[v4].height = v1;
+      const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
 
       // tslint:disable-next-line:max-line-length
       sql = { 'sql': 'UPDATE printdetails SET height = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql, 'Print Details Updated');
 
       // account info update
       // tslint:disable-next-line:max-line-length
@@ -223,43 +181,62 @@ export class EditComponent implements OnInit {
       this.universalUpdateSql(sql_acc, 'Account SFT Updated');
     }
     if (v3 === 'quantity') {
-      this.resultOfPrintDetails[v4].quantity = v1;
+      this.resultOfPrintAccountDetails[v4].quantity = v1;
       sql = { 'sql': 'UPDATE printdetails SET quantity = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql, 'Print Details Updated');
+    }
 
+    if (v3 === 'PricePerSft') {
+      this.resultOfPrintAccountDetails[v4].PricePerSft = v1;
+      // tslint:disable-next-line:max-line-length
+      const sql_acc = { 'sql': 'UPDATE account SET PricePerSft = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql_acc, 'Account SFT Updated');
+    }
+
+    if (v3 === 'optionalPrice') {
+      this.resultOfPrintAccountDetails[v4].optionalPrice = v1;
+      // tslint:disable-next-line:max-line-length
+      const sql_acc = { 'sql': 'UPDATE account SET optionalPrice = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql_acc, 'Account SFT Updated');
     }
     this.calculate_total();
-    this.universalUpdateSql(sql, 'Print Details Updated');
-    // console.table(this.resultOfPrintDetails);
-
-    // Store To DB code
-    // tslint:disable-next-line:max-line-length
-
   }
 
+  // Recalculate the Account Info
   calculate_total() {
     let cal = 0;
-    for (let i = 0; i < this.resultOfPrintDetails.length; i++) {
+    for (let i = 0; i < this.resultOfPrintAccountDetails.length; i++) {
+      const ob: { [k: string]: any } = this.resultOfPrintAccountDetails;
+      if (ob[i].optionalPrice === undefined) { ob[i].optionalPrice = 0; }
 
-      const ob: {[k: string]: any} = this.resultOfPrintDetails;
-
-      if (this.resultOfPrintDetails[i].PrintType === 'PVC') {
-        cal =  (ob[i].height * ob[i].wide * ob[i].quantity * this.pvc) + cal;
-        // console.log(cal);
-      }
-      if (ob[i].PrintType === 'Pana') {
-        cal =  (ob[i].height * ob[i].wide * ob[i].quantity * this.pana) + cal;
-        // console.log(cal);
-       }
+      // tslint:disable-next-line:max-line-length
+      cal = (Number(ob[i].height) * Number(ob[i].wide) * Number(ob[i].quantity) * Number(ob[i].PricePerSft)) + Number(cal) + Number(ob[i].optionalPrice);
+      // console.log(cal);
     }
-    this.amount = cal;
-    this.due = cal - this.resultOfAccountDetails.advance;
+    this.amount = Number(cal);
+    this.due = Number(cal) - Number(this.resultOfPrintAccountDetails[0].advance);
     // tslint:disable-next-line:max-line-length
     const sql = { 'sql': 'UPDATE account SET amount = "' + this.amount + '",Due = "' + this.due + '" where BillNo = "' + this.billNo + '"' };
     this.universalUpdateSql(sql, 'Account Updated');
 
   }
 
+  // Due pay
+  DuePay(value) {
+    const amount = Number(this.resultOfPrintAccountDetails[0].amount);
+    const advance = Number(this.resultOfPrintAccountDetails[0].advance);
+    if (amount > Number(value)) {
+      this.advance = advance + Number(value);
+      const due = amount - Number(this.advance);
+      // tslint:disable-next-line:max-line-length
+      const sql = { 'sql': 'UPDATE account SET advance = "' + this.advance + '",Due = "' + due + '" where BillNo = "' + this.billNo + '"' };
+      this.universalUpdateSql(sql, 'Account Updated');
+    } else {
+      this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Amount is Bigger then Value' });
+    }
+  }
 
+  // Execute any SQL query
   universalUpdateSql(sql, msg) {
     this.sql.postRequest('updateSql/updateSql.php', sql).subscribe(
       response => {

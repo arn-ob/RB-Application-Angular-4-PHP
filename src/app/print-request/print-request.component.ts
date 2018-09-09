@@ -24,7 +24,8 @@ export class PrintRequestComponent implements OnInit {
   wide: any;
   hight: any;
   quantity: any;
-  frameAdd: any;
+  optinalPrice: any;
+  optinal: any;
 
   // array list
   this_array = [];
@@ -87,7 +88,7 @@ export class PrintRequestComponent implements OnInit {
         // console.log(Temp_store);
         this.sql.postRequest('printRequest/printRequest.php', Temp_store).subscribe(
           response => {
-            console.log(response);
+            // console.log(response);
             if (response.json()[0].status === 'Done') {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Stored to DB' });
             } else {
@@ -106,22 +107,25 @@ export class PrintRequestComponent implements OnInit {
     // this will check the empty field
     if (this.phnNo2 === undefined) { this.phnNo2 = '0'; }
     if (this.partyName === undefined) { this.partyName = 'None'; }
+    if (this.optinal === undefined) { this.optinal = 'None'; }
+    this.optinalPrice = '0'; // Default 0 it change from Account
     const temp = {
-      'AIid': this.AIid ? this.AIid : 'None',
-      'billID': this.bill ? this.bill : '0',
-      'printName': this.printName ? this.printName : 'None',
-      'name': this.name ? this.name : 'None',
-      'address': this.address ? this.address : 'None',
+      'AIid': this.AIid,
+      'billID': this.bill,
+      'printName': this.printName,
+      'name': this.name,
+      'address': this.address,
       'phnNo1': '0' + this.phnNo1,
       'phnNo2': '0' + this.phnNo2,
-      'partyName': this.partyName ? this.partyName : 'None',
-      'printType': this.printType ? this.printType : 'None',
-      'printStatus': this.printStatus ? this.printStatus : 'None',
-      'wide': this.wide ? this.wide : '0',
-      'hight': this.hight ? this.wide : '0',
-      'quantity': this.quantity ? this.quantity : 'None',
+      'partyName': this.partyName,
+      'printType': this.printType,
+      'printStatus': this.printStatus,
+      'wide': this.wide,
+      'hight': this.hight,
+      'quantity': this.quantity,
       'fileName': this.printName + ' ' + this.printType + ' ' + this.hight + 'x' + this.wide + 'x' + this.quantity,
-      'frameAdd': this.frameAdd ? this.frameAdd : 'No'
+      'option': this.optinal,
+      'optionPrice': this.optinalPrice
     };
     return temp;
   }
@@ -135,18 +139,13 @@ export class PrintRequestComponent implements OnInit {
   }
 
   clear_form() {
-    this.printName = undefined;
-    this.name = undefined;
-    this.address = undefined;
-    this.phnNo1 = undefined;
-    this.phnNo2 = undefined;
-    this.partyName = undefined;
     this.printType = undefined;
     this.printStatus = undefined;
     this.wide = undefined;
     this.hight = undefined;
     this.quantity = undefined;
-    this.frameAdd = undefined;
+    this.optinal = undefined;
+    this.optinalPrice = undefined;
   }
 
   delete(msg) {
@@ -176,6 +175,7 @@ export class PrintRequestComponent implements OnInit {
       });
   }
 
+  // Check Entry List and Verify wither it entry or not
   checkEntry() {
     if (this.printName === undefined) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Please Enter Print Name Field' });

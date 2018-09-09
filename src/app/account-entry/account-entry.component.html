@@ -36,35 +36,41 @@
 
 
   <div class="container mt-5">
-    <p class="alert alert-secondary">List Of Order</p>
-    <div class="table-responsive">
-      <table class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th>FileName</th>
-            <th>Type</th>
-            <th>Hight</th>
-            <th>Wide</th>
-            <th>sft</th>
-            <th>sft Price</th>
-            <th>Quantity</th>
-            <th>Frame</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let list of oderList; let i = index">
-            <td>{{list.FileName}}</td>
-            <td>{{list.PrintType}}</td>
-            <td>{{list.height}}</td>
-            <td>{{list.wide}}</td>
-            <td>{{list.sft}}</td>
-            <td> <input type="number" placeholder="{{list.PricePerSft}}" (keyup)="setPrice(i , price.value, list.id)" #price></td>
-            <td>{{list.quantity}}</td>
-            <td>{{list.Frame}}</td>
-          </tr>
-        </tbody>
-      </table>
 
+    <div class="table-responsive">
+      <div *ngIf="tableLoading">
+        <p class="alert alert-secondary">List Of Order</p>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>FileName</th>
+              <th>Type</th>
+              <th>Hight</th>
+              <th>Wide</th>
+              <th>sft</th>
+              <th>sft Price</th>
+              <th>Optional</th>
+              <th>Optional Price</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of oderList; let i = index">
+              <td>{{list.FileName}}</td>
+              <td>{{list.PrintType}}</td>
+              <td>{{list.height}}</td>
+              <td>{{list.wide}}</td>
+              <td>{{list.sft}}</td>
+              <td> <input type="number" placeholder="{{list.PricePerSft}}" (keyup)="setPrice(i , price.value, list.id)"
+                  #price></td>
+              <td>{{list.option}}</td>
+              <td> <input type="number" placeholder="{{list.optionalPrice}}" (keyup)="setOPPrice(i , optional.value, list.id)"
+                  #optional></td>
+              <td>{{list.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div *ngIf="prevPay" class="alert alert-warning">
         Advance Paid For Giving Due Go To Edit Page. Thank You!
       </div>
@@ -83,7 +89,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Advance</span>
           </div>
-          <input type="text" class="form-control" [(ngModel)]="advance" name="advance" (keyup)="advance_cal(in.value)" #in>
+          <input type="text" class="form-control" [(ngModel)]="advance" name="advance" (keyup)="advance_cal(in.value)"
+            #in>
         </div>
         <br>
         <div class="input-group">
@@ -93,13 +100,17 @@
           <input type="text" class="form-control" placeholder="{{due}}">
         </div>
 
-
         <br>
         <br>
 
         <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()" *ngIf="!isStored">Procced</button>
-        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="print()" *ngIf="isStored">Print Invoice</button>
+       
       </div>
     </div>
   </div>
+</div>
+
+<div class="container">
+    <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="print()" *ngIf="isStored">Print
+        Invoice</button>
 </div>
