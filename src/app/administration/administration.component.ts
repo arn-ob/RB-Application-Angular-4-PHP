@@ -157,7 +157,7 @@ export class AdministrationComponent implements OnInit {
       this.sql.postRequest('anySql/anySql.php', sql).subscribe(
         response => {
           if (response.json()[0].status === 'Done') {
-            this.message.add({ severity: 'info', summary: 'Updated', detail: 'New User added' });
+            this.message.add({ severity: 'info', summary: 'Updated', detail: 'New Print Type added' });
             this.PrintType = undefined;
             this.TypeDetails();
           } else {
@@ -178,7 +178,7 @@ export class AdministrationComponent implements OnInit {
       response => {
         this.typeResult = response.json();
         if (this.typeResult.length === 0) {
-          this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'No User Found' });
+          this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'No Type Found' });
         } else {
           // Convert encoding to string
           this.isTypeinfoShow = true;

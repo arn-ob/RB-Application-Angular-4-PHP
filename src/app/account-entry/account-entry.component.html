@@ -61,13 +61,13 @@
               <td>{{list.height}}</td>
               <td>{{list.wide}}</td>
               <td>{{list.sft}}</td>
-              <td> <input type="number" placeholder="{{list.PricePerSft}}" (keyup)="setPrice(i , price.value, list.id)"
+              <td> <input type="test" placeholder="{{list.PricePerSft}}" (keyup)="setPrice(i , price.value, list.id)"
                   #price></td>
               <td>{{list.option}}</td>
 
-              <td *ngIf="list.option !== 'None'"> <input type="number" placeholder="{{list.optionalPrice}}" (keyup)="setOPPrice(i , optional.value, list.id)"
+              <td *ngIf="list.option !== 'None'"> <input type="test" placeholder="{{list.optionalPrice}}" (keyup)="setOPPrice(i , optional.value, list.id)"
                   #optional></td>
-              <td *ngIf="list.option === 'None'"> <input type="number" placeholder="{{list.optionalPrice}}" (keyup)="setOPPrice(i , optional.value, list.id)"
+              <td *ngIf="list.option === 'None'"> <input type="test" placeholder="{{list.optionalPrice}}" (keyup)="setOPPrice(i , optional.value, list.id)"
                   #optional disabled></td>
               
                   <td> <input type="number" placeholder="{{list.quantity}}" (keyup)="setQNTPrice(i , quantity.value, list.id)"
@@ -107,15 +107,15 @@
 
         <br>
         <br>
-
-        <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()" *ngIf="!isStored">Procced</button>
-
+        <div *ngIf="!isStoreLock">
+          <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="make_data_store()" *ngIf="!isStored">Procced</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="container">
+<div class="container" *ngIf="!isStoreLock">
   <button type="button" class="btn btn-success btn-lg btn-block mt-2 mb-3" (click)="print()" *ngIf="isStored">Print
     Invoice</button>
 </div>

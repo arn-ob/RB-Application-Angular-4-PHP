@@ -26,7 +26,7 @@ export class AccountEntryComponent implements OnInit {
   prevPay = false;
   isStored = false;
   tableLoading = false;
-
+  isStoreLock = false;
   // type Price
   pvc = 15;
   pana = 15;
@@ -64,7 +64,7 @@ export class AccountEntryComponent implements OnInit {
         this.oderList = response.json();
         // console.table(this.oderList);
         const adv = response.json()[0].advance;
-        if (Number(adv) > 0 ) {
+        if (Number(adv) > 0) {
           this.prevPay = true;
           this.isStored = true;
         } else {
@@ -93,48 +93,82 @@ export class AccountEntryComponent implements OnInit {
 
   // calculate advace
   advance_cal(val) {
-    if (this.amount < val) {
-      this.advance = 'Invalid Amount';
-      this.due = 'Invalid Amount';
+    if (Number(val)) {
+      if (this.amount < val) {
+        this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Invalide Amount' });
+        this.advance = undefined;
+        this.due = undefined;
+        this.isStoreLock = true;
+      } else {
+        this.isStoreLock = false;
+        this.advance = val;
+        this.due = this.amount - val;
+      }
     } else {
-      this.advance = val;
-      this.due = this.amount - val;
+      this.isStoreLock = true;
+      this.advance = undefined;
+      this.due = undefined;
+      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Number' });
     }
   }
 
   // Event Triger from table
   setPrice(i, val, index) {
-    if (!this.prevPay) {
-      this.oderList[i].PricePerSft = val;
-      this.calculate_total();
-      this.updateSftPriceValue(val, Number(index));
-      // console.table(this.oderList);
+    if (Number(val)) {
+      this.isStoreLock = false;
+      if (!this.prevPay) {
+        this.oderList[i].PricePerSft = val;
+        this.calculate_total();
+        this.updateSftPriceValue(val, Number(index));
+        // console.table(this.oderList);
+      } else {
+        this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      }
     } else {
-      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      this.isStoreLock = true;
+      this.advance = undefined;
+      this.due = undefined;
+      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Number' });
     }
   }
 
   // calculate option price
   setOPPrice(i, val, index) {
-    if (!this.prevPay) {
-      this.oderList[i].optionalPrice = val;
-      this.calculate_total();
-      this.updateOpValue(val, Number(index));
-      // console.table(this.oderList);
+    if (Number(val)) {
+      this.isStoreLock = false;
+      if (!this.prevPay) {
+        this.oderList[i].optionalPrice = val;
+        this.calculate_total();
+        this.updateOpValue(val, Number(index));
+        // console.table(this.oderList);
+      } else {
+        this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      }
     } else {
-      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      this.isStoreLock = true;
+      this.advance = undefined;
+      this.due = undefined;
+      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Number' });
     }
   }
 
-   // calculate option price
-   setQNTPrice(i, val, index) {
-    if (!this.prevPay) {
-      this.oderList[i].quantity = val;
-      this.calculate_total();
-      this.updateQNTValue(val, Number(index));
-      // console.table(this.oderList);
+  // calculate option price
+  setQNTPrice(i, val, index) {
+    if (Number(val)) {
+      this.isStoreLock = false;
+      if (!this.prevPay) {
+        this.oderList[i].quantity = val;
+        this.calculate_total();
+        this.updateQNTValue(val, Number(index));
+        // console.table(this.oderList);
+      } else {
+        this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      }
     } else {
-      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+      this.isStoreLock = true;
+      this.advance = undefined;
+      this.due = undefined;
+      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Number' });
     }
   }
 
