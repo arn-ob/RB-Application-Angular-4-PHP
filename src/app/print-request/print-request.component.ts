@@ -234,7 +234,7 @@ export class PrintRequestComponent implements OnInit {
     );
   }
 
-  isNumber(value, where) {
+  isNumber(value) {
     if (!Number(value)) {
       this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'Enter Number' });
       this.submitLock = true;
