@@ -13,7 +13,7 @@ export class AccountViewComponent implements OnInit {
   oderList = [];
   isLoaded = false;
   nothingFound = true;
-
+  HeaderMSG = 'Today Oder List';
 
   constructor(
     private sql: SqlService,
@@ -28,6 +28,7 @@ export class AccountViewComponent implements OnInit {
   }
 
   get_today_list() {
+    this.HeaderMSG = 'Today Oder List';
     this.sql.getRequest('accountHistoryForAccountEntry/accountHistoryForAccountEntry.php').subscribe(
       response => {
         this.oderList = response.json();
@@ -47,6 +48,7 @@ export class AccountViewComponent implements OnInit {
   }
 
   get_prev_list() {
+    this.HeaderMSG = 'Previous Oder List';
     this.sql.getRequest('accountHistoryForAccountEntry/accountHistoryPrev.php').subscribe(
       response => {
         this.oderList = response.json();

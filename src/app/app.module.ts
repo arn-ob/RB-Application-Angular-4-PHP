@@ -28,6 +28,9 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AdministrationComponent } from './administration/administration.component';
+import { PrintSectionComponent } from './print-section/print-section.component';
+import { StatementViewComponent } from './statement-view/statement-view.component';
+import { StatementSummaryComponent } from './statement-summary/statement-summary.component';
 
 // App Route
 const appRoutes: Routes = [
@@ -41,7 +44,8 @@ const appRoutes: Routes = [
   { path: 'print', component: InvoiceComponent},
   { path: 'index', component: IndexPageComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: 'admin', component: AdministrationComponent}
+  { path: 'admin', component: AdministrationComponent},
+  { path: 'print-details', component: PrintSectionComponent}
 ];
 
 @NgModule({
@@ -58,7 +62,10 @@ const appRoutes: Routes = [
     InvoiceComponent,
     LoginComponent,
     LogoutComponent,
-    AdministrationComponent
+    AdministrationComponent,
+    PrintSectionComponent,
+    StatementViewComponent,
+    StatementSummaryComponent
   ],
   imports: [
     BrowserModule,

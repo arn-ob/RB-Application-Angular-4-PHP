@@ -1,0 +1,59 @@
+<div class="alert alert-info" role="alert">
+  Printing Statement
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<div class="container">
+
+  <div class="alert alert-warning" role="alert">
+    Print Statement
+  </div>
+
+  <button type="button mt-2 md-2" class="btn btn-success" (click)="statement('CompletePrinting')">Complete Printing</button>
+  <button type="button mt-2 md-2" class="btn btn-success" (click)="statement('Printing')">Printing</button>
+  <button type="button mt-2 md-2" class="btn btn-success" (click)="statement('ErrorPrinting')">Error in Printing</button>
+  <button type="button mt-2 md-2" class="btn btn-success" (click)="statement('NotPrinting')">Not in Printing</button>
+  <button type="button mt-2 md-2" class="btn btn-info" (click)="statement('TodayDetails')">Today Details</button>
+  <button type="button mt-2 md-2" class="btn btn-info" (click)="statement('MonthDetails')">Month Details</button>
+  <button type="button mt-2 md-2" class="btn btn-info"(click)="statement('YearDetails')">Year Details</button>
+
+  <div class="table-responsive mt-3" *ngIf="isLoaded">
+    <table class="table table-striped table-sm" *ngIf="!nothingFound">
+      <thead>
+        <tr>
+          <th>BillNo</th>
+          <th>Client Name</th>
+          <th>File Name</th>
+          <th>SFT</th>
+          <th>Quantity</th>
+          <th>Created Time</th>
+          <th>Created Date</th>
+          <th>Status</th>
+          <th>Update Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let list of result">
+          <td>{{list.BillNo}}</td>
+          <td>{{list.ClientName}}</td>
+          <td>{{list.FileName}}</td>
+          <td>{{list.sft}}</td>
+          <td>{{list.quantity}}</td>
+          <td>{{list.CreatedTime}}</td>
+          <td>{{list.CreatedDate}}</td>
+          <td>{{list.Status}}</td>
+          <select class="form-control" [(ngModel)]="printStatus" name="printStatus" (click)="updatePrintStatus(list.BillNo, list.FileName)">
+            <option>Printing</option>
+            <option>Complete_Printing</option>
+            <option>Error_in_Printing</option>
+          </select>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+  <div class="alert alert-danger mt-3" role="alert" *ngIf="nothingFound">
+    No Record Found
+  </div>
+</div>

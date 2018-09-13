@@ -21,6 +21,9 @@
       <li class="nav-item">
         <a class="nav-link" style="color: red" routerLink="/account-view" *ngIf="checkLogin()">Account</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: red" routerLink="/print-details" *ngIf="checkLogin()">Printing</a>
+      </li>
       <li class="nav-item" *ngIf="checkLogin()">
           <a class="nav-link" style="color: red" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
         </li>
@@ -28,10 +31,10 @@
         <a class="nav-link" style="color: red" routerLink="/logout" *ngIf="checkLogin()">Logout</a>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: yellow">Beta -> Build v1.50</span>
+        <span class="nav-link" style="color: yellow">Beta -> Build 2.00</span>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: yellow">Last Updated -> 9.9.18</span>
+        <span class="nav-link" style="color: yellow">Last Updated -> 13.9.18</span>
       </li>
     </ul>
   </div>

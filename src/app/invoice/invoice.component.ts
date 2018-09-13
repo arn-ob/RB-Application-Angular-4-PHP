@@ -63,6 +63,7 @@ export class InvoiceComponent implements OnInit {
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.accountDetails = response.json()[0];
+        console.log(this.accountDetails);
         for (let i = 0; i < response.json().length; i++) {
           if (response.json()[i].type === 'PVC') {
             this.pvc_price = response.json()[i].PricePerSft;

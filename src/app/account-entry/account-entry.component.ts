@@ -63,8 +63,8 @@ export class AccountEntryComponent implements OnInit {
       response => {
         this.oderList = response.json();
         // console.table(this.oderList);
-        const temp = response.json()[0].advance;
-        if (temp === '0') {
+        const adv = response.json()[0].advance;
+        if (Number(adv) > 0 ) {
           this.prevPay = true;
           this.isStored = true;
         } else {
@@ -97,6 +97,7 @@ export class AccountEntryComponent implements OnInit {
       this.advance = 'Invalid Amount';
       this.due = 'Invalid Amount';
     } else {
+      this.advance = val;
       this.due = this.amount - val;
     }
   }
@@ -113,6 +114,7 @@ export class AccountEntryComponent implements OnInit {
     }
   }
 
+  // calculate option price
   setOPPrice(i, val, index) {
     if (!this.prevPay) {
       this.oderList[i].optionalPrice = val;
@@ -124,9 +126,21 @@ export class AccountEntryComponent implements OnInit {
     }
   }
 
+   // calculate option price
+   setQNTPrice(i, val, index) {
+    if (!this.prevPay) {
+      this.oderList[i].quantity = val;
+      this.calculate_total();
+      this.updateQNTValue(val, Number(index));
+      // console.table(this.oderList);
+    } else {
+      this.message.add({ severity: 'error', summary: 'Error Message', detail: 'All Ready Entry' });
+    }
+  }
+
   // Event Triger From Storage
   make_data_store() {
-    this.advance = 0;
+    // this.advance = 0;
     for (let i = 0; i < this.oderList.length; i++) {
       const ob: { [k: string]: any } = this.oderList;
       const temp = this.make_ammount(ob[i].PricePerSft, ob[i].id);
@@ -135,6 +149,7 @@ export class AccountEntryComponent implements OnInit {
     }
   }
 
+  // create a amount array
   make_ammount(type, AIid) {
     if (this.advance === undefined) {
       this.advance = '0';
@@ -150,8 +165,10 @@ export class AccountEntryComponent implements OnInit {
     return temp;
   }
 
+
+  // SQL Function
   store_to_db(val) {
-    // console.log(val);
+    console.log(val);
     // store the db procedure
     this.sql.postRequest('accountEntry/storeUpdateAccount.php', val).subscribe(
       response => {
@@ -172,6 +189,7 @@ export class AccountEntryComponent implements OnInit {
       });
   }
 
+  // update stp price
   updateSftPriceValue(price, index) {
     // tslint:disable-next-line:max-line-length
     const sql = { 'sql': 'UPDATE account SET account.PricePerSft ="' + price + '" WHERE account.BillNo = "' + this.billNo + '" and account.AIid = "' + index + '"' };
@@ -205,6 +223,24 @@ export class AccountEntryComponent implements OnInit {
       });
   }
 
+  // update Quantity Price
+  updateQNTValue(price, index) {
+    // tslint:disable-next-line:max-line-length
+    const sql = { 'sql': 'UPDATE account SET account.quantity ="' + price + '" WHERE account.BillNo = "' + this.billNo + '" and account.AIid = "' + index + '"' };
+    this.sql.postRequest('anySql/anySql.php', sql).subscribe(
+      response => {
+        // console.log(response.json());
+        if (response.json()[0].status === 'Done') {
+          this.message.add({ severity: 'info', summary: 'Info', detail: 'Price Updated' });
+        }
+      },
+      err => {
+        console.log(err);
+        this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+      });
+  }
+
+  // navagate to print component
   print() {
     this.cookie.set('billno', this.billNo);
     this.router.navigate(['/print']);

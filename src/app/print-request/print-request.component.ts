@@ -32,13 +32,16 @@ export class PrintRequestComponent implements OnInit {
   db_push_array = [];
   db_push_array_size: any;
 
+  // Type Details
+  typeResult = [];
+  isTypeinfoShow = false;
 
   // form bill
   bill: any;
 
   // sql process error
   sqlError: false;
-
+  submitLock = false;
 
   constructor(
     private sql: SqlService,
@@ -51,6 +54,7 @@ export class PrintRequestComponent implements OnInit {
     this.cookie.delete('cd');
     this.cookie.set('cd', 'PrintRequestComponent');
     this.get_array_length();
+    this.TypeDetails();
     const date = new Date();
     // const md5 = new Md5();
     // this.bill = this.md5.appendStr(date.toString()).end();
@@ -64,7 +68,7 @@ export class PrintRequestComponent implements OnInit {
   add_to_cart() {
     // this.get_array();
     if (this.checkEntry()) {
-      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Added to list' });
+      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Added to list and Print Details Clear' });
 
       this.db_push_array.push(this.get_array());
       this.get_array_length();
@@ -146,7 +150,7 @@ export class PrintRequestComponent implements OnInit {
     this.quantity = undefined;
     this.optinal = undefined;
     this.optinalPrice = undefined;
-    this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Print Details Field Clear' });
+    // this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Print Details Field Clear' });
   }
 
   delete(msg) {
@@ -207,6 +211,38 @@ export class PrintRequestComponent implements OnInit {
       return false;
     } else {
       return true;
+    }
+  }
+
+  // get the list of print Type
+  TypeDetails() {
+    const sql = { 'sql': 'select * from printtype' };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).subscribe(
+      response => {
+        this.typeResult = response.json();
+        if (this.typeResult.length === 0) {
+          this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'No Type Found' });
+        } else {
+          this.isTypeinfoShow = true;
+          console.log(this.typeResult);
+        }
+      },
+      err => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: err });
+      }
+    );
+  }
+
+  isNumber(value, where) {
+    if (!Number(value)) {
+      this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'Enter Number' });
+      this.submitLock = true;
+    } else {
+      this.submitLock = false;
+    }
+    if (value === undefined) {
+      this.submitLock = false;
     }
   }
 }

@@ -70,16 +70,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let r of result">
-          <td>{{r.name || msgForTypeAndFileName}}</td>
-          <td>{{r.phoneNo1 || msgForTypeAndFileName}}, {{r.phoneNo2 || msgForTypeAndFileName}}</td>
-          <td>{{r.PartyName || msgForTypeAndFileName}}</td>
-          <td>{{r.totalQuantity || msgForTypeAndFileName}}</td>
-          <td>{{r.totalSft || msgForTypeAndFileName}}</td>
-          <td>{{r.type || msgForTypeAndFileName}}</td>
-          <td>{{r.fileName || msgForTypeAndFileName}}</td>
-          <td>{{r.amount || msgForTypeAndFileName}}</td>
-          <td>{{r.advance || msgForTypeAndFileName}}</td>
-          <td>{{r.Due || msgForTypeAndFileName}}</td>
+          <td>{{r.name}}</td>
+          <td>{{r.phoneNo1}}, {{r.phoneNo2}}</td>
+          <td>{{r.PartyName}}</td>
+          <td>{{r.totalQuantity}}</td>
+          <td>{{r.totalSft}}</td>
+          <td>{{r.type}}</td>
+          <td>{{r.fileName}}</td>
+          <td>{{r.amount}}</td>
+          <td>{{r.advance}}</td>
+          <td>{{r.Due}}</td>
           <td>
             <button type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="history(r.BillNo)">History</button>
           </td>

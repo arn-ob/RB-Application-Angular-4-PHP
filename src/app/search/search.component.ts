@@ -4,6 +4,8 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 
+declare function require(url: string);
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -19,6 +21,8 @@ export class SearchComponent implements OnInit {
   result = [];
   msgForTypeAndFileName = 'Not Entry';
 
+
+
   isResultDataLoad = false;
   isResultFoundDate = false;
 
@@ -29,15 +33,9 @@ export class SearchComponent implements OnInit {
   sqlAfterWhereDef_bill = 'and account.BillNo = client_details.BillNo and account.BillNo = printdetails.BillNo and client_details.BillNo = printdetails.BillNo and account.AIid = client_details.AIid and account.AIid = printdetails.AIid and client_details.AIid = printdetails.AIid';
 
   // tslint:disable-next-line:max-line-length
-  sqlAtSelectDef_date = 'account.BillNo, account.amount, account.advance, account.Due, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName,printdetails.PrintType, printdetails.FileName, printdetails.wide as totalPrintWide, printdetails.height as totalPrintHeight, printdetails.sft as totalSft, printdetails.quantity as totalQuantity, printdetails.CreatedTime, printdetails.CreatedDate';
+  sqlAtSelectDef_date = 'account.BillNo, account.AIid as id, client_details.name, client_details.address,account.Due, client_details.phoneNo1, client_details.PartyName, printdetails.FileName as fileName, printdetails.PrintType as type, printdetails.wide as totalPrintWide, printdetails.height as totalPrintHeight, printdetails.sft as totalSft, printdetails.quantity  as totalQuantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate';
   // tslint:disable-next-line:max-line-length
   sqlAfterWhereDef_date = 'and account.BillNo = client_details.BillNo and account.BillNo = printdetails.BillNo and client_details.BillNo = printdetails.BillNo and account.AIid = client_details.AIid and account.AIid = printdetails.AIid and client_details.AIid = printdetails.AIid GROUP BY account.BillNo';
-
-  // tslint:disable-next-line:max-line-length
-  sqlAtSelectDef_auto = 'account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate';
-
-  // tslint:disable-next-line:max-line-length
-  sqlAfterWhereDef_auto = 'account.BillNo = client_details.BillNo and account.BillNo = printdetails.BillNo and client_details.BillNo = printdetails.BillNo and account.AIid = client_details.AIid and account.AIid = printdetails.AIid and client_details.AIid = printdetails.AIid';
 
   constructor(
     private sql: SqlService,
@@ -51,8 +49,8 @@ export class SearchComponent implements OnInit {
     // this.search_by_bill('67ff6a7086d261dc943a2e7338ca6ab8');
   }
 
+  // this funtion pass date to string data
   parseDate() {
-
     // tslint:disable-next-line:max-line-length
     this.d1 = this.partString(this.date1.toJSON(), 0) + '/' + this.partString(this.date1.toJSON(), 1) + '/' + this.partString(this.date1.toJSON(), 2);
     // tslint:disable-next-line:max-line-length
@@ -95,7 +93,7 @@ export class SearchComponent implements OnInit {
       response => {
         // console.log(response.json());
         this.result = response.json();
-        if ( this.result.length === 0) {
+        if (this.result.length === 0) {
           console.log('Nothing Found');
           this.isResultFoundDate = false;
         } else {
@@ -113,12 +111,13 @@ export class SearchComponent implements OnInit {
   search_auto() {
 
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_auto + ' from account, printdetails, client_details where ' + this.sqlAfterWhereDef_auto + '' };
+    // const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_auto + ' from account, printdetails, client_details where ' + this.sqlAfterWhereDef_auto + '' };
+    const Temp_store = { 'sql': this.parseSqlFromJSON('auto')  };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        // console.log(response.json());
+        console.log(response.json());
         this.result = response.json();
-        if ( this.result.length === 0) {
+        if (this.result.length === 0) {
           console.log('Nothing Found');
           this.isResultFoundDate = false;
         } else {
@@ -156,9 +155,9 @@ export class SearchComponent implements OnInit {
   }
 
   search_due() {
-     // Some how it did not work from var.
+    // Some how it did not work from var.
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate, account.Due FROM account, client_details, printdetails where account.Due != 0 and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid' };
+    const Temp_store = { 'sql': this.parseSqlFromJSON('due') };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
@@ -200,5 +199,10 @@ export class SearchComponent implements OnInit {
   print(v) {
     this.cookie.set('billno', v);
     this.router.navigate(['/print']);
+  }
+
+  parseSqlFromJSON(value) {
+    const sqlQuery = require('../search/sql.json');
+    return sqlQuery[value];
   }
 }

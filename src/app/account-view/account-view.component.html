@@ -1,5 +1,5 @@
 <div class="alert alert-info" role="alert">
-  Enter Order
+  Account Details
 </div>
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
@@ -7,9 +7,19 @@
 <div class="container">
 
   <div class="alert alert-warning" role="alert">
-    Here Today Account History
+    {{HeaderMSG}}
+    <br>
+    This Order are not Approved By Account or The Advance is 0 Amount
   </div>
-  <button type="button" class="btn btn-warning btn-lg btn-block mt-2 mb-2" (click)="get_prev_list()">Show Previous</button>
+
+  <div class="row mt-1 mb-3">
+    <div class="col">
+      <button type="button" class="btn btn-warning btn-lg btn-block mt-2 mb-2" (click)="get_prev_list()">Show Previous</button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-warning btn-lg btn-block mt-2 mb-2" (click)="get_today_list()">Show Today</button>
+    </div>
+  </div>
 
   <div class="table-responsive" *ngIf="isLoaded">
     <table class="table table-striped table-sm" *ngIf="!nothingFound">

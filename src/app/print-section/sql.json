@@ -1,0 +1,10 @@
+{
+    "details": "SELECT * FROM printstatus",
+    "CompletePrinting": "SELECT * FROM printstatus where Status = 'Complete_Printing'",
+    "Printing": "SELECT * FROM printstatus where Status = 'Printing'",
+    "ErrorPrinting": "SELECT * FROM printstatus where Status = 'Error_in_Printing'",
+    "NotPrinting": "SELECT * FROM printstatus where Status = 'Design_Complete'",
+    "TodayDetails": "SELECT * FROM printstatus where CreatedDate = CURDATE()",
+    "MonthDetails": "SELECT * FROM printstatus where MONTH(CreatedDate) = MONTH(CURRENT_DATE())",
+    "YearDetails": "SELECT * FROM printstatus where YEAR(CreatedDate) = YEAR(CURRENT_DATE())"
+}

@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
             this.message.add({ severity: 'success', summary: 'Login Found', detail: 'Welcome' });
             console.log('Found');
             this.cookie.set('login', '1');
+            this.cookie.set('username', this.username);
             this.cookie.set(response.json()[0].role, '1');
             this.router.navigate(['/index']);
           } else {

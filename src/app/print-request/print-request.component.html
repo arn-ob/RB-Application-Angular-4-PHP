@@ -44,52 +44,53 @@
         <div class="form-row mt-2">
           <div class="col">
             <label for="exampleInputEmail1">Print Name</label>
-            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName" name="printName"
-              required>
+            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName"
+              name="printName" required>
           </div>
           <div class="col">
             <label for="exampleInputEmail1">Name</label>
-            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name" name="name"
-              required>
+            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name"
+              name="name" required>
           </div>
         </div>
 
 
         <div class="form-group mt-2">
           <label for="exampleInputPassword1">Address</label>
-          <input type="text" class="form-control" id="ClientAddress" name="address" placeholder="Address" [(ngModel)]="address" name="address"
-            required>
+          <input type="text" class="form-control" id="ClientAddress" name="address" placeholder="Address" [(ngModel)]="address"
+            name="address" required>
         </div>
 
         <div class="form-row mt-2">
           <div class="col">
             <label for="exampleInputPassword1">Phone No 1</label>
-            <input type="text" class="form-control" id="ClientPhn1" name="PhoneNo" placeholder="Phone Number" [(ngModel)]="phnNo1"
-              name="phnNo1">
+            <input type="text" class="form-control" id="ClientPhn1" name="PhoneNo" placeholder="Phone Number"
+              [(ngModel)]="phnNo1" name="phnNo1" (keyup)="isNumber($event.target.value)">
           </div>
           <div class="col">
             <label for="exampleInputPassword1">Phone No 2 (Optional)</label>
-            <input type="text" class="form-control" id="ClientPhn2" placeholder="Phone Number" [(ngModel)]="phnNo2" name="phnNo2">
+            <input type="text" class="form-control" id="ClientPhn2" placeholder="Phone Number" [(ngModel)]="phnNo2"
+              name="phnNo2" (keyup)="isNumber($event.target.value)">
           </div>
         </div>
 
         <div class="form-row mt-2">
           <div class="col">
             <label for="exampleInputPassword1">Party Name (Optional)</label>
-            <input type="text" class="form-control" id="PartyName" placeholder="Party Name" [(ngModel)]="partyName" name="partyName">
+            <input type="text" class="form-control" id="PartyName" placeholder="Party Name" [(ngModel)]="partyName"
+              name="partyName">
           </div>
-          <div class="col">
+          <div class="col" *ngIf="isTypeinfoShow">
             <label>Print Type</label>
             <select class="form-control" id="print_type" [(ngModel)]="printType" name="printType">
-              <option>PVC</option>
-              <option>Pana</option>
+              <option *ngFor="let r of typeResult">{{r.type}}</option>
             </select>
           </div>
           <div class="col">
             <label>Select Print Status</label>
             <select class="form-control" id="PrintStatus" [(ngModel)]="printStatus" name="printStatus">
-              <option>Design Complete</option>
-              <option>Design Processing</option>
+              <option>Design_Complete</option>
+              <option>Design_Processing</option>
               <option>Printing</option>
               <option>Editing</option>
             </select>
@@ -98,28 +99,30 @@
 
         <div class="form-row mt-2">
           <div class="col">
-            <label for="exampleInputPassword1">Wide</label>
-            <input type="text" class="form-control" id="PrintWide" placeholder="Wide" name="wide" [(ngModel)]="wide" name="wide">
+            <label for="exampleInputPassword1">Weight</label>
+            <input type="text" class="form-control" id="PrintWide" placeholder="Wide" name="wide" [(ngModel)]="wide"
+              name="wide" (keyup)="isNumber($event.target.value)">
           </div>
           <div class="col">
             <label for="exampleInputPassword1">Height</label>
-            <input type="text" class="form-control" id="PrintHeight" placeholder="Height" name="height" [(ngModel)]="hight" name="hight">
+            <input type="text" class="form-control" id="PrintHeight" placeholder="Height" name="height" [(ngModel)]="hight"
+              name="hight" (keyup)="isNumber($event.target.value)">
           </div>
           <div class="col">
             <label for="exampleInputPassword1">Quantity</label>
-            <input type="text" class="form-control" id="PrintQuantity" placeholder="Number Of Print Copy" name="quantity" [(ngModel)]="quantity"
-              name="quantity">
+            <input type="text" class="form-control" id="PrintQuantity" placeholder="Number Of Print Copy" name="quantity"
+              [(ngModel)]="quantity" name="quantity" (keyup)="isNumber($event.target.value)">
           </div>
         </div>
 
-        <div class="form-row mt-2"> 
+        <div class="form-row mt-2">
           <div class="col">
             <label>Optinal</label>
             <input type="text" class="form-control" id="Optinal" placeholder="Optinal Item" name="optinal" [(ngModel)]="optinal">
-            </div>
+          </div>
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to cart</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" *ngIf="!submitLock">Add to cart</button>
       </form>
     </div>
   </div>
