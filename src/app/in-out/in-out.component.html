@@ -33,7 +33,7 @@
 <p-sidebar [(visible)]="outCash" position="right" [baseZIndex]="10000">
   <h2 style="font-weight:normal">Cash OUT Entry</h2>
 
-  
+
   <div class="input-group mb-3 mt-3">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">Porpose</span>
@@ -83,77 +83,94 @@
 <div class="row">
 
   <!--Cash IN-->
-  <div class="col">
-    <div class="container">
+  <div class="container">
 
-      <button type="button" (click)="inCash = true" class="btn btn-success ml-4">New Cash IN</button>
-      <button type="button" (click)="inCashEdit = true" class="btn btn-warning ml-4">Cash IN Edit</button>
-
-      <div class="container mt-3">
-        <div>
-          <p class="alert alert-info">Cash IN</p>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Porpose</th>
-                <th scope="col">Details</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Delete (If admin)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let r of LoginResult">
-                <td>{{r.username}}</td>
-                <td>{{r.password}}</td>
-                <td>{{r.role}}</td>
-                <td> <button type="button" class="btn btn-warning ml-3" (click)="deleteLogin(r.id)">Delete</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="container mt-3">
-        <p class="alert alert-info">Decoding Login Details </p>
-      </div>
-    </div>
-  </div>
-
-
-  <!--Cash Out-->
-  <div class="col mr-2">
-
-    <button type="button" (click)="outCash = true" class="btn btn-success ml-4">New Cash Out</button>
-    <button type="button" (click)="outCashEdit = true" class="btn btn-warning ml-4">Cash Out Edit</button>
+    <button type="button" (click)="inCash = true" class="btn btn-success ml-4">New Cash IN</button>
+    <button type="button" (click)="inCashEdit = true" class="btn btn-warning ml-4" disabled>Cash IN Edit</button>
 
     <div class="container mt-3">
       <div>
-        <p class="alert alert-info">Cash OUT</p>
-        <table class="table">
+        <p class="alert alert-info">Cash IN</p>
+        <table class="table" *ngIf="inShow">
           <thead>
             <tr>
               <th scope="col">Porpose</th>
               <th scope="col">Details</th>
               <th scope="col">Amount</th>
-              <th scope="col">Delete (If admin)</th>
+              <th scope="col">Entry By</th>
+              <th scope="col">Time</th>
+              <th scope="col">Date</th>
+              <div *ngIf="role == 'admin'">
+                <th scope="col">Delete (If admin)</th>
+              </div>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let r of LoginResult">
-              <td>{{r.username}}</td>
-              <td>{{r.password}}</td>
-              <td>{{r.role}}</td>
-              <td> <button type="button" class="btn btn-warning ml-3" (click)="deleteLogin(r.id)">Delete</button></td>
+            <tr *ngFor="let r of inResult">
+              <td>{{r.porpose}}</td>
+              <td>{{r.details}}</td>
+              <td>{{r.amount}}</td>
+              <td>{{r.updateby}}</td>
+              <td>{{r.CreatedTime}}</td>
+              <td>{{r.CreatedDate}}</td>
+              <div *ngIf="role == 'admin'">
+                <td> <button type="button" class="btn btn-warning ml-3" (click)="delete(r.entryid)">Delete</button></td>
+              </div>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="container mt-3">
-      <p class="alert alert-info">Decoding Login Details </p>
-
+    <div class="container mt-3" *ngIf="!inShow">
+      <p class="alert alert-info">No Result Found</p>
     </div>
   </div>
+</div>
 
+<!--Cash Out-->
+<div class="row mr-2">
+  <div class="container">
+    <button type="button" (click)="outCash = true" class="btn btn-success ml-4">New Cash Out</button>
+    <button type="button" (click)="outCashEdit = true" class="btn btn-warning ml-4" disabled>Cash Out Edit</button>
+
+    <div class="container mt-3">
+      <div>
+        <p class="alert alert-info">Cash OUT</p>
+        <table class="table" *ngIf="outShow">
+          <thead>
+            <tr>
+              <th scope="col">Porpose</th>
+              <th scope="col">Details</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Entry By</th>
+              <th scope="col">Time</th>
+              <th scope="col">Date</th>
+              <div *ngIf="role == 'admin'">
+                <th scope="col">Delete (If admin)</th>
+              </div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of outResult">
+              <td>{{r.porpose}}</td>
+              <td>{{r.details}}</td>
+              <td>{{r.amount}}</td>
+              <td>{{r.updateby}}</td>
+              <td>{{r.CreatedTime}}</td>
+              <td>{{r.CreatedDate}}</td>
+              <div *ngIf="role == 'admin'">
+                <td> <button type="button" class="btn btn-warning ml-3" (click)="delete(r.entryid)">Delete</button></td>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container mt-3" *ngIf="!outShow">
+      <p class="alert alert-info">No Result Found</p>
+    </div>
+
+  </div>
 </div>

@@ -14,18 +14,21 @@ export class InOutComponent implements OnInit {
   outCash;
   outCashEdit;
   inCashEdit;
+  role;
 
   // cash in Form Control
   cashInName: any;
   cashInDetails: any;
   cashInAmount: any;
   inResult = [];
+  inShow = false;
 
   // cash out Form Control
   cashOutName: any;
   cashOutDetails: any;
   cashOutAmount: any;
   outResult = [];
+  outShow = false;
 
   constructor(
     private message: MessageService,
@@ -35,7 +38,9 @@ export class InOutComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.role = this.cookie.get('username');
     this.ViewFromSQL('in');
+    this.ViewFromSQL('out');
   }
 
   // Number Check
@@ -107,28 +112,29 @@ export class InOutComponent implements OnInit {
   }
 
   ViewFromSQL(where) {
-    const sql = { 'sql': 'select * from CashINOUT where type = "in"' };
+    const sql = { 'sql': 'select * from CashINOUT where type = "' + where + '"' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).subscribe(
       response => {
         if (where === 'in') { this.inResult = response.json(); }
         if (where === 'out') { this.outResult = response.json(); }
-
+        // console.log(this.inResult);
+        // console.log(this.outResult);
         // cash in section
         if (this.inResult.length === 0) {
+          this.inShow = false;
           this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'No Cash IN Result Found' });
         } else {
-          // Convert encoding to string
-          // this.isTypeinfoShow = true;
-          this.message.add({ severity: 'info', summary: 'Cash IN Result ', detail: 'Showing To List' });
+          this.inShow = true;
+          this.message.add({ severity: 'success', summary: 'Cash IN Result ', detail: 'Showing To List' });
         }
 
         // Cash out Section
         if (this.outResult.length === 0) {
+          this.outShow = false;
           this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'No Cash OUT Result Found' });
         } else {
-          // Convert encoding to string
-          // this.isTypeinfoShow = true;
-          this.message.add({ severity: 'info', summary: 'Cash OUT Result', detail: 'Showing To List' });
+          this.outShow = true;
+          this.message.add({ severity: 'success', summary: 'Cash OUT Result', detail: 'Showing To List' });
         }
       },
       err => {
@@ -137,6 +143,31 @@ export class InOutComponent implements OnInit {
       }
     );
   }
+
+  delete(v) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this?',
+      accept: () => {
+        const sql = { 'sql': 'DELETE FROM CashINOUT WHERE entryid = "' + v + '"' };
+        // console.log(sql);
+        this.sql.postRequest('anySql/anySql.php', sql).subscribe(
+          response => {
+            if (response.json()[0].status === 'Done') {
+              this.message.add({ severity: 'info', summary: 'Info', detail: 'Type Deleted' });
+            }
+          },
+          err => {
+            console.log(err);
+            this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+          });
+      },
+      reject: () => {
+        this.message.add({ severity: 'info', summary: 'Info', detail: 'User Deleted rejected' });
+      }
+    });
+  }
+
+
   // time return
   geTime() {
     const date = new Date();
