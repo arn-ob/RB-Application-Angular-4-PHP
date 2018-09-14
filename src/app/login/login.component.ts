@@ -43,13 +43,13 @@ export class LoginComponent implements OnInit {
     } else {
       // tslint:disable-next-line:max-line-length
       const sql = { 'sql': 'Select * from login where username = "' + btoa(this.username) + '" and password = "' + btoa(this.password) + '" limit 1' };
-      console.log(sql);
+      // console.log(sql);
       this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).subscribe(
         response => {
           this.result = response.json();
           if (this.result.length === 1) {
             this.message.add({ severity: 'success', summary: 'Login Found', detail: 'Welcome' });
-            console.log('Found');
+            // console.log('Found');
             this.cookie.set('login', '1');
             this.cookie.set('username', this.username);
             this.cookie.set(response.json()[0].role, '1');
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
           } else {
             this.message.add({ severity: 'error', summary: 'Login Failed', detail: 'Check Username and Password' });
           }
-          console.log(this.result);
+          // console.log(this.result);
         },
         err => {
           console.log(err);

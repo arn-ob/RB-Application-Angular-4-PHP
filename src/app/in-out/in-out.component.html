@@ -1,0 +1,159 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-sidebar [(visible)]="inCash" position="left" [baseZIndex]="10000">
+  <h2 style="font-weight:normal">Cash IN Entry</h2>
+
+  <div class="input-group mb-3 mt-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Porpose</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Tell" [(ngModel)]="cashInName" name="cashInName">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Details</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Details" [(ngModel)]="cashInDetails" name="cashInDetails">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Amount</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Amount" [(ngModel)]="cashInAmount" name="cashInAmount" (keyup)="isNumber('in')">
+  </div>
+
+  <br>
+  <button pButton type="button" (click)="EntryCheck('in')" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="inCash = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
+<p-sidebar [(visible)]="outCash" position="right" [baseZIndex]="10000">
+  <h2 style="font-weight:normal">Cash OUT Entry</h2>
+
+  
+  <div class="input-group mb-3 mt-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Porpose</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Tell" [(ngModel)]="cashOutName" name="cashOutName">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Details</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Details" [(ngModel)]="cashOutDetails" name="cashOutDetails">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Amount</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Amount" [(ngModel)]="cashOutAmount" name="cashOutAmount"
+      (keyup)="isNumber('out')">
+  </div>
+  <br>
+
+  <button pButton type="button" (click)="EntryCheck('out')" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="outCash = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
+<p-sidebar [(visible)]="outCashEdit" [fullScreen]="true" [baseZIndex]="10000">
+  <h1 style="font-weight:normal">Cash out Edit</h1>
+  <button pButton type="button" (click)="outCashEdit = false" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="outCashEdit = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
+<p-sidebar [(visible)]="inCashEdit" [fullScreen]="true" [baseZIndex]="10000">
+  <h1 style="font-weight:normal">Cash in Edit</h1>
+  <button pButton type="button" (click)="inCashEdit = false" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="inCashEdit = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
+
+
+<div class="alert alert-danger" role="alert">
+  Daily IN-OUT Transaction
+</div>
+
+
+<div class="row">
+
+  <!--Cash IN-->
+  <div class="col">
+    <div class="container">
+
+      <button type="button" (click)="inCash = true" class="btn btn-success ml-4">New Cash IN</button>
+      <button type="button" (click)="inCashEdit = true" class="btn btn-warning ml-4">Cash IN Edit</button>
+
+      <div class="container mt-3">
+        <div>
+          <p class="alert alert-info">Cash IN</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Porpose</th>
+                <th scope="col">Details</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Delete (If admin)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of LoginResult">
+                <td>{{r.username}}</td>
+                <td>{{r.password}}</td>
+                <td>{{r.role}}</td>
+                <td> <button type="button" class="btn btn-warning ml-3" (click)="deleteLogin(r.id)">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="container mt-3">
+        <p class="alert alert-info">Decoding Login Details </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Cash Out-->
+  <div class="col mr-2">
+
+    <button type="button" (click)="outCash = true" class="btn btn-success ml-4">New Cash Out</button>
+    <button type="button" (click)="outCashEdit = true" class="btn btn-warning ml-4">Cash Out Edit</button>
+
+    <div class="container mt-3">
+      <div>
+        <p class="alert alert-info">Cash OUT</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Porpose</th>
+              <th scope="col">Details</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Delete (If admin)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of LoginResult">
+              <td>{{r.username}}</td>
+              <td>{{r.password}}</td>
+              <td>{{r.role}}</td>
+              <td> <button type="button" class="btn btn-warning ml-3" (click)="deleteLogin(r.id)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container mt-3">
+      <p class="alert alert-info">Decoding Login Details </p>
+
+    </div>
+  </div>
+
+</div>

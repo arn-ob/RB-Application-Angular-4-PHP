@@ -31,6 +31,8 @@ import { AdministrationComponent } from './administration/administration.compone
 import { PrintSectionComponent } from './print-section/print-section.component';
 import { StatementViewComponent } from './statement-view/statement-view.component';
 import { StatementSummaryComponent } from './statement-summary/statement-summary.component';
+import { InOutComponent } from './in-out/in-out.component';
+import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 
 // App Route
 const appRoutes: Routes = [
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
   { path: 'index', component: IndexPageComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'admin', component: AdministrationComponent},
-  { path: 'print-details', component: PrintSectionComponent}
+  { path: 'print-details', component: PrintSectionComponent},
+  { path: 'in-out', component: InOutComponent}
 ];
 
 @NgModule({
@@ -65,7 +68,8 @@ const appRoutes: Routes = [
     AdministrationComponent,
     PrintSectionComponent,
     StatementViewComponent,
-    StatementSummaryComponent
+    StatementSummaryComponent,
+    InOutComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +80,7 @@ const appRoutes: Routes = [
     CalendarModule,
     ToastModule,
     ConfirmDialogModule,
+    SidebarModule,
     Ng2GoogleChartsModule,
     RouterModule.forRoot(
       appRoutes,

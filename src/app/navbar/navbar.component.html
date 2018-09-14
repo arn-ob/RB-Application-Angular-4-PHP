@@ -24,6 +24,9 @@
       <li class="nav-item">
         <a class="nav-link" style="color: red" routerLink="/print-details" *ngIf="checkLogin()">Printing</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" style="color: red" routerLink="/in-out" *ngIf="checkLogin()">Cash IN/OUT</a>
+        </li>
       <li class="nav-item" *ngIf="checkLogin()">
           <a class="nav-link" style="color: red" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
         </li>
