@@ -14,11 +14,11 @@ import { AccountViewComponent } from './account-view/account-view.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AccountEntryComponent } from './account-entry/account-entry.component';
 import { SearchComponent } from './search/search.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
-import {ToastModule} from 'primeng/toast';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {DropdownModule} from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ConfirmationService } from 'primeng/api';
 import { EditComponent } from './edit/edit.component';
@@ -36,19 +36,19 @@ import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 
 // App Route
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent},
-  { path: 'print-oder', component: PrintRequestComponent},
-  { path: 'account-view', component: AccountViewComponent},
-  { path: 'account-entry', component: AccountEntryComponent},
-  { path: 'search', component: SearchComponent},
-  { path: 'edit', component: EditComponent},
-  { path: 'history', component: HistoryComponent},
-  { path: 'print', component: InvoiceComponent},
-  { path: 'index', component: IndexPageComponent},
-  { path: 'logout', component: LogoutComponent},
-  { path: 'admin', component: AdministrationComponent},
-  { path: 'print-details', component: PrintSectionComponent},
-  { path: 'in-out', component: InOutComponent}
+  { path: '', component: LoginComponent },
+  { path: 'print-oder', component: PrintRequestComponent },
+  { path: 'account-view', component: AccountViewComponent },
+  { path: 'account-entry', component: AccountEntryComponent },
+  { path: 'search', component: SearchComponent },
+  { path: 'edit', component: EditComponent },
+  { path: 'history', component: HistoryComponent },
+  { path: 'print', component: InvoiceComponent },
+  { path: 'index', component: IndexPageComponent },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'admin', component: AdministrationComponent },
+  { path: 'print-details', component: PrintSectionComponent },
+  { path: 'in-out', component: InOutComponent }
 ];
 
 @NgModule({
@@ -86,7 +86,7 @@ const appRoutes: Routes = [
       appRoutes,
       {
         enableTracing: false, // <-- debugging purposes only
-      }
+      },
     )
   ],
   providers: [

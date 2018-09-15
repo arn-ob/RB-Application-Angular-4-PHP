@@ -36,17 +36,20 @@ export class PrintSectionComponent implements OnInit {
     // Some how it did not work from var.
     // tslint:disable-next-line:max-line-length
     const Temp_store = { 'sql': this.parseSqlFromJSON('details') };
+    this.message.add({ severity: 'warn', summary: 'Wait', detail: 'Working' });
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
         this.result = response.json();
         if (this.result.length === 0) {
           this.nothingFound = true;
-          console.log('Nothing Found');
+          this.message.add({ severity: 'info', summary: 'Information', detail: 'Nothing Found' });
+          // console.log('Nothing Found');
         } else {
           this.nothingFound = false;
           this.isLoaded = true;
-          console.log('Found');
+          this.message.add({ severity: 'info', summary: 'Information', detail: 'Showing List' });
+          // console.log('Found');
         }
       },
       err => {
@@ -55,18 +58,22 @@ export class PrintSectionComponent implements OnInit {
       });
   }
 
-  updatePrintStatus(billNo, filename) {
-    if (this.printStatus !== undefined) {
+  updatePrintStatus(change, billNo, filename) {
+    console.log(change);
+    this.printStatus = change;
+    if (this.printStatus !== undefined && this.printStatus !== 'Not_Selected') {
       if (this.printStatus !== this.printStatusTemp) {
+        this.message.add({ severity: 'warn', summary: 'Wait', detail: 'Working' });
         this.printStatusTemp = this.printStatus;
 
         // tslint:disable-next-line:max-line-length
-        const sql = { 'sql': 'UPDATE printstatus SET Status ="' + this.printStatus + '", updateBy = "' + this.username + '"  where BillNo = "' + billNo + '" and FileName = "' + filename + '"'};
+        const sql = { 'sql': 'UPDATE printstatus SET Status ="' + this.printStatus + '", updateBy = "' + this.username + '"  where BillNo = "' + billNo + '" and FileName = "' + filename + '"' };
         this.sql.postRequest('updateSql/updateSql.php', sql).subscribe(
           response => {
             // console.log(response);
             if (response.json()[0].status === 'Done') {
               this.message.add({ severity: 'info', summary: 'Information', detail: 'Updated' });
+              this.printDetails();
             } else {
               this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Contact with Developer' });
             }
@@ -81,6 +88,7 @@ export class PrintSectionComponent implements OnInit {
 
   statement(value) {
     const Temp_store = { 'sql': this.parseSqlFromJSON(value) };
+    this.message.add({ severity: 'warn', summary: 'Wait', detail: 'Working' });
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         console.log(response.json());

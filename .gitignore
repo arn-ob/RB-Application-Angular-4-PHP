@@ -5,6 +5,7 @@
 /dist-server
 /tmp
 /out-tsc
+/web2
 
 # dependencies
 /node_modules
@@ -42,3 +43,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+

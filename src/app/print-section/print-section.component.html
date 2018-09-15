@@ -43,7 +43,8 @@
           <td>{{list.CreatedTime}}</td>
           <td>{{list.CreatedDate}}</td>
           <td>{{list.Status}}</td>
-          <select class="form-control" [(ngModel)]="printStatus" name="printStatus" (click)="updatePrintStatus(list.BillNo, list.FileName)">
+          <select class="form-control" (click)="updatePrintStatus($event.target.value, list.BillNo, list.FileName)">
+            <option>Not_Selected</option>
             <option>Printing</option>
             <option>Complete_Printing</option>
             <option>Error_in_Printing</option>
@@ -55,5 +56,9 @@
   </div>
   <div class="alert alert-danger mt-3" role="alert" *ngIf="nothingFound">
     No Record Found
+  </div>
+
+  <div class="alert alert-info mt-3" role="alert" *ngIf="!isLoaded">
+    Loading
   </div>
 </div>
