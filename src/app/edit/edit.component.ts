@@ -44,10 +44,16 @@ export class EditComponent implements OnInit {
   // view expression
   isResultDataLoad = false;
   isResultFoundDate = false;
+  isNumberProblem = false;
 
   billNo: any;
   pvc = 15;
   pana = 15;
+
+  // var for button store
+  btnDue = 0;
+  btnAdvance = 0;
+  btnAmount = 0;
 
   constructor(
     private cookie: CookieService,
@@ -160,6 +166,7 @@ export class EditComponent implements OnInit {
     v1 = Number(v1); // Convet Number
 
     if (v1 !== 0 && Number(v1)) {
+      this.isNumberProblem = false;
       let sql: any;
 
       if (v3 === 'wide') {
@@ -212,6 +219,7 @@ export class EditComponent implements OnInit {
       this.calculate_total();
 
     } else {
+      this.isNumberProblem = true;
       this.message.add({ severity: 'info', summary: 'Info', detail: 'Enter Value or its Not Store to DB' });
     }
   }
@@ -232,6 +240,7 @@ export class EditComponent implements OnInit {
 
     this.amount = Number(cal);
     this.due = Number(cal) - Number(this.resultOfPrintAccountDetails[0].advance);
+    this.btnAmount = this.amount;
 
     // tslint:disable-next-line:max-line-length
     const sql = { 'sql': 'UPDATE account SET amount = "' + this.amount + '",Due = "' + this.due + '" where BillNo = "' + this.billNo + '"' };
@@ -248,6 +257,10 @@ export class EditComponent implements OnInit {
     if (amount > Number(value)) {
       this.advance = advance + Number(value);
       const due = amount - Number(this.advance);
+
+      this.btnAmount = amount;
+      this.btnAdvance = this.advance;
+      this.btnDue = due;
 
       // tslint:disable-next-line:max-line-length
       const sql = { 'sql': 'UPDATE account SET advance = "' + this.advance + '",Due = "' + due + '" where BillNo = "' + this.billNo + '"' };
@@ -276,5 +289,36 @@ export class EditComponent implements OnInit {
         console.log(err);
         this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
       });
+  }
+
+  // event triger from btn
+  universalUpdateSqlForBtn() {
+
+    // tslint:disable-next-line:max-line-length
+    if (this.btnAdvance === undefined || this.btnAdvance === 0 || this.advance === undefined || this.advance === 0 || this.btnDue === undefined || this.btnDue === 0) {
+      this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Check the Advance, Amount and Due' });
+      this.isNumberProblem = true;
+
+    } else {
+      this.isNumberProblem = false;
+      this.message.add({ severity: 'warn', summary: 'Wait', detail: 'Working' });
+
+      // tslint:disable-next-line:max-line-length
+      const sql = { 'sql': 'UPDATE account SET amount = "' + this.btnAmount + '",advance = "' + this.btnAdvance + '",Due = "' + this.btnDue + '" where BillNo = "' + this.billNo + '"' };
+
+      this.sql.postRequest('updateSql/updateSql.php', sql).subscribe(
+        response => {
+          // console.log(response);
+          if (response.json()[0].status === 'Done') {
+            this.message.add({ severity: 'info', summary: 'Information', detail: 'Edit Record and Account Update' });
+          } else {
+            this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Contact with Developer' });
+          }
+        },
+        err => {
+          console.log(err);
+          this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+        });
+    }
   }
 }

@@ -33,6 +33,7 @@ import { StatementViewComponent } from './statement-view/statement-view.componen
 import { StatementSummaryComponent } from './statement-summary/statement-summary.component';
 import { InOutComponent } from './in-out/in-out.component';
 import { SidebarModule } from 'primeng/components/sidebar/sidebar';
+import { StockComponent } from './stock/stock.component';
 
 // App Route
 const appRoutes: Routes = [
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'admin', component: AdministrationComponent },
   { path: 'print-details', component: PrintSectionComponent },
-  { path: 'in-out', component: InOutComponent }
+  { path: 'in-out', component: InOutComponent },
+  { path: 'stock', component: StockComponent }
 ];
 
 @NgModule({
@@ -69,7 +71,8 @@ const appRoutes: Routes = [
     PrintSectionComponent,
     StatementViewComponent,
     StatementSummaryComponent,
-    InOutComponent
+    InOutComponent,
+    StockComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { Md5 } from 'ts-md5';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,7 +10,8 @@ import { UUID } from 'angular2-uuid';
   templateUrl: './print-request.component.html',
   styleUrls: ['./print-request.component.css']
 })
-export class PrintRequestComponent implements OnInit {
+
+export class PrintRequestComponent implements OnInit, OnDestroy {
   // info of html input
   AIid = 1;
   printName: any;
@@ -243,6 +244,12 @@ export class PrintRequestComponent implements OnInit {
     }
     if (value === undefined) {
       this.submitLock = false;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.db_push_array_size !== 0) {
+      this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'Array was not Zero' });
     }
   }
 }

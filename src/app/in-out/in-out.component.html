@@ -1,3 +1,16 @@
+<div class="alert alert-info mb-4" role="alert">
+  <div class="row">
+    <div class="col-1">
+      <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
+    </div>
+
+    <div class="col mt-2">
+      Daily IN-OUT Transaction
+    </div>
+  </div>
+</div>
+
+
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
@@ -72,12 +85,6 @@
   <button pButton type="button" (click)="inCashEdit = false" label="Save" class="ui-button-success"></button>
   <button pButton type="button" (click)="inCashEdit = false" label="Cancel" class="ui-button-secondary"></button>
 </p-sidebar>
-
-
-
-<div class="alert alert-danger" role="alert">
-  Daily IN-OUT Transaction
-</div>
 
 
 <div class="row">

@@ -1,6 +1,15 @@
-<div class="alert alert-info" role="alert">
-  Account Details
+<div class="alert alert-info mb-4" role="alert">
+  <div class="row">
+    <div class="col-1">
+      <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
+    </div>
+
+    <div class="col mt-2">
+      Account Details
+    </div>
+  </div>
 </div>
+
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
@@ -46,11 +55,11 @@
           <td>{{list.PrintType}}</td>
           <td>{{list.FileName}}</td>
           <td>{{list.CreatedTime}}</td>
-          <button  type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="enter(list.BillNo)">Enter</button>
+          <button type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="enter(list.BillNo)">Enter</button>
         </tr>
       </tbody>
     </table>
-    
+
   </div>
   <div class="alert alert-danger" role="alert" *ngIf="nothingFound">
     No Record Found
