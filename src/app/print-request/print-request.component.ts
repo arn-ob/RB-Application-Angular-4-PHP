@@ -1,9 +1,11 @@
+import { ConfirmationService } from 'primeng/api';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { Md5 } from 'ts-md5';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { UUID } from 'angular2-uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-print-request',
@@ -11,7 +13,7 @@ import { UUID } from 'angular2-uuid';
   styleUrls: ['./print-request.component.css']
 })
 
-export class PrintRequestComponent implements OnInit, OnDestroy {
+export class PrintRequestComponent implements OnInit {
   // info of html input
   AIid = 1;
   printName: any;
@@ -43,12 +45,16 @@ export class PrintRequestComponent implements OnInit, OnDestroy {
   // sql process error
   sqlError: false;
   submitLock = false;
+  isDialog = false;
 
   constructor(
     private sql: SqlService,
     private cookie: CookieService,
     private md5: Md5,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router,
+    private confirmationService: ConfirmationService
+    // private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -225,7 +231,7 @@ export class PrintRequestComponent implements OnInit, OnDestroy {
           this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'No Type Found' });
         } else {
           this.isTypeinfoShow = true;
-          console.log(this.typeResult);
+          // console.log(this.typeResult);
         }
       },
       err => {
@@ -247,9 +253,23 @@ export class PrintRequestComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+
+  canDeactivate() {
     if (this.db_push_array_size !== 0) {
-      this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: 'Array was not Zero' });
+      this.isDialog = true;
+      this.confirmationService.confirm({
+        message: 'Are You Sure Because The Print list Was Not Empty. Please check the Print list',
+        accept: () => {
+          return true;
+        },
+        reject: () => {
+          this.isDialog = false;
+          return false;
+        }
+      });
+    } else {
+      this.isDialog = false;
+      return true;
     }
   }
 }

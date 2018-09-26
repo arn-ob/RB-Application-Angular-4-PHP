@@ -9,7 +9,6 @@ import { SqlService } from '../service/sql/sql.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
   constructor(
     private cookie: CookieService
   ) { }
@@ -28,6 +27,22 @@ export class NavbarComponent implements OnInit {
 
   isAdmin() {
     if (this.cookie.get('Admin') === '1') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isAccount() {
+    if (this.cookie.get('Account') === '1') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isPrint() {
+    if (this.cookie.get('Print') === '1') {
       return true;
     } else {
       return false;

@@ -1,16 +1,29 @@
-<div class="body">
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-  <p-toast [style]="{marginTop: '80px'}"></p-toast>
-  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-  
+<div class="container" *ngIf="!isBox">
+
+  <div class="row">
+    <div class="col-3">
+    </div>
+    <div class="col">
+      <img src="{{img_link}}" height="100" width="500" class="mr-4" />
+    </div>
+  </div>
+
   <form class="form-signin">
-    <h3 class="alert alert-primary">Revolution Bangladesh</h3>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail" class="sr-only">Username</label>
     <input type="text" class="form-control" placeholder="Username" [(ngModel)]="username" name="username">
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" class="form-control" placeholder="Password" [(ngModel)]="password" name="password">
 
-    <button class="btn btn-lg btn-success btn-block" (click)="login()">Sign in</button>
+    <button class="btn btn-lg btn-success btn-block" (click)="login()">Login</button>
+
+    <div class="alert alert-danger mt-3" role="alert">
+      Not Ready for Professional Use
+    </div>
   </form>
+
+
 </div>

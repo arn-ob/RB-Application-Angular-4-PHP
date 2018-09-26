@@ -1,40 +1,47 @@
+<p-sidebar [(visible)]="bottom" position="bottom" [baseZIndex]="10000">
+  <h3 style="font-weight:normal">More Option</h3>
+  <button pButton type="button" routerLink="/stock" (click)="bottom = false" label="Stock" class="ui-button-success"></button>
+  <button pButton type="button" routerLink="/in-out" (click)="bottom = false" label="Cash IN/OUT" class="ui-button-success"></button>
+  <button pButton type="button" (click)="bottom = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
 <nav class="navbar fixed-bottom navbar-expand navbar-secondary bg-dark">
-  <a class="navbar-brand" routerLink="" style="color: red">RB Software</a>
+  <a class="navbar-brand" routerLink="" style="color: white">RB Software</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/sign" *ngIf="!checkLogin()">Signin</a>
+      <li class="nav-item" *ngIf="!checkLogin()">
+        <button type="button" class="btn btn-success btn-sm mt-1" routerLink="/sign">Login</button>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/index" style="color: red" *ngIf="checkLogin()">Home</a>
+      <li class="nav-item active" *ngIf="checkLogin()">
+        <a class="nav-link" routerLink="/index" style="color: white">Home</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/print-oder" *ngIf="checkLogin()">Order</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/search" *ngIf="checkLogin()">Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/account-view" *ngIf="checkLogin()">Account</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/print-details" *ngIf="checkLogin()">Printing</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" style="color: red" routerLink="/in-out" *ngIf="checkLogin()">Cash IN/OUT</a>
-        </li>
       <li class="nav-item" *ngIf="checkLogin()">
-          <a class="nav-link" style="color: red" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
-        </li>
-      <li class="nav-item">
-        <a class="nav-link" style="color: red" routerLink="/logout" *ngIf="checkLogin()">Logout</a>
+        <a class="nav-link" style="color: white" routerLink="/print-oder">Order</a>
+      </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+        <a class="nav-link" style="color: white" routerLink="/search">Search</a>
+      </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+        <a class="nav-link" style="color: white" routerLink="/account-view">Account</a>
+      </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+        <a class="nav-link" style="color: white" routerLink="/print-details">Printing</a>
+      </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+        <a class="nav-link" style="color: white" routerLink="/admin" *ngIf="isAdmin()">Root Access</a>
+      </li>
+      <li class="nav-item" *ngIf="checkLogin()">
+        <button type="button" class="btn btn-light btn-sm mt-1" (click)="bottom = true">More Option</button>
+      </li>
+      <li class="nav-item ml-1" *ngIf="checkLogin()">
+        <button type="button" class="btn btn-danger btn-sm mt-1" routerLink="/logout">Logout</button>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: yellow">Beta -> Build 2.20</span>
+        <span class="nav-link" style="color: yellow">Beta -> Build 2.20 [Test Version]</span>
       </li>
       <li class="nav-item">
         <span class="nav-link" style="color: yellow">Last Updated -> 14.9.18</span>

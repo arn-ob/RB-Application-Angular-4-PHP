@@ -1,3 +1,86 @@
-<p>
-  stock works!
-</p>
+<div class="alert alert-info mb-4" role="alert">
+  <div class="row">
+    <div class="col-1">
+      <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
+    </div>
+
+    <div class="col mt-2">
+      Stock
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Add Item" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="300"
+  [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  <span>The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.
+    His beloved son Michael has just come home from the war, but does not intend to become part of his father's
+    business.
+    Through Michael's life the nature of the family business becomes clear. The business of the family is just like
+    the head of the family,
+    kind and benevolent to those who give respect,
+    but given to ruthless violence whenever anything stands against the good of the family.</span>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Yes"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="display=false" label="No" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
+<button type="text" (click)="showDialog()" pButton icon="pi pi-info-circle" label="Show"></button>
+
+
+<div class="row">
+  <div class="col-8">
+    <div class="container mt-3">
+      <div>
+        <p class="alert alert-info">Stock</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Entry By</th>
+              <th scope="col">Details</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">In or Out</th>
+              <th scope="col">Time</th>
+              <th scope="col">Date</th>
+
+              <th scope="col">Delete (If admin)</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of inResult">
+              <td>{{r.porpose}}</td>
+              <td>{{r.details}}</td>
+              <td>{{r.amount}}</td>
+              <td>{{r.updateby}}</td>
+              <td>{{r.CreatedTime}}</td>
+              <td>{{r.CreatedDate}}</td>
+
+              <td> <button type="button" class="btn btn-warning ml-3" (click)="delete(r.entryid)">Delete</button></td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <p class="alert alert-info mt-3 mr-3">Hello</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col">Total </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of typeArray">
+          <td>{{r.type}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+      </table>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { GurdGuard } from './service/gurd/gurd.guard';
 import { Md5 } from 'ts-md5';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -34,11 +35,12 @@ import { StatementSummaryComponent } from './statement-summary/statement-summary
 import { InOutComponent } from './in-out/in-out.component';
 import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 import { StockComponent } from './stock/stock.component';
+import { DialogModule } from 'primeng/dialog';
 
 // App Route
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'print-oder', component: PrintRequestComponent },
+  { path: 'print-oder', component: PrintRequestComponent, canDeactivate: [GurdGuard] },
   { path: 'account-view', component: AccountViewComponent },
   { path: 'account-entry', component: AccountEntryComponent },
   { path: 'search', component: SearchComponent },
@@ -84,6 +86,7 @@ const appRoutes: Routes = [
     ToastModule,
     ConfirmDialogModule,
     SidebarModule,
+    DialogModule,
     Ng2GoogleChartsModule,
     RouterModule.forRoot(
       appRoutes,
@@ -97,6 +100,7 @@ const appRoutes: Routes = [
     CookieService,
     MessageService,
     ConfirmationService,
+    GurdGuard,
     Md5
   ],
   bootstrap: [AppComponent]

@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   username: any;
   password: any;
   result: any[];
-
+  isBox = false;
+  img_link;
   constructor(
     private sql: SqlService,
     private message: MessageService,
@@ -24,13 +25,16 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
     if (this.cookie.get('login') === '1') {
+      this.isBox = true;
       this.confirmationService.confirm({
         message: 'Are you wanted to access as a Current User',
         accept: () => {
           this.router.navigate(['/index']);
         },
         reject: () => {
+          this.isBox = false;
           this.cookie.deleteAll();
         }
       });
