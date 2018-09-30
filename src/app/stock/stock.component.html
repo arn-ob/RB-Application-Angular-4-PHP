@@ -3,84 +3,127 @@
     <div class="col-1">
       <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
     </div>
-
     <div class="col mt-2">
       Stock
     </div>
   </div>
 </div>
 
-<p-dialog header="Add Item" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="300"
+<p-dialog header="Add Stock" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="300"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
-  <span>The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.
-    His beloved son Michael has just come home from the war, but does not intend to become part of his father's
-    business.
-    Through Michael's life the nature of the family business becomes clear. The business of the family is just like
-    the head of the family,
-    kind and benevolent to those who give respect,
-    but given to ruthless violence whenever anything stands against the good of the family.</span>
+
+  <div class="input-group mb-3 mt-4">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Details</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Details" [(ngModel)]="details" name="details">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Media</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Media" [(ngModel)]="media" name="media">
+  </div>
+
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Size</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Size" [(ngModel)]="size" name="size" (keyup)="isNumber()">
+  </div>
+
+  <select class="form-control mb-4" id="PrintStatus" [(ngModel)]="mediaWhere" name="mediaWhere">
+    <option>Select</option>
+    <option>IN</option>
+    <option>OUT</option>
+  </select>
+
   <p-footer>
-    <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Yes"></button>
+    <button type="button" pButton icon="pi pi-check" (click)=" postToStockDB()" label="Store"></button>
     <button type="button" pButton icon="pi pi-close" (click)="display=false" label="No" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>
 
-<button type="text" (click)="showDialog()" pButton icon="pi pi-info-circle" label="Show"></button>
 
-
-<div class="row">
+<div class="row ml-3">
   <div class="col-8">
     <div class="container mt-3">
-      <div>
-        <p class="alert alert-info">Stock</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Entry By</th>
-              <th scope="col">Details</th>
-              <th scope="col">Type</th>
-              <th scope="col">Amount</th>
-              <th scope="col">In or Out</th>
-              <th scope="col">Time</th>
-              <th scope="col">Date</th>
-
-              <th scope="col">Delete (If admin)</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let r of inResult">
-              <td>{{r.porpose}}</td>
-              <td>{{r.details}}</td>
-              <td>{{r.amount}}</td>
-              <td>{{r.updateby}}</td>
-              <td>{{r.CreatedTime}}</td>
-              <td>{{r.CreatedDate}}</td>
-
-              <td> <button type="button" class="btn btn-warning ml-3" (click)="delete(r.entryid)">Delete</button></td>
-
-            </tr>
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="col-3">
+          <button (click)="showDialog()" type="button" class="btn btn-light mb-2">Stock Entry</button>
+        </div>
+        <div class="col-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Total IN</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{INsum}}" readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Total OUT</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{OUTsum}}" readonly>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="col">
-    <p class="alert alert-info mt-3 mr-3">Hello</p>
+  <div>
+    <p class="alert alert-info">Stock</p>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Type</th>
-          <th scope="col">Total </th>
+          <th scope="col">ID</th>
+          <th scope="col">Details</th>
+          <th scope="col">Media</th>
+          <th scope="col">Size (SFT)</th>
+          <th scope="col">IN/OUT</th>
+          <th scope="col">Time</th>
+          <th scope="col">Date</th>
+
+          <th scope="col">Delete (If admin)</th>
+
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let r of typeArray">
-          <td>{{r.type}}</td>
-          <td></td>
+        <tr *ngFor="let r of stock">
+          <td>{{r.id}}</td>
+          <td>{{r.details}}</td>
+          <td>{{r.media}}</td>
+          <td>{{r.size}}</td>
+          <td>{{r.mediawhere}}</td>
+          <td>{{r.created_time}}</td>
+          <td>{{r.created_date}}</td>
+          <td> <button type="button" class="btn btn-warning ml-3" (click)="DeleteFromStockDB(r.id)">Delete</button></td>
         </tr>
       </tbody>
+    </table>
+  </div>
+
+
+
+  <div class="col">
+    <p class="alert alert-info mt-3 mr-3">Media Type Printed</p>
+    <div class="container mt-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Total </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of typeAndSumResult">
+            <td>{{r.type}}</td>
+            <td>{{r.sftsum}}</td>
+          </tr>
+        </tbody>
       </table>
+    </div>
   </div>
 </div>
