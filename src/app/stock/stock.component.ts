@@ -4,6 +4,7 @@ import { SqlService } from '../service/sql/sql.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { UUID } from 'angular2-uuid';
+import { TimeDateID } from './timeDateID';
 
 @Component({
   selector: 'app-stock',
@@ -12,6 +13,10 @@ import { UUID } from 'angular2-uuid';
 })
 export class StockComponent implements OnInit {
   display: Boolean = false;
+
+  // view
+  readyForViewStock = false;
+  readyForViewType = false;
 
   // input info
   details: any;
@@ -27,31 +32,40 @@ export class StockComponent implements OnInit {
   remain: { [k: string]: any } = {};
   INsum = 0;
   OUTsum = 0;
+  Wastesum = 0;
+  typeSQL;
+  stockSQL;
 
   // media work
   typeAndSumResult = [];
   inShow = true;
+  type = [];
+  typeOptionShow = false;
 
   // stock
   stock = [];
 
   constructor(
     private message: MessageService,
-    private sql: SqlService
+    private sql: SqlService,
+    private tdi: TimeDateID
   ) { }
 
   ngOnInit() {
-    this.getTypeFromDB();
-    this.getStockDB();
+    this.All();
+    this.getEntryTypeFromDB();
 
   }
 
+  // Show th Stock input Field
   showDialog() {
     this.display = true;
   }
 
+  // Check Number
   isNumber() {
     if (!Number(this.size)) {
+      this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Please Enter Number' });
       this.size = undefined;
     }
   }
@@ -61,6 +75,7 @@ export class StockComponent implements OnInit {
     this.tempVal2 = this.stock;
     let inSum = 0;
     let outSum = 0;
+    let wastesum =  0;
     for (let i = 0; i < this.tempVal2.length; i++) {
       if (this.tempVal2[i].mediawhere === 'IN') {
         inSum = inSum + Number(this.tempVal2[i].size);
@@ -68,78 +83,106 @@ export class StockComponent implements OnInit {
       if (this.tempVal2[i].mediawhere === 'OUT') {
         outSum = outSum + Number(this.tempVal2[i].size);
       }
+      if (this.tempVal2[i].mediawhere === 'WASTE') {
+        wastesum = wastesum + Number(this.tempVal2[i].size);
+      }
     }
     this.INsum = inSum;
     this.OUTsum = outSum;
-
+    this.Wastesum = wastesum;
     // console.log({inSum, outSum});
   }
 
+  /**
+   * This Function Use for store stock input to database
+   */
   postToStockDB() {
-    // tslint:disable-next-line:max-line-length
-    const sql = { 'sql': 'INSERT INTO stock(id, details, media, size, mediawhere, created_time, created_date) VALUES ("' + this.getRandomID() + '", "' + this.details + '", "' + this.media + '", "' + this.size + '", "' + this.mediaWhere + '", "' + this.geTime() + '", "' + this.geDate() + '")' };
-    this.sql.postQry(sql, 'phpQuery/queryArgRDone.php').then((result) => {
-      console.log(result);
-      this.getStockDB();
-      this.remainingCalculate();
-      this.clearinput();
-    });
+    if (this.media === undefined || this.mediaWhere === undefined || this.details === undefined || this.size === undefined) {
+      this.message.add({ severity: 'error', summary: 'Problem Found', detail: 'Check Stock Input' });
+    } else {
+      // tslint:disable-next-line:max-line-length
+      const sql = { 'sql': 'INSERT INTO stock(id, details, media, size, mediawhere, created_time, created_date) VALUES ("' + this.tdi.getRandomID() + '", "' + this.details + '", "' + this.media + '", "' + this.size + '", "' + this.mediaWhere + '", "' + this.tdi.geTime() + '", "' + this.tdi.geDate() + '")' };
+      this.sql.postQry(sql, 'phpQuery/queryArgRDone.php').then((result) => {
+        console.log(result);
+        this.getStockDB();
+        this.remainingCalculate();
+        this.clearinput();
+      }).catch ( err => {
+        this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
+      });
+    }
   }
 
+  /**
+   * This delete stock record from Database
+   * @param value Stock ID
+   */
   DeleteFromStockDB(value) {
     // tslint:disable-next-line:max-line-length
     const sql = { 'sql': 'DELETE FROM stock WHERE id = "' + value + '"' };
     this.sql.postQry(sql, 'phpQuery/queryArgRDone.php').then((result) => {
       console.log(result);
       this.getStockDB();
+    }).catch ( err => {
+      this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
     });
   }
 
+  /**
+   * Get the print type from DB PrintType Table and Store to Array
+   * For Display
+   */
+  getEntryTypeFromDB() {
+    // tslint:disable-next-line:max-line-length
+    const sql = { 'sql': 'SELECT type FROM printtype' };
+    this.sql.postQry(sql, 'phpQuery/queryArgRJson.php').then((result) => {
+      this.type = result;
+      this.typeOptionShow = true;
+    }).catch ( err => {
+      this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
+    });
+  }
+
+  /**
+   * Get the Stock details from DB stock table
+   */
   getStockDB() {
     // tslint:disable-next-line:max-line-length
-    const sql = { 'sql': 'SELECT * from stock' };
+    const sql = this.stockSQL;
     this.sql.postQry(sql, 'phpQuery/queryArgRJson.php').then((result) => {
       this.stock = result;
+      this.readyForViewStock = true; // ready for render
       this.remainingCalculate();
+    }).catch ( err => {
+      this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
     });
   }
 
+  /**
+   * Get the print type and Print Type Total Sum From PrintDetails
+   */
   getTypeFromDB() {
     // tslint:disable-next-line:max-line-length
-    const sql = { 'sql': 'SELECT printdetails.PrintType as type, sum(printdetails.sft) as sftsum from printdetails GROUP BY printdetails.PrintType' };
+    const sql = this.typeSQL;
     this.sql.postQry(sql, 'phpQuery/queryArgRJson.php').then((result) => {
       this.typeAndSumResult = result;
+      this.readyForViewType = true; // ready for render
+    }).catch ( err => {
+      this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
     });
   }
 
-  // time return
-  geTime() {
-    const date = new Date();
-    let time = date.getHours() + ''; // convert number to string and it will again use as string
-    if (Number(time) >= 12) {
-      const pm = Number(date.getHours()) - 12;
-      time = pm + ':' + date.getMinutes() + ':' + date.getSeconds() + 'pm';
-    } else {
-      time = time + ':' + date.getMinutes() + ':' + date.getSeconds() + 'am';
-    }
-    return time;
-  }
-
-  // date return
-  geDate() {
-    const date = new Date();
-    const presentDate = date.getFullYear() + '/' + date.getMonth() + '/' + date.getDay();
-    return presentDate;
-  }
-
-  getRandomID() {
-    const date = new Date();
-    const uuid = UUID.UUID();
+  // sql bind
+  All() {
+    this.stockSQL = { 'sql': 'SELECT * from stock' };
     // tslint:disable-next-line:max-line-length
-    const id = date.getHours().toString() + date.getMinutes().toString() + date.getMilliseconds().toString() + uuid.split('-')[2];
-    return id;
+    this.typeSQL = { 'sql': 'SELECT printdetails.PrintType as type, sum(printdetails.sft) as sftsum from printdetails GROUP BY printdetails.PrintType' };
+    this.getTypeFromDB();
+    this.getStockDB();
   }
 
+
+  /** Clear the input Field */
   clearinput() {
     this.details = undefined;
     this.size = undefined;

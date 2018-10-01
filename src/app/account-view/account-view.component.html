@@ -21,6 +21,18 @@
     This Order are not Approved By Account or The Advance is 0 Amount
   </div>
 
+  <div class="row mb-2 mt-2 ml-2 mr-2">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Enter Bill No or Phone Number" [(ngModel)]="btnBillNo"
+          name="btnBillNo">
+      </div>
+      <div class="col">
+        <button class="form-control btn-info" (click)="searchByBillNo()">Search</button>
+      </div>
+    </div>
+    <hr>
+
+
   <div class="row mt-1 mb-3">
     <div class="col">
       <button type="button" class="btn btn-warning btn-lg btn-block mt-2 mb-2" (click)="get_prev_list()">Show Previous</button>

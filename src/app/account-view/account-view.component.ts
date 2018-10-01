@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./account-view.component.css']
 })
 export class AccountViewComponent implements OnInit {
-
+  btnBillNo: any;
   oderList = [];
   isLoaded = false;
   nothingFound = true;
@@ -35,11 +35,11 @@ export class AccountViewComponent implements OnInit {
         // console.table(this.oderList);
         if (this.oderList.length === 0) {
           this.nothingFound = true;
-          console.log('nothing Found');
+          // console.log('nothing Found');
         } else {
-        console.log(' Found');
-        this.nothingFound = false;
-        this.isLoaded = true;
+          // console.log(' Found');
+          this.nothingFound = false;
+          this.isLoaded = true;
         }
       },
       err => {
@@ -55,16 +55,48 @@ export class AccountViewComponent implements OnInit {
         // console.table(response.json());
         if (this.oderList.length === 0) {
           this.nothingFound = true;
-          console.log('nothing Found');
+          // console.log('nothing Found');
         } else {
-        console.log(' Found');
-        this.nothingFound = false;
-        this.isLoaded = true;
+          // console.log(' Found');
+          this.nothingFound = false;
+          this.isLoaded = true;
         }
       },
       err => {
         console.log(err);
       });
+  }
+
+  searchByBillNo() {
+    const sql = { 'bill': this.btnBillNo };
+    this.sql.postQry(sql, 'accountHistoryForAccountEntry/searchByBillNo.php').then((result) => {
+      this.oderList = result;
+      // console.table(response.json());
+      if (this.oderList.length === 0) {
+        this.searchByPhnNo();
+        // console.log('nothing Found');
+      } else {
+        // console.log(' Found');
+        this.nothingFound = false;
+        this.isLoaded = true;
+      }
+    });
+  }
+
+  searchByPhnNo() {
+    const sql = { 'phn': this.btnBillNo };
+    this.sql.postQry(sql, 'accountHistoryForAccountEntry/searchByPhnNo.php').then((result) => {
+      this.oderList = result;
+      // console.table(response.json());
+      if (this.oderList.length === 0) {
+        this.nothingFound = true;
+        // console.log('nothing Found');
+      } else {
+        // console.log(' Found');
+        this.nothingFound = false;
+        this.isLoaded = true;
+      }
+    });
   }
 
   enter(value) {

@@ -1,3 +1,148 @@
-<p>
-  statement-summary works!
-</p>
+<div class="alert alert-info mb-4" role="alert">
+  <div class="row">
+    <div class="col-1">
+      <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
+    </div>
+    <div class="col mt-2">
+      Client Summary
+    </div>
+  </div>
+</div>
+
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<div class="row mb-2 mt-2 ml-2 mr-2">
+  <div class="col">
+    <input type="text" class="form-control" placeholder="Enter Mobile Number" (keyup)="isNumber()" [(ngModel)]="btnMblNo"
+      name="btnMblNo">
+  </div>
+  <div class="col">
+    <button class="form-control btn-info" (click)="find()">Search</button>
+  </div>
+</div>
+<hr>
+
+
+<div *ngIf="isShow">
+  <div *ngIf="!isfound">
+    <div class="alert alert-danger mb-4" role="alert">
+      Not Found
+    </div>
+  </div>
+
+  <div *ngIf="isfound">
+    <div *ngIf="isClientDataLoad">
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Client Name: {{resultOfClientFromDB.name}}</h1>
+          <span>
+            Address: {{resultOfClientFromDB.address}}
+            <br> 1. Phone No : {{resultOfClientFromDB.phoneNo1}}
+            <br> 2. Phone No : {{resultOfClientFromDB.phoneNo2}}
+            <br> Party Name: {{resultOfClientFromDB.PartyName}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="ml-2 mr-2 md-5 mt-5" *ngIf="isPrintDataLoad">
+      <p class="alert alert-secondary">Order History</p>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Bill No</th>
+              <th>FileName</th>
+              <th>Type</th>
+              <th>Hight</th>
+              <th>Wide</th>
+              <th>sft</th>
+              <th>Quantity</th>
+              <th>Optional</th>
+              <th>Time</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of resultOfPrintFromDB">
+              <td>{{list.BillNo}}</td>
+              <td>{{list.FileName}}</td>
+              <td>{{list.PrintType}}</td>
+              <td>{{list.height}}</td>
+              <td>{{list.wide}}</td>
+              <td>{{list.sft}}</td>
+              <td>{{list.quantity}}</td>
+              <td>{{list.option}}</td>
+              <td>{{list.CreatedTime}}</td>
+              <td>{{list.CreatedDate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ml-2 mr-2 md-5 mt-5" *ngIf="isAccountDataLoad">
+      <p class="alert alert-secondary">List Of Account</p>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Bill No</th>
+              <th>Price Per Sft</th>
+              <th>Quantity</th>
+              <th>SFT</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Advance</th>
+              <th>Due</th>
+              <th>Optional Price</th>
+              <th>Time</th>
+              <th>Date</th>
+              <th>Modified Time</th>
+              <th>Modified Date</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of resultOfAccountFromDB">
+              <td>{{list.BillNo}}</td>
+              <td>{{list.PricePerSft }}</td>
+              <td>{{list.quantity }}</td>
+              <td>{{list.totalSFT }}</td>
+              <td>{{list.type }}</td>
+              <td>{{list.amount }}</td>
+              <td>{{list.advance }}</td>
+              <td>{{list.Due }}</td>
+              <td>{{list.optionalPrice }}</td>
+              <td>{{list.CreatedTime }}</td>
+              <td>{{list.CreatedDate }}</td>
+              <td>{{list.LastModifiedTime }}</td>
+              <td>{{list.LastModifiedDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="ml-2 mr-2 md-5 mt-5" *ngIf="isAccountDataLoad">
+      <p class="alert alert-secondary">Transaction History</p>
+      <div class="form-row ml-2 mr-2">
+        <div class="form-group col-md-4">
+          <label>Amount</label>
+          <input type="text" readonly class="form-control-plaintext" placeholder="{{SUMamount}}">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Advance</label>
+          <input type="text" readonly class="form-control-plaintext" placeholder="{{SUMadvance}}">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Due</label>
+          <input type="text" readonly class="form-control-plaintext" placeholder="{{SUMdue}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

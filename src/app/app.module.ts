@@ -36,6 +36,7 @@ import { InOutComponent } from './in-out/in-out.component';
 import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 import { StockComponent } from './stock/stock.component';
 import { DialogModule } from 'primeng/dialog';
+import { TimeDateID } from './stock/timeDateID';
 
 // App Route
 const appRoutes: Routes = [
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdministrationComponent },
   { path: 'print-details', component: PrintSectionComponent },
   { path: 'in-out', component: InOutComponent },
-  { path: 'stock', component: StockComponent }
+  { path: 'stock', component: StockComponent },
+  { path: 'summary', component: StatementSummaryComponent }
 ];
 
 @NgModule({
@@ -101,7 +103,8 @@ const appRoutes: Routes = [
     MessageService,
     ConfirmationService,
     GurdGuard,
-    Md5
+    Md5,
+    TimeDateID
   ],
   bootstrap: [AppComponent]
 })

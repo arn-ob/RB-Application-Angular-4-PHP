@@ -9,6 +9,8 @@
   </div>
 </div>
 
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
 <p-dialog header="Add Stock" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="300"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
 
@@ -18,15 +20,14 @@
     </div>
     <input type="text" class="form-control" placeholder="Details" [(ngModel)]="details" name="details">
   </div>
-
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">Media</span>
     </div>
-    <input type="text" class="form-control" placeholder="Media" [(ngModel)]="media" name="media">
+    <select class="form-control" [(ngModel)]="media" name="media" *ngIf="typeOptionShow">
+      <option *ngFor="let r of type">{{r.type}}</option>
+    </select>
   </div>
-
-
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">Size</span>
@@ -35,9 +36,9 @@
   </div>
 
   <select class="form-control mb-4" id="PrintStatus" [(ngModel)]="mediaWhere" name="mediaWhere">
-    <option>Select</option>
-    <option>IN</option>
     <option>OUT</option>
+    <option>IN</option>
+    <option>WASTE</option>
   </select>
 
   <p-footer>
@@ -51,10 +52,10 @@
   <div class="col-8">
     <div class="container mt-3">
       <div class="row">
-        <div class="col-3">
+        <div class="col-2">
           <button (click)="showDialog()" type="button" class="btn btn-light mb-2">Stock Entry</button>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <div class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-sm">Total IN</span>
@@ -62,7 +63,7 @@
             <input type="text" class="form-control" placeholder="{{INsum}}" readonly>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <div class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-sm">Total OUT</span>
@@ -70,10 +71,18 @@
             <input type="text" class="form-control" placeholder="{{OUTsum}}" readonly>
           </div>
         </div>
+        <div class="col-3">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Total WASTE</span>
+              </div>
+              <input type="text" class="form-control" placeholder="{{Wastesum}}" readonly>
+            </div>
+          </div>
       </div>
     </div>
   </div>
-  <div>
+  <div *ngIf="readyForViewStock">
     <p class="alert alert-info">Stock</p>
     <table class="table">
       <thead>
@@ -107,7 +116,7 @@
 
 
 
-  <div class="col">
+  <div class="col" *ngIf="readyForViewType">
     <p class="alert alert-info mt-3 mr-3">Media Type Printed</p>
     <div class="container mt-3">
       <table class="table">
@@ -118,7 +127,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let r of typeAndSumResult">
+          <tr *ngFor="let r of typeAndSumResult" >
             <td>{{r.type}}</td>
             <td>{{r.sftsum}}</td>
           </tr>
