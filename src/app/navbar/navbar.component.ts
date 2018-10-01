@@ -9,6 +9,7 @@ import { SqlService } from '../service/sql/sql.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  bottom;
   constructor(
     private cookie: CookieService
   ) { }

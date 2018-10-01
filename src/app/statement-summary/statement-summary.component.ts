@@ -38,14 +38,6 @@ export class StatementSummaryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.btnMblNo = '01719664848';
-  }
-
-  isNumber() {
-    if (!Number(this.btnMblNo)) {
-      this.btnMblNo = undefined;
-      this.message.add({ severity: 'error', summary: 'Problem', detail: 'Enter Correct Input' });
-    }
   }
 
   find() {
