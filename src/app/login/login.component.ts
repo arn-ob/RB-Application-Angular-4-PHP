@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
+    this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
     if (this.cookie.get('login') === '1') {
       this.isBox = true;
       this.confirmationService.confirm({

@@ -61,7 +61,7 @@ export class IndexPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
+    this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
     if (this.cookie.get('login') === '1') {
       this.pieChartData.dataTable.push(['Account', 'Amount']);
 
