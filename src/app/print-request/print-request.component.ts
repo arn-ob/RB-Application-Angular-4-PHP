@@ -274,7 +274,22 @@ export class PrintRequestComponent implements OnInit {
     }
   }
 
-  relaod() {
-    location.reload();
+  cleanAll() {
+    this.db_push_array = [];
+    this.name = undefined;
+    this.address = undefined;
+    this.phnNo1 = undefined;
+    this.phnNo2 = undefined;
+    this.partyName = undefined;
+    this.printType = undefined;
+    this.printStatus = undefined;
+    this.wide = undefined;
+    this.hight = undefined;
+    this.quantity = undefined;
+    this.optinal = undefined;
+    this.optinalPrice = undefined;
+    this.printName = undefined;
+    this.get_array_length();
+    this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Page Refresh' });
   }
 }
