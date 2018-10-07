@@ -115,7 +115,7 @@ export class SearchComponent implements OnInit {
     const Temp_store = { 'sql': this.parseSqlFromJSON('auto')  };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
-        console.log(response.json());
+        // console.log(response.json());
         this.result = response.json();
         if (this.result.length === 0) {
           console.log('Nothing Found');

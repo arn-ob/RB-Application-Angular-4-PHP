@@ -3,7 +3,9 @@
     <div class="col-1">
       <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
     </div>
-
+    <div class="col-1">
+      <button type="button" class="btn btn-info" (click)="relaod()">Refresh</button>
+    </div>
     <div class="col mt-2">
       Enter Order
     </div>
@@ -36,9 +38,10 @@
         </div>
       </ul>
 
-      <form class="card p-2" >
+      <form class="card p-2">
 
-        <button class="btn btn-danger" (click)="CheckNetpingBeforeStore()" *ngIf="db_push_array_size != 0">Store to Database</button>
+        <button class="btn btn-danger" (click)="CheckNetpingBeforeStore()" *ngIf="db_push_array_size != 0">Store to
+          Database</button>
 
       </form>
     </div>
@@ -53,11 +56,13 @@
         </div>
 
         <div class="form-row mt-2">
+
           <div class="col">
-            <label for="exampleInputEmail1">Print Name</label>
-            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName"
-              name="printName" required>
+            <label for="exampleInputPassword1">Party Name</label>
+            <input type="text" class="form-control" id="PartyName" placeholder="Party Name" [(ngModel)]="partyName"
+              name="partyName">
           </div>
+
           <div class="col">
             <label for="exampleInputEmail1">Name</label>
             <input type="text" class="form-control" id="ClientName" name="name" placeholder="Client Name" [(ngModel)]="name"
@@ -91,9 +96,9 @@
 
         <div class="form-row mt-2">
           <div class="col">
-            <label for="exampleInputPassword1">Party Name (Optional)</label>
-            <input type="text" class="form-control" id="PartyName" placeholder="Party Name" [(ngModel)]="partyName"
-              name="partyName">
+            <label for="exampleInputEmail1">Print Name</label>
+            <input type="text" class="form-control" id="ClientName" name="name" placeholder="Print Name" [(ngModel)]="printName"
+              name="printName" required>
           </div>
 
           <div class="col" *ngIf="isTypeinfoShow">

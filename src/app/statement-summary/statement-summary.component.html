@@ -90,10 +90,6 @@
           <thead>
             <tr>
               <th>Bill No</th>
-              <th>Price Per Sft</th>
-              <th>Quantity</th>
-              <th>SFT</th>
-              <th>Type</th>
               <th>Amount</th>
               <th>Advance</th>
               <th>Due</th>
@@ -108,10 +104,6 @@
           <tbody>
             <tr *ngFor="let list of resultOfAccountFromDB">
               <td>{{list.BillNo}}</td>
-              <td>{{list.PricePerSft }}</td>
-              <td>{{list.quantity }}</td>
-              <td>{{list.totalSFT }}</td>
-              <td>{{list.type }}</td>
               <td>{{list.amount }}</td>
               <td>{{list.advance }}</td>
               <td>{{list.Due }}</td>

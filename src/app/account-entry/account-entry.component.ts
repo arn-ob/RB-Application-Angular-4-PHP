@@ -82,8 +82,8 @@ export class AccountEntryComponent implements OnInit {
     let cal = 0;
     const ob: { [k: string]: any } = this.oderList;
     for (let i = 0; i < this.oderList.length; i++) {
-      cal = (Number(ob[i].sft) * Number(ob[i].quantity) * Number(ob[i].PricePerSft)) + Number(ob[i].optionalPrice) + cal;
-      // console.log(cal);
+      if (ob[i].optionalPrice === undefined) { ob[i].optionalPrice = 0; }
+      cal = (Number(ob[i].sft) * Number(ob[i].quantity) * Number(ob[i].PricePerSft)) + Number(ob[i].optionalPrice) + Number(cal);
     }
     this.amount = cal;
     this.due = cal;

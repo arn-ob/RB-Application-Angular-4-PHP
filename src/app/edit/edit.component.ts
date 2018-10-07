@@ -154,6 +154,15 @@ export class EditComponent implements OnInit {
     }
   }
 
+  changePrintName(v1, v4, v2) {
+    let sql: any;
+    this.resultOfPrintAccountDetails[v4].printName = v1;
+
+    // tslint:disable-next-line:max-line-length
+    sql = { 'sql': 'UPDATE printdetails SET printName = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+    this.universalUpdateSql(sql, 'Print Details Updated');
+  }
+
 
   // auto change and store value based on change
   // This might Be cause problem Real time Money amont change but this function
@@ -234,10 +243,9 @@ export class EditComponent implements OnInit {
       if (ob[i].optionalPrice === undefined) { ob[i].optionalPrice = 0; }
 
       // tslint:disable-next-line:max-line-length
-      cal = (Number(ob[i].height) * Number(ob[i].wide) * Number(ob[i].quantity) * Number(ob[i].PricePerSft)) + Number(cal) + Number(ob[i].optionalPrice);
-      // console.log(cal);
+      cal = (Number(ob[i].sft) * Number(ob[i].quantity) * Number(ob[i].PricePerSft)) + Number(cal) + Number(ob[i].optionalPrice);
     }
-
+    // console.log(cal);
     this.amount = Number(cal);
     this.due = Number(cal) - Number(this.resultOfPrintAccountDetails[0].advance);
     this.btnAmount = this.amount;

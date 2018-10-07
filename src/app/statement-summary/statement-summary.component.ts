@@ -116,7 +116,7 @@ export class StatementSummaryComponent implements OnInit {
       // loop for dublicate querry and manage all the print result to one singe
       for (let i = 0; i < result.length; i++) {
         // tslint:disable-next-line:max-line-length
-        const sql2 = { 'sql': 'Select * From account where BillNo = "' + result[i].BillNo + '"' };
+        const sql2 = { 'sql': 'Select * From account where BillNo = "' + result[i].BillNo + '" GROUP BY BillNO' };
         this.sql.postQry(sql2, 'phpQuery/queryArgRJson.php').then((result2) => {
           for (let j = 0; j < result2.length; j++) {
             temp.push(result2[j]);

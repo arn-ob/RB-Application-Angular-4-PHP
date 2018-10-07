@@ -117,7 +117,7 @@ export class PrintRequestComponent implements OnInit {
   get_array() {
     // this will check the empty field
     if (this.phnNo2 === undefined) { this.phnNo2 = '0'; }
-    if (this.partyName === undefined) { this.partyName = 'None'; }
+    if (this.printName === undefined) { this.printName = 'None'; }
     if (this.optinal === undefined) { this.optinal = 'None'; }
     this.optinalPrice = '0'; // Default 0 it change from Account
     const temp = {
@@ -157,6 +157,7 @@ export class PrintRequestComponent implements OnInit {
     this.quantity = undefined;
     this.optinal = undefined;
     this.optinalPrice = undefined;
+    this.printName = undefined;
     // this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Print Details Field Clear' });
   }
 
@@ -271,5 +272,9 @@ export class PrintRequestComponent implements OnInit {
       this.isDialog = false;
       return true;
     }
+  }
+
+  relaod() {
+    location.reload();
   }
 }
