@@ -10,7 +10,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class InvoiceComponent implements OnInit {
 
   billNo: any;
-
+  img_link: any;
+  
   // store data from data
   clientDetails: { [k: string]: any } = {};
   oderList: { [k: string]: any } = {};
@@ -28,6 +29,7 @@ export class InvoiceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.img_link = this.sql.url + '/RBDesktopSoft/img/RB_Texture.jpg';
     this.billNo = this.cookie.get('billno');
     this.get_client_info();
   }
