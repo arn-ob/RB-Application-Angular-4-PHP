@@ -65,7 +65,7 @@ export class SearchComponent implements OnInit {
     // const bil = '67ff6a7086d261dc943a2e7338ca6ab8'; // debug
 
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_bill + ' from account, printdetails, client_details where account.BillNo = "' + bil + '" ' + this.sqlAfterWhereDef_bill + ' ORDER BY printdetails.CreatedDate DESC' };
+    const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_bill + ' from account, printdetails, client_details where account.BillNo = "' + bil + '" ' + this.sqlAfterWhereDef_bill + '' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.result = response.json();
@@ -88,7 +88,7 @@ export class SearchComponent implements OnInit {
     this.parseDate();
 
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_date + ' from account, printdetails, client_details where account.CreatedDate BETWEEN "' + this.d1 + '" AND "' + this.d2 + '" ' + this.sqlAfterWhereDef_date + ' ORDER BY printdetails.CreatedDate DESC' };
+    const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_date + ' from account, printdetails, client_details where account.CreatedDate BETWEEN "' + this.d1 + '" AND "' + this.d2 + '" ' + this.sqlAfterWhereDef_date + '' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());

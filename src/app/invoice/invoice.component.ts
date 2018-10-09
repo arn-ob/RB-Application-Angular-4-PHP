@@ -52,7 +52,7 @@ export class InvoiceComponent implements OnInit {
 
   get_print_info() {
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'Select * From printdetails, account where printdetails.BillNo = "1055508145d" and printdetails.BillNo = account.BillNo and printdetails.AIid = account.AIid' };
+    const Temp_store = { 'sql': 'Select * From printdetails, account where printdetails.BillNo = "' + this.billNo + '" and printdetails.BillNo = account.BillNo and printdetails.AIid = account.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.oderList = response.json();
