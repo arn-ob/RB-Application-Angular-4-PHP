@@ -174,62 +174,63 @@ export class EditComponent implements OnInit {
 
     v1 = Number(v1); // Convet Number
 
-    if (v1 !== 0 && Number(v1)) {
-      this.isNumberProblem = false;
-      let sql: any;
-
-      if (v3 === 'wide') {
-        this.resultOfPrintAccountDetails[v4].wide = v1;
-        const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
-
-        // tslint:disable-next-line:max-line-length
-        sql = { 'sql': 'UPDATE printdetails SET wide = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql, 'Print Details Updated');
-
-        // account info update
-        // tslint:disable-next-line:max-line-length
-        const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql_acc, 'Account SFT Updated');
-      }
-
-      if (v3 === 'height') {
-        this.resultOfPrintAccountDetails[v4].height = v1;
-        const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
-
-        // tslint:disable-next-line:max-line-length
-        sql = { 'sql': 'UPDATE printdetails SET height = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql, 'Print Details Updated');
-
-        // account info update
-        // tslint:disable-next-line:max-line-length
-        const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql_acc, 'Account SFT Updated');
-      }
-
-      if (v3 === 'quantity') {
-        this.resultOfPrintAccountDetails[v4].quantity = v1;
-        sql = { 'sql': 'UPDATE printdetails SET quantity = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql, 'Print Details Updated');
-      }
-
-      if (v3 === 'PricePerSft') {
-        this.resultOfPrintAccountDetails[v4].PricePerSft = v1;
-        // tslint:disable-next-line:max-line-length
-        const sql_acc = { 'sql': 'UPDATE account SET PricePerSft = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql_acc, 'Account SFT Updated');
-      }
-
-      if (v3 === 'optionalPrice') {
-        this.resultOfPrintAccountDetails[v4].optionalPrice = v1;
-        // tslint:disable-next-line:max-line-length
-        const sql_acc = { 'sql': 'UPDATE account SET optionalPrice = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
-        this.universalUpdateSql(sql_acc, 'Account SFT Updated');
-      }
+    if (v3 === 'optionalPrice' && (v1 === 0 || Number(v1))) {
+      this.resultOfPrintAccountDetails[v4].optionalPrice = v1;
+      // tslint:disable-next-line:max-line-length
+      const sql_acc = { 'sql': 'UPDATE account SET optionalPrice = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+      this.universalUpdateSql(sql_acc, 'Account SFT Updated');
       this.calculate_total();
-
     } else {
-      this.isNumberProblem = true;
-      this.message.add({ severity: 'info', summary: 'Info', detail: 'Enter Value or its Not Store to DB' });
+
+      if (v1 !== 0 && Number(v1)) {
+        this.isNumberProblem = false;
+        let sql: any;
+
+        if (v3 === 'wide') {
+          this.resultOfPrintAccountDetails[v4].wide = v1;
+          const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
+
+          // tslint:disable-next-line:max-line-length
+          sql = { 'sql': 'UPDATE printdetails SET wide = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql, 'Print Details Updated');
+
+          // account info update
+          // tslint:disable-next-line:max-line-length
+          const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql_acc, 'Account SFT Updated');
+        }
+
+        if (v3 === 'height') {
+          this.resultOfPrintAccountDetails[v4].height = v1;
+          const sft = this.resultOfPrintAccountDetails[v4].wide * this.resultOfPrintAccountDetails[v4].height;
+
+          // tslint:disable-next-line:max-line-length
+          sql = { 'sql': 'UPDATE printdetails SET height = "' + v1 + '", sft= "' + sft + '"  where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql, 'Print Details Updated');
+
+          // account info update
+          // tslint:disable-next-line:max-line-length
+          const sql_acc = { 'sql': 'UPDATE account SET totalSFT = "' + this.sft + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql_acc, 'Account SFT Updated');
+        }
+
+        if (v3 === 'quantity') {
+          this.resultOfPrintAccountDetails[v4].quantity = v1;
+          sql = { 'sql': 'UPDATE printdetails SET quantity = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql, 'Print Details Updated');
+        }
+
+        if (v3 === 'PricePerSft') {
+          this.resultOfPrintAccountDetails[v4].PricePerSft = v1;
+          // tslint:disable-next-line:max-line-length
+          const sql_acc = { 'sql': 'UPDATE account SET PricePerSft = "' + v1 + '" where BillNo = "' + this.billNo + '" and AIid = "' + v2 + '"' };
+          this.universalUpdateSql(sql_acc, 'Account SFT Updated');
+        }
+
+      } else {
+        this.isNumberProblem = true;
+        this.message.add({ severity: 'info', summary: 'Info', detail: 'Enter Value or its Not Store to DB' });
+      }
     }
   }
 

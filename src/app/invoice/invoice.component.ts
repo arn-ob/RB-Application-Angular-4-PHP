@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SqlService } from '../service/sql/sql.service';
 import { CookieService } from 'ngx-cookie-service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-invoice',
@@ -11,7 +12,7 @@ export class InvoiceComponent implements OnInit {
 
   billNo: any;
   img_link: any;
-  
+
   // store data from data
   clientDetails: { [k: string]: any } = {};
   oderList: { [k: string]: any } = {};
@@ -26,6 +27,7 @@ export class InvoiceComponent implements OnInit {
   constructor(
     private sql: SqlService,
     private cookie: CookieService,
+    private message: MessageService
   ) { }
 
   ngOnInit() {
@@ -43,17 +45,20 @@ export class InvoiceComponent implements OnInit {
         this.get_print_info();
       },
       err => {
-        console.log(err);
+        // console.log(err.status);
+        this.message.add({ severity: 'error', summary: 'Problem!', detail: 'Check your Network or ' + err });
       });
   }
 
   get_print_info() {
-    const Temp_store = { 'sql': 'Select * From printdetails where BillNo = "' + this.billNo + '"' };
+    // tslint:disable-next-line:max-line-length
+    const Temp_store = { 'sql': 'Select * From printdetails, account where printdetails.BillNo = "1055508145d" and printdetails.BillNo = account.BillNo and printdetails.AIid = account.AIid' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.oderList = response.json();
         // console.table(this.oderList);
         this.get_account_info();
+        this.isLoading = true;
       },
       err => {
         console.log(err);
@@ -65,20 +70,6 @@ export class InvoiceComponent implements OnInit {
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.accountDetails = response.json()[0];
-        // console.log(this.accountDetails);
-        for (let i = 0; i < response.json().length; i++) {
-          if (response.json()[i].type === 'PVC') {
-            this.pvc_price = response.json()[i].PricePerSft;
-            // console.log(response.json()[i].PricePerSft);
-          }
-          if (response.json()[i].type === 'Pana') {
-            this.pana_price = Number(response.json()[i].PricePerSft);
-            // console.log(response.json()[i].PricePerSft);
-          }
-        }
-        // console.log(this.pvc_price);
-        // console.log(this.pana_price);
-        this.isLoading = true;
       },
       err => {
         console.log(err);
