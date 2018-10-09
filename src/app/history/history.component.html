@@ -15,10 +15,13 @@
 
 <div *ngIf="isClientDataLoad">
   <div class="jumbotron">
+
     <div class="container">
+      <p></p>
       <h1 class="display-3">Client-Name {{clientDetails.name}}</h1>
       <span>
-        Address: {{clientDetails.address}}
+        Bill No: {{clientDetails.BillNo}}
+        <br> Address: {{clientDetails.address}}
         <br> Phone No : {{clientDetails.phoneNo1}}
         <br> Phone No : {{clientDetails.phoneNo2}}
         <br> Party Name: {{clientDetails.PartyName}}
