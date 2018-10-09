@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { UUID } from 'angular2-uuid';
 import { Router } from '@angular/router';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
   selector: 'app-print-request',
@@ -47,6 +48,13 @@ export class PrintRequestComponent implements OnInit {
   submitLock = false;
   isDialog = false;
 
+  // query
+  filterednameSearch: any;
+  nameSearch: any;
+
+
+
+
   constructor(
     private sql: SqlService,
     private cookie: CookieService,
@@ -81,7 +89,7 @@ export class PrintRequestComponent implements OnInit {
       this.get_array_length();
       this.AIid++;
 
-      // console.log(this.db_push_array);
+      // console.log(this.db_push_array); // check the store array
       this.clear_form();
     }
   }
@@ -291,5 +299,53 @@ export class PrintRequestComponent implements OnInit {
     this.printName = undefined;
     this.get_array_length();
     this.messageService.add({ severity: 'info', summary: 'Message', detail: 'Page Refresh' });
+  }
+
+
+  // auto complete and search name from DB
+  filternameSearch(event) {
+    const query = event.query;
+    const sql = { 'sql': 'SELECT PartyName as name, BillNo FROM client_details GROUP BY phoneNo1' };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).toPromise()
+      .then(res => <any[]>res.json())
+      .then(data => {
+        this.filterednameSearch = this.filtername(query, data);
+      });
+  }
+
+  filtername(query, name: any[]): any[] {
+    const filtered: any[] = [];
+    for (let i = 0; i < name.length; i++) {
+      const search = name[i];
+      if (search.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(search);
+      }
+    }
+    return filtered;
+  }
+
+  check() {
+    if (this.nameSearch !== undefined) {
+      const sql = { 'sql': 'select * from client_details where BillNo = "' + this.nameSearch.BillNo + '"' };
+      this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).subscribe(
+        response => {
+          this.partyName = response.json()[0].PartyName;
+          this.name = response.json()[0].name;
+          this.address = response.json()[0].address;
+          this.phnNo1 = response.json()[0].phoneNo1;
+          if (response.json()[0].phoneNo2 === '0') {
+            this.phnNo2 = undefined;
+          } else {
+            this.phnNo2 = response.json()[0].phoneNo2;
+          }
+
+        },
+        err => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Problem Found', detail: err });
+        }
+      );
+      // console.log(this.nameSearch.BillNo);
+    }
   }
 }

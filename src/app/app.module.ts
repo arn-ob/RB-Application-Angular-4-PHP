@@ -37,6 +37,7 @@ import { SidebarModule } from 'primeng/components/sidebar/sidebar';
 import { StockComponent } from './stock/stock.component';
 import { DialogModule } from 'primeng/dialog';
 import { TimeDateID } from './stock/timeDateID';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 // App Route
 const appRoutes: Routes = [
@@ -90,6 +91,7 @@ const appRoutes: Routes = [
     SidebarModule,
     DialogModule,
     Ng2GoogleChartsModule,
+    AutoCompleteModule,
     RouterModule.forRoot(
       appRoutes,
       {
