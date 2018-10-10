@@ -15,7 +15,7 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" *ngIf="!checkLogin()">
-        <button type="button" class="btn btn-success btn-sm mt-1" routerLink="/sign">Login</button>
+        <button type="button" class="btn btn-success btn-sm mt-1" routerLink="/">Login</button>
       </li>
       <li class="nav-item active" *ngIf="checkLogin()">
         <a class="nav-link" routerLink="/index" style="color: white">Home</a>
@@ -42,10 +42,15 @@
         <button type="button" class="btn btn-danger btn-sm mt-1" routerLink="/logout">Logout</button>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: yellow">Beta -> Build 3.3.0 [Test Version]</span>
+        <span class="nav-link" style="color: yellow">Build 3.3.0</span>
       </li>
       <li class="nav-item">
-        <span class="nav-link" style="color: yellow">Last Updated -> 10.10.18</span>
+        <span class="nav-link" style="color: yellow">Updated->10.10.18</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link" >
+          <a href="http://www.stupidarnob.com" target="blank" style="color:darkgray">Build => stupid@Arnob</a>
+        </span>
       </li>
     </ul>
   </div>
