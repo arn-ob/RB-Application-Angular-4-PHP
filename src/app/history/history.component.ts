@@ -48,11 +48,13 @@ export class HistoryComponent implements OnInit {
   }
 
   get_print_info() {
-    const Temp_store = {'sql' : 'Select * From printdetails where BillNo = "' + this.billNo + '"'};
+    // tslint:disable-next-line:max-line-length
+    const Temp_store = {'sql' : 'Select * From printdetails, account where printdetails.BillNo = "' + this.billNo + '" and printdetails.AIid = account.AIid and printdetails.BillNo = account.BillNo'};
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.message.add({ severity: 'info', summary: 'Information', detail: 'Print Details Found' });
         this.oderList = response.json();
+        console.log(this.oderList);
         this.isPrintDataLoad = true;
         this.get_account_info();
       },
