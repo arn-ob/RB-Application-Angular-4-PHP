@@ -137,7 +137,7 @@ export class SearchComponent implements OnInit {
 
     // Some how it did not work from var.
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, printdetails.CreatedTime, printdetails.CreatedDate FROM account, client_details, printdetails where (client_details.phoneNo1 = "' + val + '" or client_details.phoneNo2 = "' + val + '") and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid GROUP BY client_details.BillNo ORDER BY printdetails.CreatedDate DESC' };
+    const Temp_store = { 'sql': 'SELECT account.BillNo, account.AIid as id, client_details.name, client_details.address, client_details.phoneNo1, client_details.phoneNo2, client_details.PartyName, printdetails.PrintType, printdetails.wide, printdetails.height, printdetails.sft, printdetails.quantity, account.amount, account.advance, account.Due, printdetails.CreatedTime, printdetails.CreatedDate FROM account, client_details, printdetails where (client_details.phoneNo1 = "' + val + '" or client_details.phoneNo2 = "' + val + '") and client_details.BillNo = account.BillNo and printdetails.BillNo = account.BillNo and client_details.AIid = account.AIid and printdetails.AIid = account.AIid GROUP BY client_details.BillNo ORDER BY printdetails.CreatedDate DESC' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
@@ -176,6 +176,27 @@ export class SearchComponent implements OnInit {
         console.log(err);
         this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
       });
+  }
+
+  search_paid() {
+    const Temp_store = { 'sql': this.parseSqlFromJSON('paid') };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
+      response => {
+        // console.log(response.json());
+        this.result = response.json();
+        if (this.result.length === 0) {
+          console.log('Nothing Found');
+          this.isResultFoundDate = false;
+        } else {
+          this.isResultDataLoad = true;
+          this.isResultFoundDate = true;
+        }
+      },
+      err => {
+        console.log(err);
+        this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+      });
+
   }
 
   // auto complete and search name from DB

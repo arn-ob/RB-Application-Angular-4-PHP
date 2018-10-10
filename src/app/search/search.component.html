@@ -1,4 +1,3 @@
-
 <div class="alert alert-info mb-4" role="alert">
   <div class="row">
     <div class="col-1">
@@ -30,6 +29,7 @@
       <button (click)="search_by_date()" class="btn btn-primary">Search by Date</button>
       <button (click)="search_auto()" class="btn btn-primary">Refresh Auto Search</button>
       <button (click)="search_due()" class="btn btn-primary">Show Due</button>
+      <button (click)="search_paid()" class="btn btn-primary">Show Paid</button>
     </div>
   </div>
   <div class="row mt-3">
@@ -42,7 +42,7 @@
       <input type="text" class="form-control" placeholder="Enter Phone" #ins (keyup)="search_by_phnNo(ins.value)">
     </div>
     <div class="col">
-        <p-autoComplete name="nameSearch" [(ngModel)]="nameSearch" [suggestions]="filterednameSearch" (completeMethod)="filternameSearch($event)"
+      <p-autoComplete name="nameSearch" [(ngModel)]="nameSearch" [suggestions]="filterednameSearch" (completeMethod)="filternameSearch($event)"
         field="name" [size]="50" placeholder="Enter Name For Auto Search" [minLength]="1" (click)="check()"></p-autoComplete>
     </div>
 
@@ -73,6 +73,8 @@
           <th>Amount</th>
           <th>Advance</th>
           <th>Due</th>
+          <th>Time</th>
+          <th>Date</th>
           <th>View</th>
           <th>Edit</th>
           <th>Print invoice</th>
@@ -85,7 +87,14 @@
           <td>{{r.PartyName}}</td>
           <td>{{r.amount}}</td>
           <td>{{r.advance}}</td>
-          <td>{{r.Due}}</td>
+          <div *ngIf="r.Due === '0'">
+            <td>Paid</td>
+          </div>
+          <div *ngIf="r.Due !== '0'">
+            <td>{{r.Due}}</td>
+          </div>
+          <td>{{r.CreatedTime}}</td>
+          <td>{{r.CreatedDate}}</td>
           <td>
             <button type="button" class="btn btn-dark btn-sm mt-1 mb-1" (click)="history(r.BillNo)">History</button>
           </td>
