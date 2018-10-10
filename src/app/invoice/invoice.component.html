@@ -54,9 +54,10 @@
 
     <tr class="item" *ngFor="let o of oderList">
       <td>
-        {{o.printName}} {{o.PrintType}} {{o.wide}}X{{o.height}} {{o.quantity}}
+        <!-- {{o.printName}} {{o.PrintType}} {{o.wide}}X{{o.height}} {{o.quantity}} -->
+        {{o.FileName}}
         <br> <small><b>Optional : {{o.option}} </b></small>
-        <br> <small><b>File Name: {{o.FileName}} </b></small>
+        <!-- <br> <small><b>File Name: {{o.FileName}} </b></small> -->
       </td>
 
       <td>
