@@ -21,7 +21,9 @@ export class SearchComponent implements OnInit {
   result = [];
   msgForTypeAndFileName = 'Not Entry';
 
-
+  // query
+  filterednameSearch: any;
+  nameSearch: any;
 
   isResultDataLoad = false;
   isResultFoundDate = false;
@@ -112,7 +114,7 @@ export class SearchComponent implements OnInit {
 
     // tslint:disable-next-line:max-line-length
     // const Temp_store = { 'sql': 'select ' + this.sqlAtSelectDef_auto + ' from account, printdetails, client_details where ' + this.sqlAfterWhereDef_auto + '' };
-    const Temp_store = { 'sql': this.parseSqlFromJSON('auto')  };
+    const Temp_store = { 'sql': this.parseSqlFromJSON('auto') };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         // console.log(response.json());
@@ -176,6 +178,34 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  // auto complete and search name from DB
+  filternameSearch(event) {
+    const query = event.query;
+    const sql = { 'sql': 'SELECT PartyName as name, phoneNo1 FROM client_details GROUP BY phoneNo1' };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).toPromise()
+      .then(res => <any[]>res.json())
+      .then(data => {
+        this.filterednameSearch = this.filtername(query, data);
+      });
+  }
+
+  filtername(query, name: any[]): any[] {
+    const filtered: any[] = [];
+    for (let i = 0; i < name.length; i++) {
+      const search = name[i];
+      if (search.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(search);
+      }
+    }
+    return filtered;
+  }
+
+  check() {
+    if (this.nameSearch !== undefined) {
+      this.search_by_phnNo(this.nameSearch.phoneNo1);
+      console.log(this.nameSearch.phoneNo1);
+    }
+  }
   // Index parsing of Date
   partString(str, index) {
     if (index === 2) {

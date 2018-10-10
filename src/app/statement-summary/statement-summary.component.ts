@@ -21,6 +21,7 @@ export class StatementSummaryComponent implements OnInit {
   isPrintDataLoad = false;
   isAccountDataLoad = false;
   isShow = false;
+  isprint = false;
 
   resultOfClientFromDB = [];
   resultOfClientFromDBObj: { [k: string]: any } = {};
@@ -30,6 +31,10 @@ export class StatementSummaryComponent implements OnInit {
 
   resultOfAccountFromDB = [];
   resultOfAccountFromDBObj: { [k: string]: any } = {};
+
+  // query
+  filterednameSearch: any;
+  nameSearch: any;
 
   constructor(
     private sql: SqlService,
@@ -72,7 +77,7 @@ export class StatementSummaryComponent implements OnInit {
         this.isClientDataLoad = true;
         this.getPrintDetails(); // 2nd step
 
-        console.log(this.resultOfClientFromDB);
+        // console.log(this.resultOfClientFromDB);
       }
     }).catch(err => {
       this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
@@ -147,5 +152,45 @@ export class StatementSummaryComponent implements OnInit {
       this.message.add({ severity: 'error', summary: 'SQL Error', detail: err });
     });
     // console.log(temp);
+  }
+
+
+  // auto complete and search name from DB
+  filternameSearch(event) {
+    const query = event.query;
+    const sql = { 'sql': 'SELECT PartyName as name, phoneNo1 FROM client_details GROUP BY phoneNo1' };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', sql).toPromise()
+      .then(res => <any[]>res.json())
+      .then(data => {
+        this.filterednameSearch = this.filtername(query, data);
+      });
+  }
+
+  filtername(query, name: any[]): any[] {
+    const filtered: any[] = [];
+    for (let i = 0; i < name.length; i++) {
+      const search = name[i];
+      if (search.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(search);
+      }
+    }
+    return filtered;
+  }
+
+  check() {
+    if (this.nameSearch !== undefined) {
+      this.btnMblNo = this.nameSearch.phoneNo1;
+      this.find();
+      // console.log(this.nameSearch.phoneNo1);
+    }
+  }
+
+  print() {
+    if (this.isfound !== false) {
+      this.isprint = true;
+      this.message.add({ severity: 'success', summary: 'Ready Print', detail: 'Press Clrt+p for Print' });
+    } else {
+      this.message.add({ severity: 'error', summary: 'Data Error', detail: 'Nothing Found for Print' });
+    }
   }
 }

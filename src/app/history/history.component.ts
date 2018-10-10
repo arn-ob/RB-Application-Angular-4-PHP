@@ -22,8 +22,6 @@ export class HistoryComponent implements OnInit {
   isPrintDataLoad = false;
   isAccountDataLoad = false;
 
-
-
   constructor(
     private sql: SqlService,
     private cookie: CookieService,

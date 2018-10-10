@@ -41,6 +41,10 @@
     <div class="col">
       <input type="text" class="form-control" placeholder="Enter Phone" #ins (keyup)="search_by_phnNo(ins.value)">
     </div>
+    <div class="col">
+        <p-autoComplete name="nameSearch" [(ngModel)]="nameSearch" [suggestions]="filterednameSearch" (completeMethod)="filternameSearch($event)"
+        field="name" [size]="50" placeholder="Enter Name For Auto Search" [minLength]="1" (click)="check()"></p-autoComplete>
+    </div>
 
   </div>
 
