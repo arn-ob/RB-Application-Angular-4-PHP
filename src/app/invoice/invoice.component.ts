@@ -12,6 +12,7 @@ export class InvoiceComponent implements OnInit {
 
   billNo: any;
   img_link: any;
+  statusAccount: any;
 
   // store data from data
   clientDetails: { [k: string]: any } = {};
@@ -70,6 +71,11 @@ export class InvoiceComponent implements OnInit {
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.accountDetails = response.json()[0];
+        if (response.json()[0].Due === '0') {
+          this.statusAccount = 'Paid';
+        } else {
+          this.statusAccount = 'Due';
+        }
       },
       err => {
         console.log(err);

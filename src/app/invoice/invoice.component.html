@@ -31,9 +31,9 @@
               <b>Name:</b> {{clientDetails.name}}
               <br> <b>Address:</b> {{clientDetails.address}}
               <br> <b>Phone No:</b> {{clientDetails.phoneNo1 || 'Not Entry'}}
-              <div *ngIf="clientDetails.phoneNo2 !== '0'">
+              <span *ngIf="clientDetails.phoneNo2 !== '0'">
                 <br> <b>Phone No:</b> {{ clientDetails.phoneNo2 }}
-              </div>
+              </span>
               <br>{{clientDetails.PartyName}}
             </td>
           </tr>
@@ -78,6 +78,16 @@
 
     <tr class="item">
       <td>
+        Total Amount
+      </td>
+
+      <td>
+        {{accountDetails.amount}}
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
         Advance
       </td>
       <td>
@@ -85,7 +95,7 @@
       </td>
     </tr>
 
-    <tr class="item last">
+    <tr class="item last" *ngIf="accountDetails.Due !== '0'">
       <td>
         Due
       </td>
@@ -96,11 +106,11 @@
 
     <tr class="total">
       <td>
-        Total Amount
+        Status
       </td>
 
       <td>
-        {{accountDetails.amount}}
+        {{statusAccount}}
       </td>
 
     </tr>
