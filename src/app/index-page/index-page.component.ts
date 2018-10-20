@@ -45,13 +45,48 @@ export class IndexPageComponent implements OnInit {
       ['Month', 'Amount', 'Advance', 'Due']
     ],
     options: {
-      title: 'Daily Details',
+      title: 'Daily Account Details',
       vAxis: { title: 'Amount' },
       hAxis: { title: 'Day' },
       seriesType: 'bars',
       series: { 5: { type: 'line' } }
     }
   };
+
+  // total sft view
+  resultOfSFTComboChart: { [k: string]: any } = {};
+  isSFTChartReady = false;
+  SFTChartData: any = {
+    chartType: 'ComboChart',
+    dataTable: [
+      ['Type', 'SFT']
+    ],
+    options: {
+      title: 'Total Print Details',
+      vAxis: { title: 'SFT' },
+      hAxis: { title: 'TYPE' },
+      seriesType: 'bars',
+      series: { 5: { type: 'line' } }
+    }
+  };
+
+  // printing
+  // total sft view
+  // resultOfPrintingComboChart: { [k: string]: any } = {};
+  // isPrintingChartReady = false;
+  // PrintingChartData: any = {
+  //   chartType: 'ComboChart',
+  //   dataTable: [
+  //     ['Status', 'Count', 'Date']
+  //   ],
+  //   options: {
+  //     title: 'Daily Printing Details',
+  //     vAxis: { title: 'Count' },
+  //     hAxis: { title: 'date' },
+  //     seriesType: 'bars',
+  //     series: { 5: { type: 'line' } }
+  //   }
+  // };
 
   constructor(
     private sql: SqlService,
@@ -67,7 +102,8 @@ export class IndexPageComponent implements OnInit {
 
       this.piChartData();
       this.DaySummryViewChartData();
-
+      this.SFTComboChartData();
+      // this.PrintingComboChartData();
       // this cause zone problem
       // setInterval(() => {
       //   this.piChartData();
@@ -106,7 +142,7 @@ export class IndexPageComponent implements OnInit {
 
   DaySummryViewChartData() {
     // tslint:disable-next-line:max-line-length
-    const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance, CreatedDate From account GROUP BY CreatedDate DESC LIMIT 20' };
+    const Temp_store = { 'sql': 'Select sum(DISTINCT amount) as totalAmount,sum(DISTINCT Due) as totalDue, sum(DISTINCT advance) as totalAdvance, CreatedDate From account GROUP BY CreatedDate DESC LIMIT 50' };
     this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
       response => {
         this.resultOfComboChart = response.json();
@@ -128,9 +164,63 @@ export class IndexPageComponent implements OnInit {
     );
   }
 
+  // SFT Chart
+  SFTComboChartData() {
+    // tslint:disable-next-line:max-line-length
+    const Temp_store = { 'sql': 'select printdetails.PrintType as type, sum(printdetails.sft) as sft from printdetails GROUP BY printdetails.PrintType' };
+    this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
+      response => {
+        this.resultOfSFTComboChart = response.json();
+        if (this.resultOfSFTComboChart.length === 0) {
+          this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart 3 Details Not Found' });
+        } else {
+          for (let i = 0; i < this.resultOfSFTComboChart.length; i++) {
+            // tslint:disable-next-line:max-line-length
+            this.SFTChartData.dataTable.push([this.resultOfSFTComboChart[i].type, Number(this.resultOfSFTComboChart[i].sft)]);
+          }
+          this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart 3 Details Updated' });
+          // console.log(this.DayChartData.dataTable);
+          this.isSFTChartReady = true;
+        }
+      },
+      err => {
+        this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+      }
+    );
+  }
+
+  // printing Details
+  // // SFT Chart
+  // PrintingComboChartData() {
+  //   // tslint:disable-next-line:max-line-length
+  // tslint:disable-next-line:max-line-length
+  //   const Temp_store = { 'sql': 'select printstatus.Status as status, COUNT(printstatus.Status) as Count, printstatus.CreatedDate as date from printstatus GROUP BY printstatus.Status' };
+  //   this.sql.postRequest('allSqlQuery/allSqlQuery.php', Temp_store).subscribe(
+  //     response => {
+  //       this.resultOfPrintingComboChart = response.json();
+  //       if (this.resultOfPrintingComboChart.length === 0) {
+  //         this.message.add({ severity: 'error', summary: 'Problem', detail: 'Pi Chart 4 Details Not Found' });
+  //       } else {
+  //         for (let i = 0; i < this.resultOfPrintingComboChart.length; i++) {
+  //           // tslint:disable-next-line:max-line-length
+             // tslint:disable-next-line:max-line-length
+             // this.PrintingChartData.dataTable.push([this.resultOfPrintingComboChart[i].status, Number(this.resultOfPrintingComboChart[i].Count), this.resultOfPrintingComboChart[i].date]);
+  //         }
+  //         this.message.add({ severity: 'success', summary: 'Updated', detail: 'Pi Chart 4 Details Updated' });
+  //         console.log(this.PrintingChartData.dataTable);
+  //         this.isPrintingChartReady = true;
+  //       }
+  //     },
+  //     err => {
+  //       this.message.add({ severity: 'error', summary: 'Problem Found', detail: err });
+  //     }
+  //   );
+  // }
+
   refresh() {
     this.piChartData();
     this.DaySummryViewChartData();
+    this.SFTComboChartData();
   }
 
   isOnline() {

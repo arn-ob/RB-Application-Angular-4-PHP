@@ -1,5 +1,5 @@
 
-<div class="alert alert-info mb-4" role="alert">
+<div class="alert alert-info mb-1" role="alert">
     <div class="row">
       <div class="col-1">
         <button type="button" class="btn btn-light" routerLink="/index">Go Back</button>
@@ -16,13 +16,16 @@
 <div *ngIf="systemLoad">
   <div class="jumbotron">
     <div class="container">
+      <p></p>
       <h1 class="display-3">Client-Name {{clientDetails.name}}</h1>
       <span>
-        Address: {{clientDetails.address}}
+        Bill No: {{clientDetails.BillNo}}
+        <br> Address: {{clientDetails.address}}
         <br> Phone No : {{clientDetails.phoneNo1}}
         <br> Phone No : {{clientDetails.phoneNo2}}
         <br> Party Name: {{clientDetails.PartyName}}
-        <br> Bill No: {{clientDetails.BillNo}}
+        <br> Created Date: {{clientDetails.CreatedDate}}
+        <br> Created Time: {{clientDetails.CreatedTime}}
       </span>
     </div>
   </div>

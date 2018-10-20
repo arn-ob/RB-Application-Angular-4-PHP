@@ -44,3 +44,25 @@
 <div *ngIf="!isComboChartReady">
   <p class="alert alert-danger">There is problem in Chart or Check internet</p>
 </div>
+
+
+<div *ngIf="isSFTChartReady">
+  <google-chart [data]="SFTChartData"></google-chart>
+</div>
+
+<div *ngIf="!isSFTChartReady">
+  <p class="alert alert-danger">There is problem in Chart or Check internet</p>
+</div>
+
+
+<!-- <div *ngIf="isPrintingChartReady">
+  <google-chart [data]="PrintingChartData"></google-chart>
+</div>
+
+<div *ngIf="!isPrintingChartReady">
+  <p class="alert alert-danger">There is problem in Chart or Check internet</p>
+</div> -->
+
+
+
+
