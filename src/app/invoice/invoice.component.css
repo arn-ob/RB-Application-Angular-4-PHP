@@ -49,7 +49,7 @@
 }
 
 .invoice-box table tr.item td{
-    border-bottom: 1px solid #eee;
+    border-bottom: 4px solid #eee;
 }
 
 .invoice-box table tr.item.last td {

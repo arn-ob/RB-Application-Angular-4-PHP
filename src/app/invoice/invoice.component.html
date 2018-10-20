@@ -3,7 +3,7 @@
 </div>
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-
+<br><br><br><br><br>
 <div class="invoice-box" *ngIf="isLoading" (click)="printComponent()">
   <table cellpadding="0" cellspacing="0">
     <tr class="top">
@@ -15,8 +15,8 @@
             </td>
 
             <td>
-              Invoice #: {{billNo}}
-              <br> Created Date: {{clientDetails.CreatedDate}}
+              <h3>Invoice </h3>
+              Issue Date: {{clientDetails.CreatedDate}}
             </td>
           </tr>
         </table>
@@ -28,6 +28,7 @@
         <table>
           <tr>
             <td>
+              <b> Invoice ID:</b> {{billNo}}  <br>
               <b>Name:</b> {{clientDetails.name}}
               <br> <b>Address:</b> {{clientDetails.address}}
               <br> <b>Phone No:</b> {{clientDetails.phoneNo1 || 'Not Entry'}}
@@ -121,16 +122,17 @@
     <tr>
       <td>
         __________________________
-        <br>Customer Sign
+        <br>Receive Signature
       </td>
 
       <td>
         __________________________
-        <br> Account Sign
+        <br> Authority Signature
       </td>
 
     </tr>
 
 
   </table>
+  <br><br>
 </div>
