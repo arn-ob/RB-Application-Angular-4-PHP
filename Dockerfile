@@ -6,10 +6,6 @@ WORKDIR /app
 # Copy app files
 COPY . .
 
-
-# Install pre-dependencies
-RUN apt-get update || : && apt-get install python -y
-
 # Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
 RUN npm install --legacy-peer-deps
 
