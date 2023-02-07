@@ -1,13 +1,13 @@
-name: Production BDayPay
+name: Production RB-Application-Angular-4
 
 on: 
   push:
     branches:
-      -  main
+      -  master
 
 jobs:
   Deploy:
-    name: BDayPay Backend Deploy Process
+    name: RB-Application-Angular-4 Backend Deploy Process
     
     runs-on: ubuntu-latest
     
@@ -37,4 +37,4 @@ jobs:
           do_cluster_certificate: ${{ secrets.DO_CLUSTER_CERTIFICATE }}
           do_deployment_name: rbsoft-app
           do_container_name: rbsoft-app
-          do_image_tag: arnobdev/bdaypay:${{ steps.vars.outputs.tag }}
+          do_image_tag: arnobdev/rbsoft-app:${{ steps.vars.outputs.tag }}
