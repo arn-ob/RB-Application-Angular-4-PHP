@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class SqlService {
   url_L = 'http://localhost';     // Local Requset
-  url_P = 'http://web.revolution-bd.com';     // Online // Don't Change the Domain
+  url_P = 'http://rb.pktlr.xyz';     // Online // Don't Change the Domain
 
   postReturnJsonLink = 'phpQuery/queryArgRJson.php';
   // Set public and local URL
